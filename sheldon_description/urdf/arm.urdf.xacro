@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+
+<robot name="arm" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Define a number of dimensions using properties -->
+  <!-- Define a number of dimensions using properties -->
+  <xacro:property name="upper_arm_size_x" value="0.305" />
+  <xacro:property name="upper_arm_size_y" value="0.100" />
+  <xacro:property name="upper_arm_size_z" value="0.100" /> 
+ 
+  <xacro:property name="lower_arm_size_x" value="0.050" />
+  <xacro:property name="lower_arm_size_y" value="0.065" />
+  <xacro:property name="lower_arm_size_z" value="0.110" /> 
+
+  <xacro:property name="rx28_servo_width" value="0.035" /> 
+  <xacro:property name="wrist_servo_offset_x" value="-0.008" /> <!--  -0.008 wrist center is slightly behind forearm center  -->
+
+
+<!--  
+  <xacro:property name="knee_llimit" value="-0.175" /> 
+  <xacro:property name="knee_ulimit" value="0.873" /> 
+  <xacro:property name="knee_vlimit" value="1.571" />  velocity limit -->
+
+
+
+  <xacro:property name="servo_bracket_color" value="Grey" />
+
+
+  <xacro:macro name="arm" params="side reflect parent skin_color servo_color *origin"> 
+    <link name="${side}_${parent}_link" />  
+   
+    <joint name="${side}_${parent}_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}_link"/>
+      <child link="${side}_${parent}_link" />
+    </joint>
+
+    <!-- Shoulder Rotate -->
+    <dynamixel_rx64_tilt parent="${side}_${parent}_link" name="${side}_shoulder_rotate_servo" color="${servo_color}">
+      <origin xyz="0 0 0" rpy="${1.57 + (reflect * -1.57)} -1.57 0"/> <!-- rpy="${reflect * -1.57} -1.57 0" -->
+    </dynamixel_rx64_tilt>
+
+    <joint name="${side}_shoulder_rotate_joint" type="revolute">
+      <origin xyz="0 0 0" rpy="-1.57 0 1.57"/>
+      <axis xyz="-1 0 0"/> 
+      <!-- NOTE: right arm needs to be backwards to match servo feedback!
+                 so we don't use reflect here! -->
+      <limit effort="30" velocity="0.524" lower="-3.14" upper="3.14" />
+      <parent link="${side}_shoulder_rotate_servo_link"/>
+      <child link="${side}_shoulder_rotate_link" />
+    </joint>
+
+    <link name="${side}_shoulder_rotate_link">
+      <inertial>
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+      </inertial>
+      <visual>
+        <origin xyz="0.0869955 0 0" rpy="-1.57 0 3.14" />
+        <geometry>
+          <mesh filename="package://sheldon_description/meshes/sixdof_bracket2.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="${servo_bracket_color}"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0381 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.0762 0.053 0.044"/>
+        </geometry>
+      </collision>
+    </link>
+
+    
+    <!-- Shoulder Lift -->
+    <joint name="${side}_shoulder_lift_joint" type="revolute">
+      <origin xyz="0.0869955 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="30" velocity="0.524" lower="-1.57" upper="2.617" />
+      <parent link="${side}_shoulder_rotate_link"/>
+      <child link="${side}_shoulder_lift_servo_link" />
+    </joint>
+
+    <link name="${side}_shoulder_lift_servo_link">
+      <inertial>
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+      </inertial>
+
+      <visual>
+        <origin xyz=" 0 0 0 " rpy="1.57 -3.14 0" /> <!-- rpy="1.57 -1.57 0" or -3.14 -->
+        <geometry>
+          <mesh filename="package://sheldon_description/meshes/rx64.stl" scale="1 1 1"/>
+        </geometry>
+        <material name="${servo_color}"/>
+      </visual>
+
+      <collision>
+        <origin xyz="${(0.0611-0.026)/2} 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.0611 0.0470 0.0420"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Upper Arm fixed link -->
+    <joint name="${side}_upper_fixed_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 -1.57 0"/>
+      <parent link="${side}_shoulder_lift_servo_link"/>
+      <child link="${side}_upper_link" />
+    </joint>
+
+    <link name="${side}_upper_link">
+      <inertial>
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 ${reflect * 1.57} ${1.57+(reflect * 1.57)}" /> 
+        <geometry>
+          <mesh filename="package://sheldon_description/meshes/sheldon_${side}_upper.stl" scale="0.1 0.1 0.1"/> 
+        </geometry>
+        <material name="Mustard"/>
+      </visual>
+
+      <collision>
+        <origin xyz="${upper_arm_size_x/2} 0 0 " rpy="0 0 0" />
+        <geometry>
+          <box size="${upper_arm_size_x} ${upper_arm_size_y} ${upper_arm_size_z}" />
+        </geometry>
+      </collision>
+
+    </link>
+
+    <!-- Elbow Rotate -->
+    <dynamixel_rx64_pan parent="${side}_upper_link" name="${side}_elbow_rotate_servo" color="Blue">
+      <origin xyz="0.335 ${reflect * 0.015} 0" rpy="-1.57 ${1.57+(reflect * 1.57)} -1.57"/>      <!-- WIP!!! rpy="-1.57 0 -1.57" -->
+    </dynamixel_rx64_pan>
+
+    <rx64_side_revolute parent="${side}_elbow_rotate_servo_link" name="${side}_elbow_rotate" llimit="-1.57" ulimit="1.57" vlimit="0.524" color="${servo_bracket_color}">
+      <origin xyz="0 0 0.0235" rpy="0 0 0"/>
+    </rx64_side_revolute>
+
+
+
+    <!-- Elbow Bend -->
+    <dynamixel_rx64_tilt parent="${side}_elbow_rotate_link" name="${side}_elbow_bend_servo" color="${servo_color}">
+      <origin xyz="0 0 ${0.0611-0.013+0.0045}" rpy="0 -1.57 0"/>
+      <!-- <origin xyz="0 0 0" rpy="0 0 0"/> -->
+    </dynamixel_rx64_tilt>
+
+    <rx64_hinge parent="${side}_elbow_bend_servo_link" name="${side}_elbow_bend" llimit="-1.57" ulimit="3.14" vlimit="0.785" color="${servo_bracket_color}">
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    </rx64_hinge>
+
+
+    <!-- Lower Arm fixed link -->
+    <joint name="${side}_lower_fixed_joint" type="fixed">
+      <origin xyz="0.030 0 0.031" rpy="0 1.57 0"/> <!-- .034... "0.14 0 0.05" half the length, plus bracket lenth and offset -->
+      <parent link="${side}_elbow_bend_link"/>
+      <child link="${side}_lower_link" />
+    </joint>
+
+    <link name="${side}_lower_link">
+      <inertial>
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 ${lower_arm_size_z/2}" rpy="0 0 0" /> <!-- rpy="-1.57 0 0" -->
+        <geometry>
+          <!-- TODO: <mesh filename="package://sheldon_description/meshes/sheldon_${side}_lower.stl" scale="0.1 0.1 0.1"/> -->
+          <box size="${lower_arm_size_x} ${lower_arm_size_y} ${lower_arm_size_z}" />
+        </geometry>
+        <material name="Yellow"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${lower_arm_size_z/2}" rpy="0 0 0" /> <!-- rpy="-1.57 0 0" -->
+        <geometry>
+          <box size="${lower_arm_size_x} ${lower_arm_size_y} ${lower_arm_size_z}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Wrist Rotate -->
+    <dynamixel_rx28_pan parent="${side}_lower_link" name="${side}_wrist_rotate_servo" color="${servo_color}">
+      <origin xyz="${wrist_servo_offset_x} 0 ${lower_arm_size_z + (rx28_servo_width/2)}" rpy="0 0 3.14"/> <!-- <origin xyz="0 0 0.14" -->
+    </dynamixel_rx28_pan>
+
+    <rx28_side_revolute parent="${side}_wrist_rotate_servo_link" name="${side}_wrist_rotate" llimit="-1.57" ulimit="1.57" vlimit="0.524" color="${servo_bracket_color}">
+      <origin xyz="0 0 0.0235" rpy="0 0 0"/>
+    </rx28_side_revolute>
+
+    <!-- Claw fixed link -->
+    <joint name="${side}_claw_fixed_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${side}_wrist_rotate_link"/>
+      <child link="${side}_claw_link" />
+    </joint>
+
+    <link name="${side}_claw_link">
+      <inertial>
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" /> <!-- rpy="-1.57 0 0" -->
+        <geometry>
+          <mesh filename="package://sheldon_description/meshes/sheldon_claw.stl" scale="0.1 0.1 0.1"/>
+          <!-- <box size="0.05 0.12 0.215"/> -->
+        </geometry>
+        <material name="Purple"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${0.215 / 2.0}" rpy="0 0 0" /> <!-- rpy="-1.57 0 0" -->
+        <geometry>
+          <box size="0.05 0.12 0.215"/>
+        </geometry>
+      </collision>
+    </link>
+
+
+  </xacro:macro>
+
+</robot>

@@ -1,0 +1,5 @@
+<library path="lib/libtell_a_joke_behavior">
+  <class name="behavior_plugin/TellAJokeBehaviorPlugin" type="behavior_plugin::TellAJokeBehaviorPlugin" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Tell A Joke Behavior plugin</description>
+  </class>
+</library>

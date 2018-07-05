@@ -1,0 +1,24 @@
+<!-- NOTE: currently using GMAPPER! -->
+<!--  From BOOK: -->
+
+<launch>
+
+  <node name="map_server" pkg="map_server" type="map_server"
+    args="$(find sheldon_navigation)/maps/map.yaml"/>
+
+  <include file="$(find sheldon_navigation)/launch/amcl.launch" />
+
+  <node name="move_base" pkg="move_base" type="move_base" respawn="false" output="screen">
+
+    <rosparam file="$(find sheldon_navigation)/minimal_param/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find sheldon_navigation)/minimal_param/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find sheldon_navigation)/minimal_param/local_costmap_params.yaml" command="load"  />
+    <rosparam file="$(find sheldon_navigation)/minimal_param/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find sheldon_navigation)/minimal_param/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find sheldon_navigation)/minimal_param/move_base_params.yaml" command="load" />
+
+    <remap from="cmd_vel" to="cmd_vel_mux/sheldon_navigation"/>
+
+  </node>
+
+</launch> 

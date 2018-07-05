@@ -1,0 +1,5 @@
+<library path="lib/libstop_behavior">
+  <class name="behavior_plugin/StopBehaviorPlugin" type="behavior_plugin::StopBehaviorPlugin" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Stop Behavior plugin</description>
+  </class>
+</library>

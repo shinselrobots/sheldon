@@ -1,0 +1,5 @@
+<library path="lib/libtime_behavior">
+  <class name="behavior_plugin/TimePlugin" type="behavior_plugin::TimePlugin" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Time Behavior plugin</description>
+  </class>
+</library>

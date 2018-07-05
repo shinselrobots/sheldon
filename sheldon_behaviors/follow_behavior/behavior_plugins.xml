@@ -1,0 +1,5 @@
+<library path="lib/libfollow_behavior">
+  <class name="follow_behavior/Follow" type="follow_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>This is the follow behavior plugin.</description>
+  </class>
+</library>

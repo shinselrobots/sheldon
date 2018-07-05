@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+
+<robot name="body" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Define a number of dimensions using properties -->
+  <xacro:property name="tibia_offset_x" value="0.0" />
+  <xacro:property name="tibia_offset_y" value="0.0" />
+  <xacro:property name="tibia_offset_z" value="${base_deck}" />  <!-- distance above ground -->
+
+  <xacro:property name="tibia_size_x" value="0.0726" />
+  <xacro:property name="tibia_size_y" value="0.3556" /> 
+  <xacro:property name="tibia_size_z" value="0.110" /> 
+    
+  <xacro:property name="knee_llimit" value="-0.175" /> 
+  <xacro:property name="knee_ulimit" value="0.873" /> 
+  <xacro:property name="knee_vlimit" value="1.571" /> <!-- velocity limit -->
+
+  <xacro:property name="knee_offset_x" value="0.0" />
+  <xacro:property name="knee_offset_y" value="0.0" />
+  <xacro:property name="knee_offset_z" value="${tibia_size_z + 0.0}" /> <!-- knee sits on top of tibia -->
+
+  <xacro:property name="femur_size_x" value="0.072" />
+  <xacro:property name="femur_size_y" value="0.356" /> 
+  <xacro:property name="femur_size_z" value="0.280" /> 
+     
+  <xacro:property name="waist_llimit" value="-0.175" /> 
+  <xacro:property name="waist_ulimit" value="1.92" /> 
+  <xacro:property name="waist_vlimit" value="1.571" /> <!-- velocity limit -->
+
+  <xacro:property name="waist_offset_x" value="0.0" />
+  <xacro:property name="waist_offset_y" value="0.0" />
+  <xacro:property name="waist_offset_z" value="${femur_size_z + 0.0}" /> <!-- waist sits on top of femur -->
+
+  <xacro:property name="torso_size_x" value="0.230" />
+  <xacro:property name="torso_size_y" value="0.355" /> 
+  <xacro:property name="torso_size_z" value="0.457" />  <!--  to top of shoulder .5112 .7112 28 inch torso for now -->
+
+
+  <xacro:macro name="body" params="parent name color">
+
+    <!-- Base to lower leg link -->
+    <joint name="${parent}_${name}_joint" type="fixed">
+      <origin xyz="${tibia_offset_x} ${tibia_offset_y} ${tibia_offset_z}" rpy="0 0 0" />
+      <parent link="${parent}_link"/>
+      <child link="tibia_link"/>
+    </joint>
+
+    <!-- Lower leg definition -->
+    <link name="tibia_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" /> <!--z =  -0.007 -->
+        <geometry>
+          <mesh filename="package://sheldon_description/meshes/sheldon_lower_legs.stl" scale="0.1 0.1 0.1"/>
+        </geometry>
+        <material name="Green"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${tibia_size_z/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${tibia_size_x} ${tibia_size_y} ${tibia_size_z}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="knee_joint" type="revolute">
+      <origin xyz="0 0  ${knee_offset_z}" rpy="0 0 0"/>
+      <axis xyz="0 -1 0"/>
+      <limit lower="${knee_llimit}" upper="${knee_ulimit}" velocity="${knee_vlimit}" effort="1.0" />
+      <parent link="tibia_link"/>
+      <child link="femur_link"/>
+    </joint>
+
+    <!-- Upper leg definition -->
+    <link name="femur_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0.055" /> <!-- z = 0.025-->
+        <geometry>
+          <mesh filename="package://sheldon_description/meshes/sheldon_upper_legs.stl" scale="0.1 0.1 0.1"/>
+        </geometry>
+        <material name="Blue" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${femur_size_z/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${femur_size_x} ${femur_size_y} ${femur_size_z}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="waist_joint" type="revolute">
+      <origin xyz="0 0  ${waist_offset_z}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="${waist_llimit}" upper="${waist_ulimit}" velocity="${waist_vlimit}" effort="1.0" />
+      <parent link="femur_link"/>
+      <child link="torso_link"/>
+    </joint>
+
+    <link name="torso_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://sheldon_description/meshes/sheldon_torso.stl" scale="0.1 0.1 0.1"/>
+        </geometry>
+        <material name="LightBlue" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${torso_size_z/2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${torso_size_x} ${torso_size_y} ${torso_size_z}" />
+        </geometry>
+      </collision>
+    </link>
+     
+
+  </xacro:macro>
+</robot>

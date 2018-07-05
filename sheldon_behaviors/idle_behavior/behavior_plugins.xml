@@ -1,0 +1,5 @@
+<library path="lib/libidle_behavior">
+  <class name="idle_behavior/Idle" type="idle_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>This is the idle behavior plugin.</description>
+  </class>
+</library>

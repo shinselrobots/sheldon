@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+
+import rospy
+from geometry_msgs.msg import Twist
+import sys, select, termios, tty
+import time
+
+msg = """
+Enter speed and turn, 0.0 - 1.0
+---------------------------
+"""
+
+if __name__=="__main__":
+    
+  rospy.init_node('sheldon_teleop')
+  pub = rospy.Publisher('cmd_vel_mux/input/teleop', Twist, queue_size=2)
+
+  target_speed = 0.0
+  target_turn = 0.0
+  try:
+    while(1):
+
+
+      var1, var2 = raw_input("Enter two numbers here: ").split()
+      target_speed, target_turn = [float(var1), float(var2)]
+
+
+      #[float(x) for x in raw_input("What is the length and width? ").split(' ')]
+      #target_speed = x[0]
+      #target_turn = x[1]
+
+      #target_speed, target_turn = input('Enter Speed, Turn: ')
+      print("target: speed: {0}, turn: {1}".format(target_speed, target_turn))            
+
+      twist = Twist()
+      twist.linear.x = target_speed; twist.linear.y = 0; twist.linear.z = 0
+      twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = target_turn
+
+      # run for several seconds:
+      #for i in range(1,20):
+      #  pub.publish(twist)
+      #  print("publishing...", i)
+      #  time.sleep(0.100)
+
+      pub.publish(twist)
+
+
+
+  finally:
+    twist = Twist()
+    twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
+    twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
+    pub.publish(twist)
+
+

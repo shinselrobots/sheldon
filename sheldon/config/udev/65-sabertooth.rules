@@ -1,0 +1,7 @@
+# rules for Sabertooth wheel motor controller
+
+SUBSYSTEM=="tty", ENV{ID_VENDOR_ID}=="268b", ENV{ID_MODEL_ID}=="0201", MODE:="0666", GROUP:="dialout", SYMLINK+="sabertooth"
+
+
+
+

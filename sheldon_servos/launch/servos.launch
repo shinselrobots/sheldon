@@ -1,0 +1,99 @@
+<!-- Joint controller for all servos -->
+
+<launch>
+  <node name="dynamixel_manager" pkg="dynamixel_controllers" type="controller_manager.py" required="true" output="screen">
+    <rosparam>
+      namespace: robot_dynamixel_manager
+      serial_ports:
+        dynamixel_port:
+            port_name: "/dev/dynamixel"
+            baud_rate: 1000000
+            min_motor_id: 2
+            max_motor_id: 17
+            update_rate: 10 
+    </rosparam>
+  </node>
+ 
+  <!-- Start joint controller -->  
+  <rosparam file="$(find sheldon_servos)/config/dynamixel_params.yaml" command="load"/>
+
+  <node name="dynamixel_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
+        args="--manager=robot_dynamixel_manager
+              --port=dynamixel_port
+
+        head_sidetilt_controller 
+        head_tilt_controller 
+        head_pan_controller
+
+        right_arm_shoulder_rotate_controller
+        right_arm_shoulder_lift_controller
+        right_arm_elbow_rotate_controller
+        right_arm_elbow_bend_controller
+        right_arm_wrist_rotate_controller
+        right_arm_claw_controller
+
+        left_arm_shoulder_rotate_controller
+        left_arm_shoulder_lift_controller
+        left_arm_elbow_rotate_controller
+        left_arm_elbow_bend_controller
+        left_arm_wrist_rotate_controller
+        left_arm_claw_controller
+        "
+        output="screen" />
+
+  <!-- Start head joints trajectory controller -->
+    <rosparam file="$(find sheldon_servos)/config/head_trajectory_controller.yaml" command="load"/>
+    <node name="head_controller_spawner_meta" pkg="dynamixel_controllers" type="controller_spawner.py"
+        args="--manager=robot_dynamixel_manager
+                --type=meta
+
+          head_controller
+            head_sidetilt_controller
+            head_pan_controller
+            head_tilt_controller
+          "
+        output="screen"/>
+
+  <!-- Start right arm joints trajectory controller -->
+    <rosparam file="$(find sheldon_servos)/config/right_arm_trajectory_controller.yaml" command="load"/>
+    <node name="right_arm_controller_spawner_meta" pkg="dynamixel_controllers" type="controller_spawner.py"
+        args="--manager=robot_dynamixel_manager
+                --type=meta
+
+          right_arm_controller
+            right_arm_shoulder_rotate_controller
+            right_arm_shoulder_lift_controller
+            right_arm_elbow_rotate_controller
+            right_arm_elbow_bend_controller
+            right_arm_wrist_rotate_controller
+            right_arm_claw_controller
+
+          "
+        output="screen"/>
+
+  <!-- Start left arm joints trajectory controller -->
+    <rosparam file="$(find sheldon_servos)/config/left_arm_trajectory_controller.yaml" command="load"/>
+    <node name="left_arm_controller_spawner_meta" pkg="dynamixel_controllers" type="controller_spawner.py"
+        args="--manager=robot_dynamixel_manager
+                --type=meta
+
+          left_arm_controller
+            left_arm_shoulder_rotate_controller
+            left_arm_shoulder_lift_controller
+            left_arm_elbow_rotate_controller
+            left_arm_elbow_bend_controller
+            left_arm_wrist_rotate_controller
+            left_arm_claw_controller
+
+          "
+        output="screen"/>
+
+   <node name="dynamixel_joint_state_publisher" pkg="sheldon_servos" type="dynamixel_joint_state_publisher.py" output="screen" />
+
+   <node name="waist_joint_state_publisher" pkg="sheldon_servos" type="waist_joint_state_publisher.py" output="screen" />
+
+   <!--  <node name="relax_all_servos" pkg="sheldon_servos" type="relax_all_servos.py" output="screen"/>  -->
+
+   <node name="joy_to_dynamixel" pkg="sheldon_servos" type="joy_to_dynamixel.py"/>
+</launch>
+

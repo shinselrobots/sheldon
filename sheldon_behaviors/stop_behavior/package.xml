@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <name>stop_behavior</name>
+  <version>0.0.1</version>
+  <description>Interrupts whatever behavior is running and stops wheels</description>
+  <maintainer email="shinsel.robots@gmail.com">Shinsel Robots</maintainer>
+  <license>Apache-2</license>
+  <author>Shinsel Robots</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>behavior_common</build_depend>
+  <build_depend>audio_and_speech_common</build_depend>
+
+  <run_depend>pluginlib</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>behavior_common</run_depend>
+  <run_depend>audio_and_speech_common</run_depend>
+
+  <export>
+    <behavior_common plugin="${prefix}/behavior_plugins.xml" />
+  </export>
+</package>

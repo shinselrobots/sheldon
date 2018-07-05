@@ -1,0 +1,5 @@
+<library path="lib/libturn_behavior">
+  <class name="behavior_plugin/TurnBehaviorPlugin" type="behavior_plugin::TurnBehaviorPlugin" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Turn Behavior plugin</description>
+  </class>
+</library>

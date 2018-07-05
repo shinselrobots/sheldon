@@ -1,0 +1,23 @@
+<package>
+  <name>sheldon_description</name>
+  <version>0.1.0</version>
+  <description>Sheldon URDF/Xacro models</description>
+  <maintainer email="matt@todo.todo">matt</maintainer>
+  <license>TODO</license>
+
+  <!-- Dependencies which this package needs to build itself. -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Dependencies needed to compile this package. -->
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>urdf</build_depend>
+  <build_depend>xacro</build_depend>
+
+  <!-- Dependencies needed after this package is compiled. -->
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+
+</package>

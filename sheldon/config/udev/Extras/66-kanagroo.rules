@@ -1,0 +1,7 @@
+# rules for Kangaroo wheel motor controller
+
+SUBSYSTEM=="tty", ENV{ID_VENDOR_ID}=="0403", ENV{ID_MODEL_ID}=="6001", ENV{ID_SERIAL_SHORT}=="AL00J9TT", MODE:="0666", GROUP:="dialout", SYMLINK+="kangaroo"
+
+
+
+

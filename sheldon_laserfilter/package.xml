@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package>
+  <name>sheldon_laserfilter</name>
+  <version>0.0.0</version>
+  <description>Launch files for Sheldon Robot Laser Scan Filter</description>
+  <maintainer email="shinselrobots@gmail.com">Dave Shinsel</maintainer>
+  <license>BSD</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>laser_filters</run_depend>
+</package>

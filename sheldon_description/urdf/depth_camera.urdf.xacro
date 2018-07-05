@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<robot name="depth_camera" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find realsense_ros_camera)/urdf/_zr300.urdf.xacro"/>
+
+  <xacro:macro name="depth_camera" params="camera_id parent color *origin"> 
+
+    <joint name="${camera_id}_depth_camera_torso_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}_link"/>
+      <child link="${camera_id}_zr300_camera_plate_link"/>
+    </joint>
+
+    <link name="${camera_id}_zr300_camera_plate_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://sheldon_description/meshes/zr300_servo_bracket-binary.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="${color}"/>
+      </visual>  
+      <collision>
+        <origin xyz="0.01364 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.006" radius="0.170"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.520"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.003328" ixy="0.0" ixz="0.0"
+                 iyy="0.003328" iyz="0.0"
+                 izz="0.006656" />
+      </inertial>
+    </link>
+
+   <sensor_zr300 name="${camera_id}" parent="${camera_id}_zr300_camera_plate_link">
+     <origin xyz="0 -0.017 0.005" rpy="${-M_PI/2} ${-M_PI/2} 0"/>
+   </sensor_zr300>
+
+  </xacro:macro>
+</robot>

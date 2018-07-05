@@ -1,0 +1,5 @@
+<library path="lib/libintro_behavior">
+  <class name="behavior_plugin/IntroPlugin" type="behavior_plugin::IntroPlugin" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Intro Behavior plugin</description>
+  </class>
+</library>

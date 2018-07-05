@@ -1,0 +1,9 @@
+<launch>
+
+
+  <!-- Note: no (output="screen") so we avoid spamming console -->
+  <node pkg="nuitrack_body_tracker" type="nuitrack_body_tracker_node" name="nuitrack_body_tracker_node" >
+  </node>
+
+</launch>
+

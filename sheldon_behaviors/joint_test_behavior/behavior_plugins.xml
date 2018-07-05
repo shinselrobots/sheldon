@@ -1,0 +1,5 @@
+<library path="lib/libjoint_test_behavior">
+  <class name="behavior_plugin/JointTestBehaviorPlugin" type="joint_test_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Joint Test Behavior plugin</description>
+  </class>
+</library>

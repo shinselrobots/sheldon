@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+<!--  <xacro:include filename="$(find sheldon_description)/urdf/sensors/hokuyo_urg_laser.urdf.xacro" />
+-->
+  <xacro:include filename="$(find sheldon_description)/urdf/_lplidar.urdf.xacro"/>
+
+  <!-- Sheldon Base definition. 
+       base_link is centered between wheels, at ground level.
+       All component positions are calculated relative to base_link  -->
+
+  <!-- simplified box collision geometry for base -->
+  <xacro:property name="base_size_x" value="0.520" /> <!-- ~20"base length -->
+  <xacro:property name="base_size_y" value="0.3556" /> <!-- 14" base width -->
+  <xacro:property name="base_size_z" value="0.094" />  <!-- base only, no ankle bone  "0.1524"-->
+  <xacro:property name="base_ground_clearance" value="0.076" />
+  <xacro:property name="base_deck" value="0.170" /> <!-- distance from ground to top of base -->
+
+  <xacro:property name="wheels_offset_x" value="0.0254" /> <!-- "0.0254" wheels 1" back from center -->
+  <xacro:property name="wheel_offset_y" value="0.2032" /> <!-- 1/2 base + center of wheel -->
+  <xacro:property name="wheel_length" value="0.0508" /> <!-- wheel width -->
+  <xacro:property name="wheel_radius" value="0.0762" />
+
+  <!-- location of laser -->
+  <xacro:property name="base_laser_x" value="0.150" />
+  <xacro:property name="base_laser_z" value="${base_deck + 0.0}" />
+  <xacro:property name="laser_height" value="0.040" />
+  <xacro:property name="laser_radius" value="0.039" />
+
+  <!-- define a wheel -->
+  <xacro:macro name="sheldon_wheel" params="suffix parent reflect color">
+    <joint name="${parent}_${suffix}_wheel_joint" type="fixed">
+      <axis xyz="0 0 1" />
+      <limit effort="100" velocity="100"/>
+      <safety_controller k_velocity="10" />
+      <origin xyz="0 ${reflect*wheel_offset_y} ${wheel_radius}" rpy="${reflect*1.57} 0 0" />
+      <parent link="${parent}_link"/>
+      <child link="${parent}_${suffix}_wheel_link"/>
+    </joint>
+
+    <link name="${parent}_${suffix}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+        <material name="${color}" />
+      </visual>
+    </link>
+  </xacro:macro>
+
+  <!-- The xacro macro sheldon_base contains: base and wheels -->
+  <xacro:macro name="sheldon_base" params="name color">
+    <!-- "base_link" is the origin that all other componets are measured from -->
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 ${base_ground_clearance}" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://sheldon_description/meshes/sheldon_base.stl" scale="0.1 0.1 0.1"/> 
+        </geometry>
+        <material name="${color}" />
+      </visual>
+
+      <collision>
+        <origin xyz="${wheels_offset_x} 0 ${(base_ground_clearance + base_size_z) / 2}" rpy="0 0 0" />
+        <geometry>
+          <box size="${base_size_x} ${base_size_y} ${base_ground_clearance + base_size_z}" />
+        </geometry>
+      </collision>
+    </link>
+   
+    <!-- drive wheels -->
+    <sheldon_wheel parent="${name}" suffix="l" reflect="1" color="DarkGrey"/>
+    <sheldon_wheel parent="${name}" suffix="r" reflect="-1" color="DarkGrey"/>
+  </xacro:macro>
+
+
+  <!-- "base_footprint" is the shadow the robot casts on the ground, for object avoidance -->
+    <link name="base_footprint">
+      <visual>
+        <origin xyz="${wheels_offset_x} 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="${base_size_x} ${base_size_y} 0.001" />
+        </geometry>
+        <material name="Black" />
+      </visual>
+    </link>
+ 
+  <joint name="base_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" /> 
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+  </joint>
+
+    <!-- Base mounted laser -->
+
+    <!-- Base to laser link 
+    <joint name="base_laser_joint" type="fixed">
+      <origin xyz="${base_laser_x} 0 ${base_laser_z}" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="laser_link"/>
+    </joint>
+    -->
+
+    <!-- Laser definition 
+    <link name="laser_link">
+      <visual>
+        <origin xyz="0 0 ${laser_height/2}" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="${laser_height}" radius="${laser_radius}"/>
+        </geometry>
+        <material name="Red" /> 
+      </visual>
+    </link>
+    -->
+
+   <sensor_lplidar parent = "base_link">
+      <origin xyz="${base_laser_x} 0 ${base_laser_z}" rpy="0 0 0" />
+   </sensor_lplidar>
+
+
+
+</robot>

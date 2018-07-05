@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+
+<robot name="head" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="head_size_x" value="0.180" />
+  <xacro:property name="head_size_y" value="0.220" /> 
+  <xacro:property name="head_size_z" value="0.240" />
+  <xacro:property name="head_collision_offset_x" value="0.050" />
+  <xacro:property name="head_collision_offset_y" value="0.020" />
+
+   <xacro:property name="head_depth_camera_offset_x" value="0.100" /> 
+   <xacro:property name="head_depth_camera_offset_y" value="0.0" />  
+   <xacro:property name="head_depth_camera_offset_z" value="0.0" /> <!-- 350 from bottom of torso? -->
+   <xacro:property name="head_depth_camera_rotation" value="0.0" /> <!-- rotation  -->
+
+
+  <xacro:macro name="head" params="name parent color *origin"> 
+
+    <!-- Head Link -->
+    <link name="${name}_${parent}_link" />  
+   
+    <joint name="${name}_torso_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}_link"/>
+      <child link="${name}_${parent}_link"/>
+    </joint>
+
+    <!-- pan -->
+    <dynamixel_rx28_pan parent="${name}_${parent}_link" name="${name}_pan_servo" color="DarkGrey">
+      <origin xyz="0 0 0" rpy="0 0 3.14"/>
+    </dynamixel_rx28_pan>
+
+    <rx64_side_revolute parent="${name}_pan_servo_link" name="${name}_pan" llimit="-1.57" ulimit="1.57" vlimit="0.524" color="Grey">
+      <origin xyz="0 0 0.020" rpy="0 0 0"/> <!--shift bracket to top of rx28 servo -->
+    </rx64_side_revolute>
+
+    <!-- Tilt -->
+    <dynamixel_rx64_tilt parent="${name}_pan_link" name="${name}_tilt_servo" color="DarkGrey">
+      <origin xyz="0 0 ${0.0611-0.013+0.0045}" rpy="0 -1.57 0"/>
+    </dynamixel_rx64_tilt>
+
+    <rx64_hinge parent="${name}_tilt_servo_link" name="${name}_tilt" llimit="-0.60" ulimit="1.20" vlimit="0.524" color="Grey">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </rx64_hinge>
+
+
+    <!-- Side Tilt -->
+    <dynamixel_rx28_tilt parent="${name}_tilt_link" name="${name}_sidetilt_servo" color="DarkGrey">
+      <origin xyz="${0.0611-0.013+0.0045 + (0.032/2)} 0 0" rpy="-1.57 0 0"/> 
+    </dynamixel_rx28_tilt>
+
+    <rx28_hinge parent="${name}_sidetilt_servo_link" name="${name}_sidetilt" llimit="-0.35" ulimit="0.35" vlimit="0.524" color="Grey">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </rx28_hinge>
+
+
+    <!-- Head -->
+    <joint name="head_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="1.57 0 1.57"/>
+      <parent link="${name}_sidetilt_link"/>
+      <child link="head_link"/>
+    </joint>
+
+    <link name="head_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://sheldon_description/meshes/sheldon_head.stl" scale="0.1 0.1 0.1"/>
+        </geometry>
+        <material name="${color}" />
+      </visual>
+      <collision>
+        <origin xyz="${head_collision_offset_x} ${-head_collision_offset_y} 0" rpy="0 0 -0.15" />
+        <geometry>
+          <box size="${head_size_x} ${head_size_y} ${head_size_z}" />
+        </geometry>
+      </collision>
+    </link>
+
+
+   <!-- Attach d435 camera -->
+  <realsense_d435_camera name = "nuitrack_camera" parent = "head" color="Green">
+     <origin xyz="${head_depth_camera_offset_x} ${head_depth_camera_offset_y} ${head_depth_camera_offset_z}" 
+             rpy="0 ${head_depth_camera_rotation} 0" /> 
+  </realsense_d435_camera>
+    
+
+   <!-- Attach Astra camera in the head  
+  <astra_camera name = "astra_camera2" parent = "head" color="Green">
+     <origin xyz="${front_astra_camera_offset_x} ${front_astra_camera_offset_y} ${front_astra_camera_offset_z}" rpy="0 ${front_astra_camera_rotation} 0" /> 
+  </astra_camera>
+  -->
+
+  </xacro:macro>
+</robot>

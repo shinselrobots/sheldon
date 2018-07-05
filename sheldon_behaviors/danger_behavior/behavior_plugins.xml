@@ -1,0 +1,5 @@
+<library path="lib/libdanger_behavior">
+  <class name="behavior_plugin/DangerBehaviorPlugin" type="danger_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Danger Behavior plugin</description>
+  </class>
+</library>

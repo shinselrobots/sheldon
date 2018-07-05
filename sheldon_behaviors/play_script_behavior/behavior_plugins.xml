@@ -1,0 +1,5 @@
+<library path="lib/libplay_script_behavior">
+  <class name="behavior_plugin/PlayScriptBehaviorPlugin" type="play_script_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Play Script Behavior plugin</description>
+  </class>
+</library>

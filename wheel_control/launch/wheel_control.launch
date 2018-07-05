@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="wheel_control" type="wheel_control_node" name="wheel_control_node" output="screen"/>
+</launch>
+

@@ -1,0 +1,5 @@
+<library path="lib/libnull_behavior">
+  <class name="null_behavior/Null" type="null_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>This null behavior for testing, so robot is not moving.</description>
+  </class>
+</library>

@@ -1,0 +1,5 @@
+<library path="lib/libmove_behavior">
+  <class name="behavior_plugin/MoveBehaviorPlugin" type="behavior_plugin::MoveBehaviorPlugin" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Move Behavior plugin</description>
+  </class>
+</library>

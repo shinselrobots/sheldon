@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+
+<robot name="sheldon_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+   <!-- Define a number of dimensions using properties -->
+   <xacro:property name="PI" value="3.14159"/>
+
+
+   <xacro:property name="head_offset_x" value="0.015" /> <!-- "0.0275"  -->
+   <xacro:property name="head_offset_y" value="0.0" />
+   <xacro:property name="head_offset_z" value="0.440" />  
+   
+   <xacro:property name="arm_offset_x" value="0.0" />
+   <xacro:property name="arm_offset_y" value="-0.146" />  <!-- from center of torso -->
+   <xacro:property name="arm_offset_z" value="0.385" />   <!-- from bottom of torso -->
+
+   <xacro:property name="front_astra_camera_offset_x" value="0.100" /> 
+   <xacro:property name="front_astra_camera_offset_y" value="0.000" />  
+   <xacro:property name="front_astra_camera_offset_z" value="0.380" /> <!-- 350 from bottom of torso? -->
+   <xacro:property name="front_astra_camera_rotation" value="0.0" /> <!-- rotation  -->
+
+   <xacro:property name="front_depth_camera_offset_x" value="0.100" /> 
+   <xacro:property name="front_depth_camera_offset_y" value="0.000" />  
+   <xacro:property name="front_depth_camera_offset_z" value="0.380" /> <!-- 350 from bottom of torso -->
+   <xacro:property name="front_depth_camera_rotation" value="0.501" /> <!-- rotation from straight down ~28.5 deg -->
+
+   <xacro:property name="rear_depth_camera_offset_x" value="-0.100" /> 
+   <xacro:property name="rear_depth_camera_offset_y" value="0.000" />  
+   <xacro:property name="rear_depth_camera_offset_z" value="0.380" /> <!-- 350 from bottom of torso -->
+   <xacro:property name="rear_depth_camera_rotation" value="0.501" /> <!-- rotation from straight down ~28.5 deg -->
+
+
+   <!-- Include all component files -->
+
+   <xacro:include filename="$(find sheldon_description)/urdf/hardware/rx64.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/hardware/rx28.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/hardware/ax12.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/sensors/xtion_camera.xacro" />
+
+   <xacro:include filename="$(find sheldon_description)/urdf/materials.urdf.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/base.urdf.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/body.urdf.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/head.urdf.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/arm.urdf.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/depth_camera.urdf.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/astra_camera.urdf.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/realsense_d435_camera.urdf.xacro" />
+
+   <!-- Add the base and wheels -->
+   <sheldon_base name="base" color="White"/>
+  
+   <!-- Attach the body -->
+    <body name="body" parent="base" color="LightBlue" />
+   
+   <!-- Attach the head  -->
+   <head name="head" parent="torso" color="LightRed">
+      <origin xyz="${head_offset_x} ${head_offset_y} ${head_offset_z}" rpy="0 0 ${PI}" />
+   </head> 
+
+   <!-- Attach the front camera  -->
+   <depth_camera camera_id="camera1" parent="torso" color="DarkGrey">
+     <origin xyz="${front_depth_camera_offset_x} ${front_depth_camera_offset_y} ${front_depth_camera_offset_z}" rpy="${PI - front_depth_camera_rotation} 0 ${PI/2}" /> 
+   </depth_camera>  
+
+   <!-- Attach the rear camera  -->
+   <depth_camera camera_id="camera2" parent="torso" color="DarkGrey">
+     <origin xyz="${rear_depth_camera_offset_x} ${rear_depth_camera_offset_y} ${rear_depth_camera_offset_z}" rpy="${PI - rear_depth_camera_rotation} 0 ${-PI/2}" /> 
+   </depth_camera>  
+
+   <!-- Attach Astra camera in the chest  -->
+  <astra_camera name = "astra_camera" parent = "torso" color="Green">
+     <origin xyz="${front_astra_camera_offset_x} ${front_astra_camera_offset_y} ${front_astra_camera_offset_z}" rpy="0 ${front_astra_camera_rotation} 0" /> 
+  </astra_camera>
+
+
+
+<!--
+   <sensor_lplidar parent = "base">
+      <origin xyz="0.00 0.0 0.0" rpy="0.0 0.0 0.0" /> 
+   </sensor_lplidar>
+-->
+   
+   <!-- Attach the right arm  -->
+   <arm side="right_arm" reflect="-1" parent="torso" skin_color="White" servo_color="Green">
+     <origin xyz="${arm_offset_x} ${arm_offset_y} ${arm_offset_z}" rpy="0 0 0" /> <!-- ${PI/2} -->
+   </arm>  
+
+   <!-- Attach the left arm -->
+   <arm side="left_arm" reflect="1" parent="torso" skin_color="White" servo_color="Green">
+     <origin xyz="${arm_offset_x} ${-arm_offset_y} ${arm_offset_z}" rpy="0 0 0" />
+   </arm>     
+    
+   <!-- Attach the right gripper 
+   <gripper side="right" reflect="-1" parent="right_arm_gripper_attach" color="Green">
+     <origin xyz="0 0 0" rpy="0 0 0" /> 
+   </gripper> -->
+   
+   <!-- Attach the left gripper 
+   <gripper side="left" reflect="1" parent="left_arm_gripper_attach" color="Green">
+     <origin xyz="0 0 0" rpy="0 0 0" /> 
+   </gripper> -->
+
+   
+</robot>
+
+

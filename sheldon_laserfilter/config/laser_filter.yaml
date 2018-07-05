@@ -1,0 +1,7 @@
+scan_filter_chain:
+- name: obstructed
+  type: LaserScanAngularBoundsFilter
+  params:
+    lower_angle: -0.907571
+    upper_angle: 0.907571
+

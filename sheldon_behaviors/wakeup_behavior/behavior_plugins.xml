@@ -1,0 +1,5 @@
+<library path="lib/libwakeup_behavior">
+  <class name="behavior_plugin/WakeupBehaviorPlugin" type="wakeup_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Wakeup Behavior plugin</description>
+  </class>
+</library>

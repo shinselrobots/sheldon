@@ -1,0 +1,75 @@
+<launch>
+
+  <!-- Full launch file for Sheldon Robot. Starts base with wheel motors,
+  servos, remote control the robot using a joystick, behaviors, sound effects,
+  speech recognition, etc.  -->
+
+
+  <!-- Base, including joystick, arduino (waist actuators), 
+  and wheel motors (sabertooth) -->
+  <include file="$(find sheldon)/launch/include/base.launch"/>
+
+  <!-- Robot Description (URDF) -->
+  <include file="$(find sheldon_description)/launch/description.launch"/>
+
+  <!-- Arduino #3 - Sheldon Head, controls eyes (and sensors in the future) -->
+  <node pkg="rosserial_python" type="serial_node.py" name="head_node" output="screen">
+    <param name="port" value="/dev/head_arduino"/>
+    <param name="baud" value="57600"/>
+  </node>
+
+  <!-- Arduino 4 & 5 - Sheldon Arms, controls arm colors (and sensors in the future) -->
+  <!-- WARN no serial nums, so ports mapped by plug location in USB hub! (see udev rules) -->
+  <node pkg="rosserial_python" type="serial_node.py" name="arm1_node" output="screen">
+    <param name="port" value="/dev/arm1_arduino"/>
+    <param name="baud" value="57600"/>
+  </node>
+  <node pkg="rosserial_python" type="serial_node.py" name="arm2_node" output="screen">
+    <param name="port" value="/dev/arm2_arduino"/>
+    <param name="baud" value="57600"/>
+  </node>
+
+
+  <!-- Dynamixel Servo Controllers -->
+  <include file="$(find sheldon_servos)/launch/servos.launch"/>
+
+
+  <!-- Text to speech (robot voice) and sound effects services -->
+  <rosparam file="$(find sheldon)/config/jokes.yaml" command="load"/>
+  <include file="$(find robot_sounds)/launch/robot_sounds.launch"/>
+
+
+  <!-- Behavior plugin loader, which will scan the system for all available
+  behavior plugins (both C++ and Python) -->  
+  <node pkg="behavior_common" type="behavior_loader" name="behavior_common_node" output="screen">
+    <param name="robot_startup_behavior" value="/wakeup_behavior"/>
+  </node>
+  
+
+  <!-- Joystick buttons to control some hard coded behaviors. -->
+  <node pkg="sheldon_joybuttons" type="joy_buttons.py" name="joy_buttons"/>
+
+
+  <!-- This launch script starts the RealSense camera and optional middleware nodes.  DISABLED
+  <include file="$(find sheldon)/launch/include/realsense.launch"/>
+  -->
+
+  <!-- Speech Recognition  DISABLED
+  <include file="$(find sheldon)/launch/include/speech_recognition.launch"/>
+  -->
+
+
+  <!-- This launch script starts the Lidar.  DISABLED
+  <include file="$(find sheldon)/launch/include/lidar.launch"/> 
+  -->
+
+
+  <!-- Body Tracker -->
+  <include file="$(find sheldon)/launch/include/nuitrack_body_tracker.launch"/>
+  
+
+  <!-- This launch script starts navigation capabilities DISABLED
+  <include file="$(find sheldon_navigation)/launch/include/navigation.launch" />
+  -->
+
+</launch>

@@ -1,0 +1,5 @@
+<library path="lib/libsleep_behavior">
+  <class name="behavior_plugin/SleepBehaviorPlugin" type="sleep_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Sleep Behavior plugin</description>
+  </class>
+</library>

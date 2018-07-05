@@ -1,0 +1,5 @@
+<library path="lib/libwave_behavior">
+  <class name="behavior_plugin/WaveBehaviorPlugin" type="wave_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Wave Behavior plugin</description>
+  </class>
+</library>

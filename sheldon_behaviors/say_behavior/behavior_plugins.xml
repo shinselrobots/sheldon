@@ -1,0 +1,5 @@
+<library path="lib/libsay_behavior">
+  <class name="behavior_plugin/SayPlugin" type="behavior_plugin::SayPlugin" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Say Behavior plugin</description>
+  </class>
+</library>
