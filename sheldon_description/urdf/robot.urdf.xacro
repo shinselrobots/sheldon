@@ -42,9 +42,10 @@
    <xacro:include filename="$(find sheldon_description)/urdf/body.urdf.xacro" />
    <xacro:include filename="$(find sheldon_description)/urdf/head.urdf.xacro" />
    <xacro:include filename="$(find sheldon_description)/urdf/arm.urdf.xacro" />
-   <xacro:include filename="$(find sheldon_description)/urdf/depth_camera.urdf.xacro" />
    <xacro:include filename="$(find sheldon_description)/urdf/astra_camera.urdf.xacro" />
    <xacro:include filename="$(find sheldon_description)/urdf/realsense_d435_camera.urdf.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/_zr300.urdf.xacro"/>
+   <xacro:include filename="$(find sheldon_description)/urdf/depth_camera.urdf.xacro" />
 
    <!-- Add the base and wheels -->
    <sheldon_base name="base" color="White"/>
@@ -57,15 +58,17 @@
       <origin xyz="${head_offset_x} ${head_offset_y} ${head_offset_z}" rpy="0 0 ${PI}" />
    </head> 
 
-   <!-- Attach the front camera  -->
+   <!-- Attach the front camera  
    <depth_camera camera_id="camera1" parent="torso" color="DarkGrey">
      <origin xyz="${front_depth_camera_offset_x} ${front_depth_camera_offset_y} ${front_depth_camera_offset_z}" rpy="${PI - front_depth_camera_rotation} 0 ${PI/2}" /> 
-   </depth_camera>  
+   </depth_camera> 
+--> 
 
-   <!-- Attach the rear camera  -->
+   <!-- Attach the rear camera  
    <depth_camera camera_id="camera2" parent="torso" color="DarkGrey">
      <origin xyz="${rear_depth_camera_offset_x} ${rear_depth_camera_offset_y} ${rear_depth_camera_offset_z}" rpy="${PI - rear_depth_camera_rotation} 0 ${-PI/2}" /> 
    </depth_camera>  
+-->
 
    <!-- Attach Astra camera in the chest  -->
   <astra_camera name = "astra_camera" parent = "torso" color="Green">

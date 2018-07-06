@@ -2,8 +2,6 @@
 
 <robot name="depth_camera" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find realsense_ros_camera)/urdf/_zr300.urdf.xacro"/>
-
   <xacro:macro name="depth_camera" params="camera_id parent color *origin"> 
 
     <joint name="${camera_id}_depth_camera_torso_joint" type="fixed">

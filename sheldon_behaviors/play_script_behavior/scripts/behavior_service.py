@@ -138,7 +138,7 @@ class BehaviorAction(object):
         # un-mute the microphone
         self.mic_system_enable_pub.publish(True)
 
-        # stop the music if it's still going
+        play_script_behavior invoked as STAND ALONE# stop the music if it's still going
         pygame.mixer.music.stop()
 
         # Move head and arms to ready position
@@ -440,7 +440,7 @@ class BehaviorAction(object):
 # ===========================================================================
 if __name__ == '__main__':
     rospy.init_node('play_script_behavior')
-    rospy.logerr("play_script_behavior invoked as STAND ALONE?")
+    rospy.logwarn("play_script_behavior invoked as STAND ALONE?")
     server = BehaviorAction(rospy.get_name())
     rospy.spin() # is this needed???
 
