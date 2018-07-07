@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>py_tell_a_joke_behavior</name>
+  <name>tell_a_joke_behavior</name>
   <version>0.0.1</version>
-  <description>Py Tell A Joke</description>
+  <description>Tell A Joke</description>
   <maintainer email="shinsel.robots@gmail.com">Dave Shinsel</maintainer>
   <license>Apache-2</license>
   <author>Dave Shinsel</author>

@@ -4,5 +4,5 @@
 #include <pluginlib/class_list_macros.h>
 #include <behavior_common/behavior.h>
 
-PYTHON_BEHAVIOR_PLUGIN(tell_a_joke_behavior, "TELL_JOKE");
-PLUGINLIB_EXPORT_CLASS(tell_a_joke_behavior, behavior_common::BehaviorPlugin);
+PYTHON_BEHAVIOR_PLUGIN(arm_home_behavior, "ARM_HOME");
+PLUGINLIB_EXPORT_CLASS(arm_home_behavior, behavior_common::BehaviorPlugin);

@@ -1,21 +1,19 @@
 <?xml version="1.0"?>
 <package>
-  <name>tell_a_joke_behavior</name>
+  <name>arm_home_behavior</name>
   <version>0.0.1</version>
-  <description>Package implementing a Tell a joke behavior</description>
+  <description>Move arm(s) to home position</description>
   <maintainer email="shinsel.robots@gmail.com">Dave Shinsel</maintainer>
-  <license>BSD</license>
-  <author>Matt Curfman</author>
+  <license>Apache-2</license>
+  <author>Dave Shinsel</author>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>pluginlib</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>behavior_common</build_depend>
-  <build_depend>audio_and_speech_common</build_depend>
   <run_depend>pluginlib</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>behavior_common</run_depend>
-  <run_depend>audio_and_speech_common</run_depend>
 
   <export>
     <behavior_common plugin="${prefix}/behavior_plugins.xml" />

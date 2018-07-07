@@ -1,5 +1,5 @@
-<library path="lib/libpy_tell_a_joke_behavior">
-  <class name="behavior_plugin/PyTellaJokeBehaviorPlugin" type="py_tell_a_joke_behavior" base_class_type="behavior_common::BehaviorPlugin">
-    <description>Python Tell a Joke Behavior plugin</description>
+<library path="lib/libtell_a_joke_behavior">
+  <class name="behavior_plugin/TellaJokeBehaviorPlugin" type="tell_a_joke_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Tell a Joke Behavior plugin</description>
   </class>
 </library>

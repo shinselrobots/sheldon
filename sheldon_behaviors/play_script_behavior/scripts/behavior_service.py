@@ -78,7 +78,10 @@ class BehaviorAction(object):
 
         # Behavior sounds are stored in the shared behavior resource directory
         self.resource_dir = rospy.get_param('resource_dir', 
-          '/home/system/catkin_robot/src/sheldon/sheldon_behaviors/resources/sounds')
+          '/home/system/catkin_robot/src/sheldon/sheldon_behaviors/resources')
+        self.sounds_dir = os.path.join(self.resource_dir, 'sounds')
+        self.scripts_dir = os.path.join(self.resource_dir, 'scripts')
+
 
          # Publish wheel motor commands as low priority to motor control
         # TODO: Put this in launch file: 
@@ -95,7 +98,8 @@ class BehaviorAction(object):
         # Publish microphone enable/disable by user (Note: user_enable vs system_enable)
         self.mic_user_enable_pub = rospy.Publisher('microphone/user_enable', Bool, queue_size=1)
 
-        # enable/disable microphone when robot is talking or moving servos.  (Note system_enable vs. user_enable)
+        # enable/disable microphone when robot is talking or moving servos.  
+        # (Note system_enable vs. user_enable)
         self.mic_system_enable_pub = rospy.Publisher('/microphone/system_enable', Bool, queue_size=1)        
 
         # Subscribers (examples)
@@ -138,7 +142,7 @@ class BehaviorAction(object):
         # un-mute the microphone
         self.mic_system_enable_pub.publish(True)
 
-        play_script_behavior invoked as STAND ALONE# stop the music if it's still going
+        # stop the music if it's still going
         pygame.mixer.music.stop()
 
         # Move head and arms to ready position
@@ -216,38 +220,20 @@ class BehaviorAction(object):
 
     def execute_cb(self, goal):
         rospy.loginfo('%s: Executing behavior' % (self._action_name))
-        rospy.loginfo( "Param1: '%s'", goal.param1)
+        rospy.loginfo( "Param1: '%s'", goal.param1) # name of behavior script to run
         rospy.loginfo( "Param2: '%s'", goal.param2)
 
-        # ====== Behavior Implementation ====== 
-        # Do initialization here that has to be done for each playback
- 
-        #r = rospy.Rate(1.0)
+        # determine which script to run
+        script_dir_path = '/home/system/catkin_robot/src/sheldon/sheldon_behaviors/play_script_behavior/config'      
+        script_name = goal.param1 + '.csv'
+        if goal.param1 = '':
+            script_name = 'believer.csv' # default script to run (TODO add param1 to Arduino)
 
-        # initialization
-        # if needed, move this to init?
-        #rospy.loginfo("Waiting for speech server (press ctrl-c to cancel at anytime)")
-        #client = actionlib.SimpleActionClient("/speech_service", audio_and_speech_common.msg.speechAction)
-        #client.wait_for_server()
-
-        # EXAMPLE: say response
-        #rospy.loginfo("Talking")
-        #goal = audio_and_speech_common.msg.speechGoal(text_to_speak="I am not the droid you are looking for")
-        #client.send_goal(goal)
-        #result = client.wait_for_result()   # wait for speech to complete
-        #rospy.loginfo("Speech goal returned result: %d", result)
-
-        # Example: Move head and arms back to ready position
-        #all_home()
+        script_path = os.path.join(self.scripts_dir, script_name)
 
         # Use Python's CSV reader
-        # TODO - get script name from Param1
-        #script_name = '/home/system/play_servos.csv'
-        script_name = '/home/system/catkin_robot/src/sheldon/sheldon_behaviors/play_script_behavior/config/believer.csv'
-        rospy.loginfo("Playing Script: %s", script_name)
-
-
-        csv_file = open(script_name, 'r') 
+        rospy.loginfo("Playing Script: %s", script_path)
+        csv_file = open(script_path, 'r') 
         csv_reader = csv.DictReader(csv_file)
 
         # Initialize Servo settings
@@ -260,7 +246,7 @@ class BehaviorAction(object):
 
         # get path to music file
         # TODO - get file name from the script!
-        music_file = os.path.join(self.resource_dir, "believer_trim2.wav")
+        music_file = os.path.join(self.sounds_dir, 'believer_trim2.wav')
         rospy.loginfo("DBG: music file: %s", music_file)
 
         # ===========================================================================
@@ -339,7 +325,7 @@ class BehaviorAction(object):
 
             field_type = row['type']
 
-            if field_type == 'sound': # TODO, get name from Param1
+            if field_type == 'sound': # TODO, get name from script param1
                 #sound_name = row['param1']
                 rospy.loginfo("PLAYBACK: =========> Playing Sound")
                 #rospy.loginfo("PLAYBACK: =========> Playing Sound [%s]", sound_name)
@@ -440,7 +426,7 @@ class BehaviorAction(object):
 # ===========================================================================
 if __name__ == '__main__':
     rospy.init_node('play_script_behavior')
-    rospy.logwarn("play_script_behavior invoked as STAND ALONE?")
+    # rospy.logwarn("play_script_behavior invoked as STAND ALONE?")
     server = BehaviorAction(rospy.get_name())
     rospy.spin() # is this needed???
 

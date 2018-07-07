@@ -1,0 +1,5 @@
+<library path="lib/libarm_home_behavior">
+  <class name="behavior_plugin/HandsUpBehaviorPlugin" type="arm_home_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Arm Home Behavior plugin</description>
+  </class>
+</library>

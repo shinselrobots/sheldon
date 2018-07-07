@@ -1,1 +1,0 @@
-# sample_cpp_behavior

@@ -216,6 +216,6 @@ class BehaviorAction(object):
  
         
 if __name__ == '__main__':
-    rospy.init_node('py_tell_a_joke_behavior')
+    rospy.init_node('tell_a_joke_behavior')
     server = BehaviorAction(rospy.get_name())
     rospy.spin()

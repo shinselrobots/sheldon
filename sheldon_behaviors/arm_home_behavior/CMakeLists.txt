@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(tell_a_joke_behavior)
+project(arm_home_behavior)
 
 ## Find catkin dependencies
 find_package(catkin REQUIRED COMPONENTS pluginlib roscpp behavior_common)
