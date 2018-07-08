@@ -22,6 +22,12 @@ cd ~/catkin_ws
 catkin_make
 source devel/setup.bash
 cd ~/catkin_ws/src
+git clone https://github.com/shinselrobots/body_tracker_msgs.git
+git clone https://github.com/shinselrobots/safety_control.git
+git clone https://github.com/shinselrobots/robot_speech.git
+git clone https://github.com/shinselrobots/robot_behavior.git
+git clone -b master_shinselrobots https://github.com/shinselrobots/rplidar_ros.git
+git clone -b kinetic-devel-shinselrobots https://github.com/shinselrobots/realsense_samples_ros.git
 ln -s $CI_SOURCE_PATH .
 
 #before_script:
