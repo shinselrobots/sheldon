@@ -4,6 +4,9 @@ import rospy
 import actionlib
 import behavior_common.msg
 import time
+import rospkg
+import rosparam
+
 from std_msgs.msg import Float64
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import Twist
@@ -49,23 +52,42 @@ class BehaviorAction(object):
           behavior_common.msg.behaviorAction, execute_cb=self.execute_cb, auto_start = False)
         self._as.start()
 
+        #====================================================================
         # Behavior Settings
-        # TODO - How to get these parameters passed from launch file to here?
-        # for now, just set here.
-        self.enable_body_tracking = True  # rospy.get_param('~enable_body_tracking', True)
-        # rospy.loginfo('%s: PARAM: enable_body_tracking = %d'.(self._action_name), 
-        #   self.enable_body_tracking)
-        self.enable_random_head_movement = False  # rospy.get_param('~enable_random_head_movement', True)
-        # rospy.loginfo('%s: PARAM: enable_random_head_movement = %d'.(self._action_name),
-        #   self.enable_random_head_movement)
-        self.camera_link = 'camera_link' # rospy.get_param('~camera_link', 'camera_link')
-        self.head_pan_joint = rospy.get_param('~head_pan_joint', 'head_pan_joint')
-        self.head_tilt_joint = rospy.get_param('~head_tilt_joint', 'head_tilt_joint')
 
-        self.resource_dir = rospy.get_param('resource_dir', 
-          "/home/system/catkin_robot/src/sheldon/sheldon_behaviors/follow_behavior/scripts/resources")
-        self.ding_path = os.path.join(self.resource_dir, "ding.wav")
-        rospy.loginfo("DBG: DING PATH: %s", self.ding_path)
+        # Load this behavior's parameters to the ROS parameter server
+        rospack = rospkg.RosPack()
+        pkg_path = rospack.get_path(self._action_name.strip("/")) # remove leading slash
+        param_file_path = pkg_path + '/param/param.yaml'
+        rospy.loginfo('%s: Loading Params from %s', self._action_name, param_file_path)
+        paramlist = rosparam.load_file(param_file_path, default_namespace=self._action_name)
+        for params, ns in paramlist:
+            rosparam.upload_params(ns,params)
+
+        # Get this behavior's parameters
+        self.enable_body_tracking = rospy.get_param('~enable_body_tracking', True)
+        rospy.loginfo('%s: PARAM: enable_body_tracking = %s', self._action_name, 
+            self.enable_body_tracking)
+
+        self.enable_random_head_movement = rospy.get_param('~enable_random_head_movement', True)
+        rospy.loginfo('%s: PARAM: enable_random_head_movement = %s', self._action_name,
+            self.enable_random_head_movement)
+
+        self.head_pan_joint = rospy.get_param('~head_pan_joint', 'head_pan_joint')
+        rospy.loginfo('%s: PARAM: head_pan_joint = %s', self._action_name,
+            self.head_pan_joint)
+
+        self.head_tilt_joint = rospy.get_param('~head_tilt_joint', 'head_tilt_joint')
+        rospy.loginfo('%s: PARAM: head_tilt_joint = %s', self._action_name,
+            self.head_tilt_joint)
+
+        self.sound_effects_dir = rospy.get_param('~sound_effects_dir', 
+          '../../resources/sounds/sound_effects')
+        rospy.loginfo('%s: PARAM: sound_effects_dir = %s', self._action_name,
+            self.sound_effects_dir)
+
+        self.ding_path = os.path.join(self.sound_effects_dir, "ding.wav")
+        rospy.loginfo("DING PATH: %s", self.ding_path)
 
         # constants
         self.MAX_PAN = 1.5708 #  90 degrees

@@ -101,7 +101,7 @@ namespace behavior_plugin
 
   };
 
-  CPP_BEHAVIOR_PLUGIN(BowPlugin, "/bow_behavior_service", "BOW_GREETING", BowBehaviorService);
+  CPP_BEHAVIOR_PLUGIN(BowPlugin, "/bow_behavior_service", "BOW", BowBehaviorService);
 };
 
 PLUGINLIB_EXPORT_CLASS(behavior_plugin::BowPlugin, behavior_common::BehaviorPlugin);

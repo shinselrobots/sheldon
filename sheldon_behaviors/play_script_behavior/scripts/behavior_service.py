@@ -224,9 +224,9 @@ class BehaviorAction(object):
         rospy.loginfo( "Param2: '%s'", goal.param2)
 
         # determine which script to run
-        script_dir_path = '/home/system/catkin_robot/src/sheldon/sheldon_behaviors/play_script_behavior/config'      
+        script_dir_path = '/home/system/catkin_robot/src/sheldon/sheldon_behaviors/csv_scripts'      
         script_name = goal.param1 + '.csv'
-        if goal.param1 = '':
+        if goal.param1 == '':
             script_name = 'believer.csv' # default script to run (TODO add param1 to Arduino)
 
         script_path = os.path.join(self.scripts_dir, script_name)
