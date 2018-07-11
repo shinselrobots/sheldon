@@ -5,5 +5,5 @@
 #include <behavior_common/behavior.h>
 
 // KLUDGE FOR "PLAY_SCRIPT" not on Arduino!
-PYTHON_BEHAVIOR_PLUGIN(play_script_behavior, "CLEAN_UP"); 
+PYTHON_BEHAVIOR_PLUGIN(play_script_behavior, "RUN_SCRIPT"); 
 PLUGINLIB_EXPORT_CLASS(play_script_behavior, behavior_common::BehaviorPlugin);

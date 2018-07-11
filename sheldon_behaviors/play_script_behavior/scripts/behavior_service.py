@@ -79,8 +79,8 @@ class BehaviorAction(object):
         # Behavior sounds are stored in the shared behavior resource directory
         self.resource_dir = rospy.get_param('resource_dir', 
           '/home/system/catkin_robot/src/sheldon/sheldon_behaviors/resources')
-        self.sounds_dir = os.path.join(self.resource_dir, 'sounds')
-        self.scripts_dir = os.path.join(self.resource_dir, 'scripts')
+        self.music_dir = os.path.join(self.resource_dir, 'sounds/music')
+        self.scripts_dir = os.path.join(self.resource_dir, 'csv_scripts')
 
 
          # Publish wheel motor commands as low priority to motor control
@@ -226,8 +226,8 @@ class BehaviorAction(object):
         # determine which script to run
         script_dir_path = '/home/system/catkin_robot/src/sheldon/sheldon_behaviors/csv_scripts'      
         script_name = goal.param1 + '.csv'
-        if goal.param1 == '':
-            script_name = 'believer.csv' # default script to run (TODO add param1 to Arduino)
+        #if goal.param1 == '':
+        #    script_name = 'believer.csv' # default script to run 
 
         script_path = os.path.join(self.scripts_dir, script_name)
 
@@ -246,7 +246,7 @@ class BehaviorAction(object):
 
         # get path to music file
         # TODO - get file name from the script!
-        music_file = os.path.join(self.sounds_dir, 'believer_trim2.wav')
+        music_file = os.path.join(self.music_dir, 'believer_trim2.wav')
         rospy.loginfo("DBG: music file: %s", music_file)
 
         # ===========================================================================
