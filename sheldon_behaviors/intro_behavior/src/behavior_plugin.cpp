@@ -50,7 +50,7 @@ namespace behavior_plugin
           // boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
 
           //speech_.speakAndWaitForCompletion("Hello. <break time='500ms'/>");
-          speech_.speakAndWaitForCompletion("My name is Sheldon. <break time='500ms'/>");
+          speech_.speakAndWaitForCompletion("My name is Sheldon. ");
 
           pos.data = 0.3;
           head_pan_.publish(pos);
@@ -58,7 +58,7 @@ namespace behavior_plugin
           head_sidetilt_.publish(pos);
           pos.data = DEFAULT_TILT_ANGLE;  
           head_tilt_.publish(pos);
-          speech_.speakAndWaitForCompletion("I am just starting to become functional, but I hope to have many new capabilities soon. <break time='500ms'/>");
+          speech_.speakAndWaitForCompletion("I have been under construction for about a year or so");
 
           pos.data = -0.3;
           head_pan_.publish(pos);
@@ -66,7 +66,7 @@ namespace behavior_plugin
           head_sidetilt_.publish(pos);
           pos.data = DEFAULT_TILT_ANGLE;  
           head_tilt_.publish(pos);
-          speech_.speakAndWaitForCompletion("My brain consists of an Intel core eye 5 processor, connected to several Arduinos for sensory input and control. <break time='500ms'/>" );
+          speech_.speakAndWaitForCompletion("My brain consists of an Intel core eye 5 processor, connected to five Arduinos for sensory input and control. " );
 
           pos.data = 0.00;
           head_pan_.publish(pos);
@@ -74,7 +74,7 @@ namespace behavior_plugin
           head_sidetilt_.publish(pos);
           pos.data = DEFAULT_TILT_ANGLE -0.1;  
           head_tilt_.publish(pos);
-          speech_.speakAndWaitForCompletion("I have a laser scanner for navigation, and 18 dyna mixel servos for my movements <break time='500ms'/>" );
+          speech_.speakAndWaitForCompletion("I have depth cameras and a laser scanner for navigation, and 18 dyna mixel servos for my movements " );
 
           pos.data = -0.3;
           head_pan_.publish(pos);
@@ -82,7 +82,7 @@ namespace behavior_plugin
           head_sidetilt_.publish(pos);
           pos.data = DEFAULT_TILT_ANGLE;  
           head_tilt_.publish(pos);
-          speech_.speakAndWaitForCompletion("my programs are written in sea plus plus and python, on top of Ros, the robot operating system. <break time='500ms'/>");
+          speech_.speakAndWaitForCompletion("my programs are written in sea plus plus and python, on top of Ros, the robot operating system. ");
 
           pos.data = 0.3;
           head_pan_.publish(pos);
@@ -98,8 +98,7 @@ namespace behavior_plugin
           head_sidetilt_.publish(pos);
           pos.data = DEFAULT_TILT_ANGLE;  
           head_tilt_.publish(pos);
-          speech_.speakAndWaitForCompletion("I hope you enjoy todays presentation  <break time='1000ms'/>");
-
+          speech_.speakAndWaitForCompletion("the only thing I dont like is darth vaider, he scares me'/>");
 
 
  		  BehaviorComplete();
