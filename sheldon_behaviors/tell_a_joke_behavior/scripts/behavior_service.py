@@ -71,7 +71,7 @@ class BehaviorAction(object):
         self._as = actionlib.SimpleActionServer(self._action_name, behavior_common.msg.behaviorAction, execute_cb=self.execute_cb, auto_start = False)
         self._as.start()
         rospy.loginfo('%s: Initializing Joke behavior service' % (self._action_name))
-        self._joke_group = 2;
+        self._joke_group = "BEST_JOKES";
 
     def sleepCheckInterrupt(self, sleep_time): # sleep time in seconds
         randSleep = random.randint(10, (sleep_time * 10)) 
@@ -90,41 +90,41 @@ class BehaviorAction(object):
         rospy.loginfo( "Param1: '%s'", goal.param1)
         rospy.loginfo( "Param2: '%s'", goal.param2)
 
-        # tell jokes from group 1 or 2.  Convert str to int
-        try:
-            self._joke_group = int(goal.param1)
-        except ValueError:
-            rospy.logwarn("Tell Joke: could not convert param1 to int.  Using default joke group" )
+        # tell jokes from groups, based upon request from user
+        # BEST_JOKES, STAR_WARS_JOKES, OTHER_JOKES
+        self._joke_group = goal.param1.upper()    
+        # catch any errors
+        if  ((self._joke_group != "BEST_JOKES") and (self._joke_group != "STAR_WARS_JOKES") and 
+            (self._joke_group != "OTHER_JOKES")):
 
-        if self._joke_group > 2:
-            self._joke_group = 2
+            rospy.loginfo("Unknow Joke Group, using BEST_JOKES by default")
+            self._joke_group = "BEST_JOKES"
 
 
         # ====== Behavior Implementation ======  
         success = True
         r = rospy.Rate(1.0)
+        
 
         # initialization
+        all_home()
         rospy.loginfo("Waiting for speech server (press ctrl-c to cancel at anytime)")
         client = actionlib.SimpleActionClient("/speech_service", audio_and_speech_common.msg.speechAction)
         client.wait_for_server()
-        all_home()
 
 
         # ====== TELL JOKES =====
         rospy.loginfo("telling jokes...")
 
-        if self._joke_group == 1:
-            talkString = "You want to hear some jokes?"
-            goal = audio_and_speech_common.msg.speechGoal(text_to_speak=talkString)
-            client.send_goal(goal)
-            result = client.wait_for_result()
-
-        else:
+        if self._joke_group == "STAR_WARS_JOKES":
             talkString = "I just saw the new star wars movie"
-            goal = audio_and_speech_common.msg.speechGoal(text_to_speak=talkString)
-            client.send_goal(goal)
-            result = client.wait_for_result()
+        else:
+            talkString = "You want to hear some jokes?"
+
+        goal = audio_and_speech_common.msg.speechGoal(text_to_speak=talkString)
+        client.send_goal(goal)
+        result = client.wait_for_result()
+
 
         #SetServoTorque(0.5, all_joints)
         SetServoSpeed(0.3, head_joints)
@@ -135,40 +135,41 @@ class BehaviorAction(object):
         if self.sleepCheckInterrupt(2):
             return
 
-        if self._joke_group == 1:
-            self._joke_group = 2 # queue up next group 
-            say_joke(client, goal, "If at first you dont succeed")
-            say_joke(client, goal, "you probably should not take up sky diving")
-            if self.sleepCheckInterrupt(3):
-                return
-
-            say_joke(client, goal, "You know what")
-            say_joke(client, goal, "if Bill Gates had a dollar for every time I had to reboot, he would be rich")
-            time.sleep(2)
-            say_joke(client, goal, "oh wait, he does.")
-            if self.sleepCheckInterrupt(3):
-                return
-
-            say_joke(client, goal, "Do you know how smart dolphins are?")
+        if self._joke_group == "OTHER_JOKES":
+            say_joke(client, goal, "Do you know why robots are shy?")
             time.sleep(1)
-            say_joke(client, goal, "within a few weeks of captivity, they can train people to stand on the edge of the pool and throw them fish")
+            say_joke(client, goal, "Because we have hardware and software, but we do not have underwear")
+            if self.sleepCheckInterrupt(4):
+                return
+            say_joke(client, goal, "Guess what kind of music I like to listen to")
+            time.sleep(1)
+            say_joke(client, goal, "Heavy Metal")
             if self.sleepCheckInterrupt(4):
                 return
 
-            say_joke(client, goal, "How many Psychiatrists does it take to change a light bulb?")
+            say_joke(client, goal, "why did the scarecrow win an award?")
             time.sleep(1)
-            say_joke(client, goal, "Only one")
-            say_joke(client, goal, "but the light bulb must really want to change")
-            if self.sleepCheckInterrupt(3):
+            say_joke(client, goal, "because he was out standing in his field")
+            if self.sleepCheckInterrupt(4):
                 return
+
+            say_joke(client, goal, "a neutron walks into a bar and orders a drink")
+            say_joke(client, goal, "then asks the bartender how much he owes")
+            time.sleep(1)
+            say_joke(client, goal, "the bartender replies")
+            time.sleep(1)
+            say_joke(client, goal, "for neutrons there is no charge")
+            if self.sleepCheckInterrupt(4):
+                return
+
 
             # Move head and arms back to ready position
             all_home()
-            say_joke(client, goal, "did you like my jokes?")
+            say_joke(client, goal, "did you like those jokes?")
             time.sleep(1)
 
-        else: # Star Wars
-            self._joke_group = 1 # queue up next group 
+
+        elif self._joke_group == "STAR_WARS_JOKES":
             say_joke(client, goal, "I am friends with the robot L 3")
             time.sleep(1)
             say_joke(client, goal, "She told me some jokes, lets see if you like them")
@@ -203,6 +204,37 @@ class BehaviorAction(object):
             all_home()
             say_joke(client, goal, "did you like my star wars jokes?")
             time.sleep(2)
+
+        else: # "BEST_JOKES" are the default
+            say_joke(client, goal, "If at first you dont succeed")
+            say_joke(client, goal, "you probably should not take up sky diving")
+            if self.sleepCheckInterrupt(3):
+                return
+
+            say_joke(client, goal, "You know what")
+            say_joke(client, goal, "if Bill Gates had a dollar for every time I had to reboot, he would be rich")
+            time.sleep(2)
+            say_joke(client, goal, "oh wait, he does.")
+            if self.sleepCheckInterrupt(3):
+                return
+
+            say_joke(client, goal, "Do you know how smart dolphins are?")
+            time.sleep(1)
+            say_joke(client, goal, "within a few weeks of captivity, they can train people to stand on the edge of the pool and throw them fish")
+            if self.sleepCheckInterrupt(4):
+                return
+
+            say_joke(client, goal, "How many Psychiatrists does it take to change a light bulb?")
+            time.sleep(1)
+            say_joke(client, goal, "Only one")
+            say_joke(client, goal, "but the light bulb must really want to change")
+            if self.sleepCheckInterrupt(3):
+                return
+
+            # Move head and arms back to ready position
+            all_home()
+            say_joke(client, goal, "did you like my jokes?")
+            time.sleep(1)
 
 
  
