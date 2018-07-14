@@ -88,14 +88,14 @@ class BehaviorAction(object):
         rospy.loginfo('%s: PARAM: head_tilt_joint = %s', self._action_name,
             self.head_tilt_joint)
 
-        self.sound_effects_dir = rospy.get_param('~sound_effects_dir', 
-          '../../resources/sounds/sound_effects')
+        self.sound_effects_dir = rospy.get_param('~sound_effects_dir',
+            '/home/system/catkin_robot/src/sheldon/sheldon_behaviors/resources/sounds/sound_effects')
         rospy.loginfo('%s: PARAM: sound_effects_dir = %s', self._action_name,
             self.sound_effects_dir)
 
-        #self.ding_path = os.path.join(self.sound_effects_dir, "ding.wav")
-        #rospy.loginfo("DBG: DING PATH: %s", self.ding_path)
-        #playsound(self.ding_path) # test sound
+        self.ding_path = os.path.join(self.sound_effects_dir, "ding.wav")
+        rospy.loginfo("DBG: DING PATH: %s", self.ding_path)
+        playsound(self.ding_path) # test sound
 
         #====================================================================
 

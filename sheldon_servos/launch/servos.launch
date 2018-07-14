@@ -92,8 +92,7 @@
 
    <node name="waist_joint_state_publisher" pkg="sheldon_servos" type="waist_joint_state_publisher.py" output="screen" />
 
-   <!--  <node name="relax_all_servos" pkg="sheldon_servos" type="relax_all_servos.py" output="screen"/>  -->
+   <node name="joy_to_dynamixel" pkg="sheldon_servos" type="joy_to_dynamixel.py" output="screen"/>
 
-   <node name="joy_to_dynamixel" pkg="sheldon_servos" type="joy_to_dynamixel.py"/>
 </launch>
 

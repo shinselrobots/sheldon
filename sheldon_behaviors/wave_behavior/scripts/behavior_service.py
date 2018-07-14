@@ -38,7 +38,7 @@ def wave1():
     pub_right_arm_wrist_rotate.publish(0.0)
     pub_right_arm_claw.publish(-0.5)
 
-    head_up() # look slightly up at people
+    head_home() # look slightly up at people
     #pub_head_sidetilt.publish(0.0)
     #pub_head_tilt.publish(0.0)
     #pub_head_pan.publish(0.0)

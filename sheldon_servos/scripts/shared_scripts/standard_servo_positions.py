@@ -14,7 +14,7 @@ from sheldon_servos.waist_publishers import *
 
 def all_home(): # all in home position
     print("-----> all_home")
-    head_center()
+    head_home()
     left_arm_home()
     right_arm_home()
 
@@ -47,10 +47,10 @@ def head_center():
     pub_head_tilt.publish(0.0)
     pub_head_pan.publish(0.0)
 
-def head_up():
-    print("-----> head_up")
+def head_home():
+    print("-----> head_home")
     pub_head_sidetilt.publish(0.0)
-    pub_head_tilt.publish(-0.3)
+    pub_head_tilt.publish(-0.3) # Tilt up a bit
     pub_head_pan.publish(0.0)
 
 def head_sleep():
@@ -72,7 +72,7 @@ def right_claw_close():
 
 def right_arm_home():
     print("-----> right_arm_home")
-    pub_right_arm_shoulder_rotate.publish(0.0) # 0.5) #reversed
+    pub_right_arm_shoulder_rotate.publish(0.5) #reversed
     pub_right_arm_shoulder_lift.publish(0.05)
     pub_right_arm_elbow_rotate.publish(0.0)
     pub_right_arm_elbow_bend.publish(2.2)
@@ -122,7 +122,7 @@ def left_claw_close():
 
 def left_arm_home():
     print("-----> left_arm_home")
-    pub_left_arm_shoulder_rotate.publish(0.0)   # -0.5) 
+    pub_left_arm_shoulder_rotate.publish(-0.5) 
     pub_left_arm_shoulder_lift.publish(0.2)
     pub_left_arm_elbow_rotate.publish(0.0)
     pub_left_arm_elbow_bend.publish(2.2)

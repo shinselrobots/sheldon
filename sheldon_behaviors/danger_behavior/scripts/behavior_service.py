@@ -57,7 +57,7 @@ def danger_position_2():
     pub_left_arm_elbow_bend.publish(1.5)
     pub_left_arm_wrist_rotate.publish(0.0)
     # pub_left_arm_claw.publish(0.25)
-    head_center() 
+    head_home() 
 
 
 def danger_position_3():
@@ -74,7 +74,7 @@ def danger_position_3():
     pub_left_arm_elbow_bend.publish(0.5)
     #pub_left_arm_wrist_rotate.publish(0.0)
     # pub_left_arm_claw.publish(0.25)
-    head_center() 
+    head_home() 
 
 
 

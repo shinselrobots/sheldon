@@ -48,7 +48,7 @@ def hands_up2():
     pub_left_arm_elbow_bend.publish(0.5)
     pub_left_arm_wrist_rotate.publish(0.0)
     # pub_left_arm_claw.publish(0.25)
-    head_center() 
+    head_home() 
 
 
 class BehaviorAction(object):

@@ -34,8 +34,8 @@ def touch_ground1():
     pub_right_arm_shoulder_rotate.publish(-1.55)
     pub_left_arm_shoulder_rotate.publish(1.55)
 
-def touch_groun2():
-    head_center()
+def touch_ground2():
+    head_home()
     pub_right_arm_shoulder_lift.publish(0.0)
     pub_right_arm_elbow_rotate.publish(0.0)
     pub_right_arm_wrist_rotate.publish(0.0)

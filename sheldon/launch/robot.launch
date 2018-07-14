@@ -54,9 +54,9 @@
   <include file="$(find sheldon)/launch/include/realsense.launch"/>
   -->
 
-  <!-- Speech Recognition  DISABLED
+  <!-- Speech Recognition  -->
   <include file="$(find sheldon)/launch/include/speech_recognition.launch"/>
--->
+
 
   <!-- This launch script starts the Lidar.  DISABLED
   <include file="$(find sheldon)/launch/include/lidar.launch"/> 

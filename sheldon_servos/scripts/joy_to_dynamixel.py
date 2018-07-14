@@ -4,147 +4,9 @@ from sensor_msgs.msg import Joy
 from std_msgs.msg import Float64
 import time
 
-
-# ================================================================
-# UTILITIES
-
-def head_center():
-    print("-----> head_center")
-    pub_sidetilt.publish(0.0)
-    pub_tilt.publish(0.0)
-    pub_pan.publish(0.0)
-
-def head_down():
-    print("-----> head_down")
-    pub_sidetilt.publish(0.0)
-    pub_tilt.publish(1.26)
-    pub_pan.publish(0.0)
-
-
-# RIGHT ARM
-
-def right_claw_open():
-    print("-----> right_claw_open")
-    pub_right_arm_claw.publish(0.0)
-
-def right_claw_close():
-    print("-----> right_claw_close")
-    pub_right_arm_claw.publish(-2.0)
-
-def right_arm_down():
-    print("-----> right_arm_down")
-    pub_right_arm_elbow_bend.publish(0.0)
-    pub_right_arm_elbow_rotate.publish(0.0)
-    pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_lift.publish(0.25) # keep away from body
-    pub_right_arm_shoulder.publish(-0.4)
-    right_claw_open()
-
-def right_arm_home():
-    print("-----> right_arm_home")
-    #pub_right_arm_lift.publish(0.25)
-    pub_right_arm_elbow_rotate.publish(0.0)
-    pub_right_arm_elbow_bend.publish(2.0)
-    pub_right_arm_wrist_rotate.publish(0.0)
-    pub_right_arm_claw.publish(0.25)
-    pub_right_arm_shoulder.publish(-1.0)
-
-def right_arm_extend():
-    print("-----> right_arm_extend")
-    pub_sidetilt.publish(0.0)
-    pub_tilt.publish(0.25)
-    pub_pan.publish(-0.3)
-    #pub_right_arm_lift.publish(0.25)
-    pub_right_arm_elbow_rotate.publish(-0.25)
-    pub_right_arm_elbow_bend.publish(1.8)
-    pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_claw.publish(-0.8)
-    pub_right_arm_shoulder.publish(1.0)
-
-def right_arm_extend_full(): 
-    print("-----> right_arm_extend_full")
-    pub_right_arm_lift.publish(0.25)
-    pub_right_arm_elbow_rotate.publish(0.0)
-    pub_right_arm_elbow_bend.publish(0.0)
-    pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_claw.publish(0.25)
-    pub_right_arm_shoulder.publish(3.0)
-
-
-
-
-# LEFT ARM
-def left_claw_open():
-    print("-----> left_claw_open")
-    pub_left_arm_claw.publish(0.0)
-
-def left_claw_close():
-    print("-----> left_claw_close")
-    pub_left_arm_claw.publish(1.5)
-
-def left_arm_down():
-    print("-----> left_arm_down")
-    pub_left_arm_elbow_bend.publish(0.0)
-    pub_left_arm_elbow_rotate.publish(0.0)
-    pub_left_arm_wrist_rotate.publish(0.0)
-    pub_left_arm_claw.publish(0.0)
-    pub_left_arm_lift.publish(0.25) # keep away from body
-    pub_left_arm_shoulder.publish(-0.4)
-
-def left_arm_home():
-    print("-----> left_arm_home")
-    pub_left_arm_lift.publish(0.25)
-    pub_left_arm_elbow_rotate.publish(0.0)
-    pub_left_arm_elbow_bend.publish(2.0)
-    pub_left_arm_wrist_rotate.publish(0.0)
-    # pub_left_arm_claw.publish(0.25)
-    pub_left_arm_shoulder.publish(-1.0)
-
-def left_arm_extend():    
-    print("-----> left_arm_extend")
-    pub_sidetilt.publish(0.0)
-    pub_tilt.publish(0.25)
-    pub_pan.publish(0.3)
-    pub_left_arm_lift.publish(0.25)
-    pub_left_arm_elbow_rotate.publish(0.3)
-    pub_left_arm_elbow_bend.publish(1.8)
-    pub_left_arm_wrist_rotate.publish(0.0)
-    #pub_left_arm_claw.publish(0.8)
-    pub_left_arm_shoulder.publish(1.0)
-
-def left_arm_extend_full():
-    print("-----> left_arm_extend_full")
-    pub_left_arm_lift.publish(0.25)
-    pub_left_arm_elbow_rotate.publish(0.0)
-    pub_left_arm_elbow_bend.publish(0.0)
-    pub_left_arm_wrist_rotate.publish(0.0)
-    #pub_left_arm_claw.publish(0.25)
-    pub_left_arm_shoulder.publish(3.0)
-
-def left_arm_wave():
-    print("-----> left_arm_wave")
-    pub_sidetilt.publish(0.0)
-    pub_tilt.publish(-0.1)
-    pub_pan.publish(0.0)
-    pub_left_arm_lift.publish(0.25)
-    pub_left_arm_elbow_rotate.publish(0.0)
-    pub_left_arm_elbow_bend.publish(2.2)
-    pub_left_arm_wrist_rotate.publish(0.0)
-    #pub_left_arm_claw.publish(0.8)
-    pub_left_arm_shoulder.publish(1.7)
-    time.sleep(2.5)
-
-    for i in range(0,2):
-        pub_left_arm_elbow_rotate.publish(0.20)
-        time.sleep(0.5)
-        pub_left_arm_elbow_rotate.publish(-0.20)
-        time.sleep(0.5)
-
-    left_arm_home()
-    head_center()
-
-
-# ================================================================
+from sheldon_servos.standard_servo_positions import *
+from sheldon_servos.set_servo_speed import *
+from sheldon_servos.set_servo_torque import *
 
 
 def callback(data):
@@ -160,33 +22,11 @@ def callback(data):
         #else:
     	#    pub_sidetilt.publish(0.0)
 
-    if data.buttons[6] == 1:  # Left Bottom Trigger USED BY WHEELS!
-    	print("Left Bottom Trigger USED BY WHEELS!!")
-
+    #if data.buttons[6] == 1:  # Left Bottom Trigger USED BY WHEELS!
     if data.buttons[7] == 1:  # Right Bottom Trigger
-    	print("Right Bottom Trigger")
+    	print("Right Bottom Trigger") # available
  
-
-# BUTTONS DAVES
-    if data.buttons[1] == 1: # Green A button - Ready position
-        print("Red B button - Sleep")
-        head_center()
-        right_arm_home()
-        left_arm_home()
-
-    elif data.buttons[2] == 1: # Red B button - Sleep position (down)
-        print("Green A button - Ready")
-        head_down()
-        right_arm_down()
-        left_arm_down()
-
-    elif data.buttons[0] == 1: # Blue X button
-        print("Blue X button")
-        left_arm_wave()
-
-    elif data.buttons[3] == 1: # Yellow Y button
-        print("Yellow Y button")
-
+    # NOTE: Non-Trigger buttons are handled in sheldon_joy_buttons
 
     
 def listener():
@@ -195,24 +35,5 @@ def listener():
     rospy.spin()
 
 if __name__ == '__main__':
-    pub_pan = rospy.Publisher('/head_pan_controller/command', Float64, queue_size=1)
-    pub_tilt = rospy.Publisher('/head_tilt_controller/command', Float64, queue_size=1)
-    pub_sidetilt = rospy.Publisher('/head_sidetilt_controller/command', Float64, queue_size=1)
-
-    pub_left_arm_lift = rospy.Publisher('/left_arm_lift_controller/command', Float64, queue_size=1)
-    pub_left_arm_elbow_rotate = rospy.Publisher('/left_arm_elbow_rotate_controller/command', Float64, queue_size=1)
-    pub_left_arm_elbow_bend = rospy.Publisher('/left_arm_elbow_bend_controller/command', Float64, queue_size=1)
-    pub_left_arm_wrist_rotate = rospy.Publisher('/left_arm_wrist_rotate_controller/command', Float64, queue_size=1)
-    pub_left_arm_claw = rospy.Publisher('/left_arm_claw_controller/command', Float64, queue_size=1)
-    pub_left_arm_shoulder = rospy.Publisher('/left_arm_shoulder_controller/command', Float64, queue_size=1)
-
-    pub_right_arm_lift = rospy.Publisher('/right_arm_lift_controller/command', Float64, queue_size=1)
-    pub_right_arm_elbow_rotate = rospy.Publisher('/right_arm_elbow_rotate_controller/command', Float64, queue_size=1)
-    pub_right_arm_elbow_bend = rospy.Publisher('/right_arm_elbow_bend_controller/command', Float64, queue_size=1)
-    pub_right_arm_wrist_rotate = rospy.Publisher('/right_arm_wrist_rotate_controller/command', Float64, queue_size=1)
-    pub_right_arm_claw = rospy.Publisher('/right_arm_claw_controller/command', Float64, queue_size=1)
-    pub_right_arm_shoulder = rospy.Publisher('/right_arm_shoulder_controller/command', Float64, queue_size=1)
-
-
 
     listener()
