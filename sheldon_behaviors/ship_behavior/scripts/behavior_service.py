@@ -13,6 +13,7 @@ import behavior_common.msg
 import time
 import random
 from std_msgs.msg import Float64
+from std_msgs.msg import Bool
 from std_msgs.msg import Empty
 
 # for talking
@@ -38,9 +39,12 @@ class BehaviorAction(object):
         self._as = actionlib.SimpleActionServer(self._action_name, behavior_common.msg.behaviorAction, execute_cb=self.execute_cb, auto_start = False)
         self._as.start()
         rospy.loginfo('%s: Initializing Sleep behavior service' % (self._action_name))
+        # enable/disable microphone when robot is moving servos.  
+        # (Note system_enable vs. speech_enable vs. user_enable)
+        self.mic_system_enable_pub = rospy.Publisher('/microphone/system_enable', Bool, queue_size=1)        
       
     def execute_cb(self, goal):
-        rospy.loginfo('%s: DAVE>>> Executing behavior' % (self._action_name))
+        rospy.loginfo('%s: Executing behavior' % (self._action_name))
 
         rospy.loginfo( "Param1: '%s'", goal.param1)
         rospy.loginfo( "Param2: '%s'", goal.param2)
@@ -57,6 +61,9 @@ class BehaviorAction(object):
         client.send_goal(goal)
         result = client.wait_for_result() # wait for speech to complete
         rospy.loginfo("Speech goal returned result: %d", result)
+
+        # mute the microphone
+        self.mic_system_enable_pub.publish(False)
 
         # Move head and arms to sleep position
         SetServoTorque(0.8, all_joints)
@@ -99,6 +106,9 @@ class BehaviorAction(object):
         if success:
             rospy.loginfo('%s: Behavior complete' % self._action_name)
             self._as.set_succeeded(self._result)
+
+        # un-mute the microphone
+        self.mic_system_enable_pub.publish(True)
 
         
 if __name__ == '__main__':

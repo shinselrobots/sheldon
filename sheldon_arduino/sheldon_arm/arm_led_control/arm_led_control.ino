@@ -29,8 +29,10 @@ const int DEBUG_STRING_LEN    = 39;
 ros::NodeHandle nh;
 long            randNumber;
 int             colorMode;
+int             lastColorMode;
 String          debugString;
 char            debugStringChar[40];
+
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -67,7 +69,9 @@ void setup() {
   // End of trinket special code
 
   colorMode = 0;
+  lastColorMode = colorMode;
 
+  //pinMode(BUTTON_PIN, INPUT);
   pinMode(LED_BUILTIN, OUTPUT);
   // Serial.begin(57600);
   nh.initNode();
@@ -84,7 +88,7 @@ void setup() {
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
 
-  randomSeed(analogRead(0));
+  //randomSeed(analogRead(0));
 }
 
 void loop() {
@@ -174,13 +178,17 @@ void loop() {
   else
   {
     // 0 or undefined. Turn LEDs OFF
-    colorWipe(strip.Color(0, 0, 0), 0); // All Off
+    fastColorFill(0, 0, 0); // All Off
   }
  
-  randNumber = random(10, 120);
+  randNumber = 50; // random(10, 120);  // TODO - do I like random better?
 
   for (int i=0; i<randNumber; i++) {
     nh.spinOnce();
+    if( colorMode != lastColorMode) {
+      lastColorMode = colorMode;
+      break; // handle new command immediately
+    }
     delay(10);
   }
   //delay(randNumber);

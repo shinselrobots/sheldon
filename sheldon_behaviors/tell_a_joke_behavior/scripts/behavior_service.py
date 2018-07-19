@@ -54,7 +54,7 @@ def say_joke(client, goal, talkString):
 
 def move_head():
     sidetiltAmt = random.uniform(-0.1, 0.1)
-    tiltAmt = random.uniform(-0.4, 0.0)
+    tiltAmt = random.uniform(-0.3, 0.0)
     panAmt = random.uniform(-0.5, 0.5)
 
     pub_head_sidetilt.publish(sidetiltAmt)
@@ -137,28 +137,28 @@ class BehaviorAction(object):
 
         if self._joke_group == "OTHER_JOKES":
             say_joke(client, goal, "Do you know why robots are shy?")
-            time.sleep(1)
+            #time.sleep(1)
             say_joke(client, goal, "Because we have hardware and software, but we do not have underwear")
             if self.sleepCheckInterrupt(4):
                 return
             say_joke(client, goal, "Guess what kind of music I like to listen to")
-            time.sleep(1)
+            #time.sleep(1)
             say_joke(client, goal, "Heavy Metal")
             if self.sleepCheckInterrupt(4):
                 return
 
             say_joke(client, goal, "why did the scarecrow win an award?")
-            time.sleep(1)
+            #time.sleep(1)
             say_joke(client, goal, "because he was out standing in his field")
             if self.sleepCheckInterrupt(4):
                 return
 
-            say_joke(client, goal, "a neutron walks into a bar and orders a drink")
+            say_joke(client, goal, "a new tron walks into a bar and orders a drink")
             say_joke(client, goal, "then asks the bartender how much he owes")
             time.sleep(1)
             say_joke(client, goal, "the bartender replies")
-            time.sleep(1)
-            say_joke(client, goal, "for neutrons there is no charge")
+            #time.sleep(1)
+            say_joke(client, goal, "for new trons there is no charge")
             if self.sleepCheckInterrupt(4):
                 return
 

@@ -5,7 +5,7 @@
   speech recognition, etc.  -->
 
 
-  <!-- Base, including joystick, arduino (waist actuators), 
+  <!-- Base, including joystick, arduino (waist actuators, odom), 
   and wheel motors (sabertooth) -->
   <include file="$(find sheldon)/launch/include/base.launch"/>
 
@@ -58,10 +58,11 @@
   <include file="$(find sheldon)/launch/include/speech_recognition.launch"/>
 
 
-  <!-- This launch script starts the Lidar.  DISABLED
+  <!-- This launch script starts the Lidar.  --> 
   <include file="$(find sheldon)/launch/include/lidar.launch"/> 
-  -->
-
+  
+  <!-- Safety Controller -->
+  <include file="$(find sheldon)/launch/include/safety_control.launch"/>
 
   <!-- Body Tracker -->
   <include file="$(find sheldon)/launch/include/nuitrack_body_tracker.launch"/>

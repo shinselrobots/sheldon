@@ -66,7 +66,7 @@ namespace behavior_plugin
           head_sidetilt_.publish(pos);
           pos.data = DEFAULT_TILT_ANGLE;  
           head_tilt_.publish(pos);
-          speech_.speakAndWaitForCompletion("My brain consists of an Intel core eye 5 processor, connected to five Arduinos for sensory input and control. " );
+          speech_.speakAndWaitForCompletion("My brain consists of an Intel core eye 5 processor, connected to five our dween knows for sensory input and control. " );
 
           pos.data = 0.00;
           head_pan_.publish(pos);
@@ -90,7 +90,7 @@ namespace behavior_plugin
           head_sidetilt_.publish(pos);
           pos.data = DEFAULT_TILT_ANGLE -0.1;  
           head_tilt_.publish(pos);
-          speech_.speakAndWaitForCompletion("I love humans, other robots, and dogs, but unfortunately dogs dont seem to like me  <break time='1000ms'/>");
+          speech_.speakAndWaitForCompletion("I love humans, other robots, and dogs, but unfortunately dogs dont seem to like me'/>");
 
           pos.data = 0.0;
           head_pan_.publish(pos);

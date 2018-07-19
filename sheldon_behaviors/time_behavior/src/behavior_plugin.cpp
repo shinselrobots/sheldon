@@ -7,6 +7,7 @@
 #include <behavior_common/behavior_common.h>
 #include <audio_and_speech_common/audio_and_speech_common.h>
 #include <std_msgs/Float64.h>
+#include <std_msgs/Bool.h>
 #include <functional>
 #include <time.h>
 
@@ -14,7 +15,7 @@ static std::vector<std::string> ack_text = {
   "Lets see", 
   "well, lets see", 
   "let me check", 
-  "sure,  let me see" 
+  "let me see" 
 };
 
 static std::vector<std::string> final_text = {
@@ -43,11 +44,17 @@ namespace behavior_plugin
           right_arm_elbow_rotate_ = nh_.advertise<std_msgs::Float64>("/right_arm_elbow_rotate_controller/command", 1);
           right_arm_elbow_bend_ = nh_.advertise<std_msgs::Float64>("/right_arm_elbow_bend_controller/command", 1);
  
+          // enable/disable microphone when robot is moving servos.  
+          // (Note system_enable vs. speech_enable vs. user_enable)
+          mic_system_enable_ = nh_.advertise<std_msgs::Bool>("/microphone/system_enable", 1);
+
+
         }
 
         virtual void StartBehavior(const char *param1, const char *param2)
         {
           std_msgs::Float64 pos;
+          std_msgs::Bool mic_enable_msg;
 
           if(!speech_.isAvailable())
           {
@@ -67,6 +74,10 @@ namespace behavior_plugin
           head_tilt_.publish(pos);
           head_sidetilt_.publish(pos);
           
+          // Mute the mic
+          mic_enable_msg.data = false;
+          mic_system_enable_.publish(mic_enable_msg);
+
          // move arm forward
 		  pos.data = -0.7;  // reverse from left
           right_arm_shoulder_rotate_.publish(pos);
@@ -126,7 +137,13 @@ namespace behavior_plugin
           // Finalize behavior
           speech_.speakAndWaitForCompletion(s2_.shuffle_next());
           boost::this_thread::sleep(boost::posix_time::milliseconds(3000));
+
+          // Un-Mute the mic
+          mic_enable_msg.data = true;
+          mic_system_enable_.publish(mic_enable_msg);
+
 		  BehaviorComplete();
+
 
        }
 
@@ -155,7 +172,7 @@ namespace behavior_plugin
           ros::Publisher right_arm_wrist_rotate_;
           ros::Publisher right_arm_claw_;
           ros::Publisher right_arm_shoulder_rotate_;
-
+          ros::Publisher mic_system_enable_;
 
     };
 

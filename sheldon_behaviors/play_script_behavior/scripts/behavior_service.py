@@ -98,8 +98,8 @@ class BehaviorAction(object):
         # Publish microphone enable/disable by user (Note: user_enable vs system_enable)
         self.mic_user_enable_pub = rospy.Publisher('microphone/user_enable', Bool, queue_size=1)
 
-        # enable/disable microphone when robot is talking or moving servos.  
-        # (Note system_enable vs. user_enable)
+        # enable/disable microphone when robot is moving servos (or playing music).  
+        # (Note system_enable vs. speech_enable vs. user_enable)
         self.mic_system_enable_pub = rospy.Publisher('/microphone/system_enable', Bool, queue_size=1)        
 
         # Subscribers (examples)

@@ -7,6 +7,7 @@
 #include <behavior_utils/behavior_utils.h>
 #include <audio_and_speech_common/audio_and_speech_common.h>
 #include <std_msgs/Float64.h>
+#include <std_msgs/Bool.h>
 #include <functional>
 #include <time.h>
 
@@ -24,12 +25,18 @@ namespace behavior_plugin
           head_sidetilt_ = nh_.advertise<std_msgs::Float64>("/head_sidetilt_controller/command", 1);
           //right_arm_shoulder_rotate_ = nh_.advertise<std_msgs::Float64>("/right_arm_shoulder_lift_controller/command", 1);
           //right_arm_elbow_rotate_ = nh_.advertise<std_msgs::Float64>("/right_arm_elbow_rotate_controller/command", 1);
+
+          // enable/disable microphone when robot is moving servos.  
+          // (Note system_enable vs. speech_enable vs. user_enable)
+          mic_system_enable_ = nh_.advertise<std_msgs::Bool>("/microphone/system_enable", 1);
+
  
       }
 
       virtual void StartBehavior(const char *param1, const char *param2)
       {
         std_msgs::Float64 pos;
+        std_msgs::Bool mic_enable_msg;
 
         if(!speech_.isAvailable())
         {
@@ -46,7 +53,7 @@ namespace behavior_plugin
         boost::this_thread::sleep(boost::posix_time::milliseconds(1000));
 
         //speech_.speakAndWaitForCompletion("It is nice to meet you");
-        speech_.speakAndWaitForCompletion("oh");
+        speech_.speakAndWaitForCompletion("thank you");
         //speech_.speakAndWaitForCompletion("conebaan wah");
         //speech_.speakAndWaitForCompletion("washang how");
 
@@ -59,6 +66,9 @@ namespace behavior_plugin
         //boost::this_thread::sleep(boost::posix_time::milliseconds(2000));
 
 
+        // Mute the mic
+        mic_enable_msg.data = false;
+        mic_system_enable_.publish(mic_enable_msg);
 
          utils_.bowWaist(true);
         //utils_.readyPositions();
@@ -75,7 +85,11 @@ namespace behavior_plugin
 
         // allow time for servos to move into position
         //boost::this_thread::sleep(boost::posix_time::milliseconds(2000));
-        speech_.speakAndWaitForCompletion("thank you, you are too kind");
+        speech_.speakAndWaitForCompletion("you are too kind");
+
+        // Un-Mute the mic
+        mic_enable_msg.data = true;
+        mic_system_enable_.publish(mic_enable_msg);
         
 		BehaviorComplete();
         // Done!
@@ -86,6 +100,10 @@ namespace behavior_plugin
         // We were requested to preempt our behavior, so cancel any outstanding 
         // speech immediately.
         speech_.cancel();
+        // Un-Mute the mic
+        std_msgs::Bool mic_enable_msg;
+        mic_enable_msg.data = true;
+        mic_system_enable_.publish(mic_enable_msg);
       }
 
       protected:
@@ -97,6 +115,8 @@ namespace behavior_plugin
         ros::Publisher head_sidetilt_;
         ros::Publisher head_pan_;
         ros::Publisher head_tilt_;
+        ros::Publisher mic_system_enable_;
+
        
 
   };

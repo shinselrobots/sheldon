@@ -95,7 +95,7 @@ class BehaviorAction(object):
 
         self.ding_path = os.path.join(self.sound_effects_dir, "ding.wav")
         rospy.loginfo("DBG: DING PATH: %s", self.ding_path)
-        playsound(self.ding_path) # test sound
+        # playsound(self.ding_path) # test sound
 
         #====================================================================
 
@@ -199,10 +199,10 @@ class BehaviorAction(object):
             pan_angle, degrees(pan_angle), tilt_angle, degrees(tilt_angle))
 
         # Send servo commands
-        if abs(pan_angle) > MAX_PAN:    # just over 45 degrees - TODO put in actual limits here!
+        if abs(pan_angle) > self.MAX_PAN:    # just over 45 degrees - TODO put in actual limits here!
             rospy.loginfo("%s: Body Tracker: Pan %f exceeds MAX", self._action_name, pan_angle)
             return
-        if abs(tilt_angle) > MAX_TILT:    # Limit vertical to assure good tracking
+        if abs(tilt_angle) > self.MAX_TILT:    # Limit vertical to assure good tracking
             rospy.loginfo("%s: Body Tracker: Tilt %f exceeds MAX", self._action_name, tilt_angle)
             return
 
@@ -249,8 +249,8 @@ class BehaviorAction(object):
                     self._action_name, self.id_to_track, person_id )
                 self.id_to_track = person_id
             else:            
-                rospy.loginfo("%s: Body Tracker: Tracking ID %d, so skipping pose2D for ID %d", 
-                    self._action_name, self.id_to_track, person_id )
+                #rospy.loginfo("%s: Body Tracker: Tracking ID %d, so skipping pose2D for ID %d", 
+                #    self._action_name, self.id_to_track, person_id )
                 return
 
         self.last_target_time = rospy.Time.now() # reset timer

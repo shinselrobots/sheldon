@@ -13,6 +13,8 @@ import behavior_common.msg
 import time
 import random
 from std_msgs.msg import Float64
+from std_msgs.msg import UInt16
+from std_msgs.msg import Bool
 from std_msgs.msg import Empty
 
 # for talking
@@ -61,6 +63,11 @@ class BehaviorAction(object):
         self._as.start()
         rospy.loginfo('%s: Initializing Wave behavior service' % (self._action_name))
 
+        # enable/disable microphone when robot is moving servos.  
+        # (Note system_enable vs. speech_enable vs. user_enable)
+        self.mic_system_enable_pub = rospy.Publisher('/microphone/system_enable', Bool, queue_size=1)        
+
+
     def execute_cb(self, goal):
         rospy.loginfo('%s: Executing behavior' % (self._action_name))
         rospy.loginfo( "Param1: '%s'", goal.param1)
@@ -79,6 +86,9 @@ class BehaviorAction(object):
         SetServoSpeed(0.5, all_joints)
         SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_controller')
         SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_controller')
+
+        # mute the microphone
+        self.mic_system_enable_pub.publish(False)
  
         # Move arm into hands up position
         hands_up1()
@@ -122,6 +132,10 @@ class BehaviorAction(object):
         if success:
             rospy.loginfo('%s: Behavior complete' % self._action_name)
             self._as.set_succeeded(self._result)
+
+        time.sleep(1)
+        # un-mute the microphone
+        self.mic_system_enable_pub.publish(True)
  
         
 if __name__ == '__main__':

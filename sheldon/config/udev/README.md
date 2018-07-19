@@ -3,6 +3,19 @@
 ## Sheldon has lots of devices, these make sure everything gets mapped correctly
     * To install:  ./create_udev_rules.sh
 
+
+## Normal Sheldon Config should include the following:
+    ls -la /dev | grep "\->"
+    base_arduino        -> ttyACMx
+    base_odom_arduino   -> ttyACMx
+    dynamixel           -> ttyUSBx
+    head_arduino        -> ttyACMx
+    left_arm_arduino    -> ttyACMx
+    right_arm_arduino   -> ttyACMx
+    rplidar             -> ttyUSBx
+    sabertooth          -> ttyACMx
+
+
 ## Adafruit Feather boards
     Since feather does not have serial number, udev rules have been setup by physical USB port
     See UDEV rules: ~/catkin_robot/src/sheldon/sheldon/config/udev
