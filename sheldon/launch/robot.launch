@@ -29,6 +29,12 @@
     <param name="baud" value="57600"/>
   </node>
 
+  <!-- Arduino TEST -->
+  <node pkg="rosserial_python" type="serial_node.py" name="right_arm_m4_node" output="screen">
+    <param name="port" value="/dev/right_arm_m4_arduino"/>
+    <param name="baud" value="57600"/>
+  </node>
+
 
   <!-- Dynamixel Servo Controllers -->
   <include file="$(find sheldon_servos)/launch/servos.launch"/>

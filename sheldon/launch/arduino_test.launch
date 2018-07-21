@@ -17,23 +17,18 @@
   </node>
 
   <!-- Arduino 4 & 5 - Sheldon Arms, controls arm colors (and sensors in the future) -->
-  <!-- WARN no serial nums, so ports mapped by plug location in USB hub! (see udev rules) -->
-  <node pkg="rosserial_python" type="serial_node.py" name="arm1_node" output="screen">
-    <param name="port" value="/dev/arm1_arduino"/>
-    <param name="baud" value="57600"/>
-  </node>
-  <node pkg="rosserial_python" type="serial_node.py" name="arm2_node" output="screen">
-    <param name="port" value="/dev/arm2_arduino"/>
+
+  <node pkg="rosserial_python" type="serial_node.py" name="right_arm_m4_arduino_node" output="screen">
+    <param name="port" value="/dev/right_arm_m4_arduino"/>
     <param name="baud" value="57600"/>
   </node>
 
+  <node pkg="rosserial_python" type="serial_node.py" name="left_arm_arduino_node" output="screen">
+    <param name="port" value="/dev/left_arm_arduino"/>
+    <param name="baud" value="57600"/>
+  </node>
 
-  <!-- Dynamixel Servo Controllers -->
-  <include file="$(find sheldon_servos)/launch/servos.launch"/>
 
-
-  <!-- Joystick buttons to control some hard coded behaviors. -->
-  <node pkg="sheldon_joybuttons" type="joy_buttons.py" name="joy_buttons" output="screen"/>
 
 
 </launch>
