@@ -51,8 +51,9 @@ class BehaviorAction(object):
         success = True
         r = rospy.Rate(1.0)
 
-        pub_eye_cmd = rospy.Publisher('/head/eye_cmd', UInt16, queue_size=2)        
-        pub_light_mode = rospy.Publisher('/arm_led_mode', UInt16, queue_size=2)        
+        pub_eye_cmd = rospy.Publisher('/head/eye_cmd', UInt16, queue_size=10)        
+        pub_light_mode = rospy.Publisher('/arm_led_mode', UInt16, queue_size=10)        
+        pub_ear_cmd = rospy.Publisher('/head/ear_cmd', UInt16, queue_size=10)        
 
         rospy.loginfo("Waiting for speech server (press ctrl-c to cancel at anytime)")
         client = actionlib.SimpleActionClient("/speech_service", audio_and_speech_common.msg.speechAction)
@@ -74,6 +75,7 @@ class BehaviorAction(object):
         rospy.loginfo("Turning off servo torque and eyes")
         SetServoTorque(0.0, all_joints)
         pub_eye_cmd.publish(0) # 0 = Turn eyes off
+        pub_ear_cmd.publish(0) # 0 = Turn ear lights off
         pub_light_mode.publish(0) # 0 = Turn lights off
 
 

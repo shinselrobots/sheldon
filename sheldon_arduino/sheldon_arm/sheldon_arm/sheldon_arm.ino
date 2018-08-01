@@ -30,10 +30,17 @@
 #include <avr/power.h>
 #endif
 
-// -------- CHANGE THESE FOR RIGHT OR LEFT ARM ---------
-#define ARM_MSG_PREFIX "RIGHT ARM ARDUINO: "
-#define ARM_BUTTON_MSG "arm_button_right"
-#define ARM_HAND_SENSOR_MSG "arm_hand_sensor_right"
+// -------- SET PARAMS FOR RIGHT OR LEFT ARM ---------
+#define LEFT_ARM
+#ifdef LEFT_ARM
+  #define ARM_MSG_PREFIX "LEFT ARM ARDUINO: "
+  #define ARM_BUTTON_MSG "arm_button_left"
+  #define ARM_HAND_SENSOR_MSG "arm_hand_sensor_left"
+#else
+  #define ARM_MSG_PREFIX "RIGHT ARM ARDUINO: "
+  #define ARM_BUTTON_MSG "arm_button_right"
+  #define ARM_HAND_SENSOR_MSG "arm_hand_sensor_right"
+#endif
 //------------------------------------------------------
 
 #define PUSH_BUTTON_PIN          11

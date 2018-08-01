@@ -18,8 +18,8 @@
 
   <!-- Arduino 4 & 5 - Sheldon Arms, controls arm colors (and sensors in the future) -->
 
-  <node pkg="rosserial_python" type="serial_node.py" name="right_arm_m4_arduino_node" output="screen">
-    <param name="port" value="/dev/right_arm_m4_arduino"/>
+  <node pkg="rosserial_python" type="serial_node.py" name="right_arm_arduino_node" output="screen">
+    <param name="port" value="/dev/right_arm_arduino"/>
     <param name="baud" value="57600"/>
   </node>
 

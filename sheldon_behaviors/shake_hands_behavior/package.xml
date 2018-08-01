@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>shake_hands_behavior</name>
+  <version>0.0.1</version>
+  <description>Shake Hands</description>
+  <maintainer email="shinsel.robots@gmail.com">Dave Shinsel</maintainer>
+  <license>Apache-2</license>
+  <author>Dave Shinsel</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>behavior_common</build_depend>
+  <run_depend>pluginlib</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>behavior_common</run_depend>
+
+  <export>
+    <behavior_common plugin="${prefix}/behavior_plugins.xml" />
+  </export>
+</package>

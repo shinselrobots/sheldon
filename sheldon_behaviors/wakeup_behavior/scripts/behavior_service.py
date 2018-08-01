@@ -52,9 +52,10 @@ class BehaviorAction(object):
         success = True
 
         pub_waist = rospy.Publisher('/waist_calibrate', Empty, queue_size=2)        
-        pub_eye_cmd = rospy.Publisher('/head/eye_cmd', UInt16, queue_size=2)        
-        pub_eye_color = rospy.Publisher('/head/eye_color', UInt32, queue_size=2)        
-        pub_light_mode = rospy.Publisher('/arm_led_mode', UInt16, queue_size=2)        
+        pub_eye_cmd = rospy.Publisher('/head/eye_cmd', UInt16, queue_size=10)        
+        pub_eye_color = rospy.Publisher('/head/eye_color', UInt32, queue_size=10)        
+        pub_ear_cmd = rospy.Publisher('/head/ear_cmd', UInt16, queue_size=10)        
+        pub_light_mode = rospy.Publisher('/arm_led_mode', UInt16, queue_size=10)        
 
         rospy.loginfo("Waiting for speech server (press ctrl-c to cancel at anytime)")
         client = actionlib.SimpleActionClient("/speech_service", audio_and_speech_common.msg.speechAction)
@@ -62,6 +63,7 @@ class BehaviorAction(object):
 
         pub_eye_cmd.publish(2) # 2 = Turn eyes on, normal blink mode
         pub_eye_color.publish(0x00002f) # Default Blue
+        pub_ear_cmd.publish(1) # 2 = Turn ear lights on, normal mode
         pub_light_mode.publish(0) # 0 = lights off by default
 
         rospy.loginfo("Talking...")

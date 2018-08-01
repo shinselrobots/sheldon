@@ -1,0 +1,5 @@
+<library path="lib/libshake_hands_behavior">
+  <class name="behavior_plugin/ShakeHandsBehaviorPlugin" type="shake_hands_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Shake Hands Behavior plugin</description>
+  </class>
+</library>

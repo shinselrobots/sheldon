@@ -15,6 +15,7 @@ import sys
 
 from sensor_msgs.msg import JointState
 from std_msgs.msg import UInt16
+from std_msgs.msg import Bool
 
 
 # SHELDON ONLY
@@ -42,15 +43,19 @@ class RecordServoPositions():
         self.joint_state = JointState()
         self.marker_flag_set = False
         self.step_number = 0
-
+        self.right_button_marker = 0
         # subscribe to servo position messages
         servo_sub = rospy.Subscriber('/joint_states', JointState, self.joint_state_cb)
 
         # subscribe to marker messages by user, to indicate events in the time stream (such as "servos in position #4")
         time_mark_sub = rospy.Subscriber('/user_mark_time', UInt16, self.time_mark_cb) # arbitrary ID assigned by user
 
+        # subscribe to arm button messages, to indicate events in the time stream (when the user presses the button)
+        button_right_sub = rospy.Subscriber('/arm_button_right', Bool, self.arm_button_right_cb)
+
         # Use Python's CSV writer
-        self.csv_file = open("/home/system/record_servos.csv", "w") # use "a" to append
+        csv_file_name = "/home/system/record_servos.csv"
+        self.csv_file = open(csv_file_name, "w") # use "a" to append
         fieldnames = ['comment', 'step', 'time', 'type', 'head_pan', 'head_tilt', 'head_sidetilt', 
             'r_arm', 'right_arm_shoulder_rotate', 'right_arm_shoulder_lift', 
             'right_arm_elbow_rotate', 'right_arm_elbow_bend', 
@@ -129,10 +134,36 @@ class RecordServoPositions():
         self.left_arm_claw = 0.0
         self.last_left_arm_claw = 0.0
 
-        rospy.loginfo("record_servos Ready")
+        rospy.loginfo("record_servos Ready, recording to file %s", csv_file_name)
 
     def __del__(self):
         self.csv_file.close()
+
+    # ARM BUTTON EVENTS.  Button Down used to relax servos for positioning, Button Up to log servo positions
+    def arm_button_right_cb(self, msg):
+        button_pressed = msg.data
+
+        rospy.loginfo("DEBUG got right arm button event.")
+        if button_pressed:
+            rospy.loginfo("right arm button down event. Removing arm torque.")
+            SetServoTorque(0.0, right_arm_joints) # remove torque
+
+        else:
+            rospy.loginfo("right arm button up event. Logging servo positions")
+            self.marker_flag_set = True    # Force current servo positions to be written
+            SetServoTorque(0.5, right_arm_joints) # restore torque
+
+            # Only record markers if we are not in Marker only mode (where every line is proceeded by a marker)
+            if not ("marker" in self.record_option):
+                self.right_button_marker += 1
+                rospy.loginfo("================ GOT MARKER! ================") 
+                self.csv_writer.writerow({
+                    'comment': ' ',
+                    'step': '0 ',
+                    'time': '0.0  ',
+                    'type': 'marker',
+                    'param1': '{:d}'.format(self.right_button_marker)})
+
 
     def time_mark_cb(self, msg):
         rospy.loginfo("got time ID marker from user")
@@ -160,15 +191,13 @@ class RecordServoPositions():
             return False # float('nan')
 
     def joint_state_cb(self, msg):
-
-
         # rospy.loginfo("joint_state_cb called")
 
         try:
             test = msg.name.index(self.head_pan_joint)
             self.joint_state = msg
         except:
-            # rospy.loginfo("SERVO_RECORDER: Not a servo message, skipping...") 
+            #rospy.loginfo("SERVO_RECORDER: Not a servo message, skipping...") 
             return
 
        # Get the servo positions
@@ -315,7 +344,6 @@ class RecordServoPositions():
 
         if head_movement or right_arm_movement or left_arm_movement or self.marker_flag_set:
             rospy.loginfo("DBG: ========================= WRITING! ======================")
-            self.marker_flag_set = False
 
             elapsed_time = rospy.Time.now() - self.start_time
             elapsed_sec = elapsed_time.to_sec()
@@ -359,6 +387,18 @@ class RecordServoPositions():
                 'param2': ""
                 })
 
+            if self.marker_flag_set:
+                # display servo info in terminal window too
+
+                rospy.loginfo("right_arm_shoulder_rotate = %1.4f", right_arm_shoulder_rotate)
+                rospy.loginfo("right_arm_shoulder_lift   = %1.4f", right_arm_shoulder_lift)
+                rospy.loginfo("right_arm_elbow_rotate    = %1.4f", right_arm_elbow_rotate)
+                rospy.loginfo("right_arm_elbow_bend      = %1.4f", right_arm_elbow_bend)
+                rospy.loginfo("right_arm_wrist_rotate    = %1.4f", right_arm_wrist_rotate)
+                rospy.loginfo("right_arm_claw            = %1.4f", right_arm_claw)
+                rospy.loginfo("-----------------------------------")
+
+
         self.marker_flag_set = False
         
 if __name__=='__main__':
@@ -385,7 +425,7 @@ if __name__=='__main__':
         rospy.spin()
 
     else:
-        print 'USAGE: specify one of: all, head, right, left (for arms)'
+        print 'USAGE: specify one of: marker, all, head, right, left (for arms)'
         #sys.exit()
 
 

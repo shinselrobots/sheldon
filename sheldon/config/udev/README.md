@@ -37,13 +37,10 @@ To support AdaFruit boards in Arduine IDE:
 
     To get these values, use:
     udevadm info -q all -n /dev/ttyACM0 | grep DEVPATH
-                                                                                  >   use this   <
+                                                                                  >   use this   <    ignore this
     ODOM:   DEVPATH=/devices/pci0000:00/0000:00:14.0/usb1/1-3/1-3.2/.              > 1-3.2:1.0.   <  /tty/ttyACM0
-    ARM L:  DEVPATH=/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2.4/     1-2.4.1/  > 1-2.4.1:1.0  <  /tty/ttyACM2     
-    ARM R:  DEVPATH=/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2.4/     1-2.4.2/  > 1-2.4.2:1.0  <  /tty/ttyACM4
-
     ARM R:  DEVPATH=/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2.4/     1-2.4.2/  > 1-2.4.2:1.0  <   /tty/ttyACM0
-
+    ARM L:  DEVPATH=/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2.4/     1-2.4.1/  > 1-2.4.1:1.0  <   /tty/ttyACM5
 
 ## In case of problems:
     https://learn.adafruit.com/adafruit-arduino-ide-setup/linux-setup#udev-rules
