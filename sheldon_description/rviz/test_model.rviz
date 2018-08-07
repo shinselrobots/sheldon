@@ -61,6 +61,11 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        astra_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         base_footprint:
           Alpha: 1
           Show Axes: false
@@ -125,125 +130,155 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        laser_link:
+        left_arm_claw_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_arm_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        left_elbow_bend_link:
+        left_arm_elbow_bend_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_elbow_bend_servo_link:
+        left_arm_elbow_bend_servo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_elbow_rotate_link:
+        left_arm_elbow_rotate_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_elbow_rotate_servo_link:
+        left_arm_elbow_rotate_servo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_lower_arm_link:
+        left_arm_finger_link1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_shoulder_lift_link:
+        left_arm_lower_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_shoulder_rotate_link:
+        left_arm_shoulder_lift_servo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_shoulder_rotate_servo_link:
+        left_arm_shoulder_rotate_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_upper_arm_link:
+        left_arm_shoulder_rotate_servo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_wrist_rotate_link:
+        left_arm_torso_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_arm_upper_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        left_wrist_rotate_servo_link:
+        left_arm_wrist_rotate_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_arm_base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        right_elbow_bend_link:
+        left_arm_wrist_rotate_servo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_elbow_bend_servo_link:
+        lidar_base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_elbow_rotate_link:
+        lidar_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_elbow_rotate_servo_link:
+        nuitrack_camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_lower_arm_link:
+        right_arm_claw_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_shoulder_lift_link:
+        right_arm_elbow_bend_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_shoulder_rotate_link:
+        right_arm_elbow_bend_servo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_shoulder_rotate_servo_link:
+        right_arm_elbow_rotate_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_upper_arm_link:
+        right_arm_elbow_rotate_servo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_wrist_rotate_link:
+        right_arm_finger_link1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        right_wrist_rotate_servo_link:
+        right_arm_lower_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_shoulder_lift_servo_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_shoulder_rotate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_shoulder_rotate_servo_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_torso_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_arm_upper_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_wrist_rotate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_wrist_rotate_servo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -269,6 +304,8 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        astra_camera_link:
+          Value: true
         base_footprint:
           Value: true
         base_l_wheel_link:
@@ -295,61 +332,73 @@ Visualization Manager:
           Value: true
         head_torso_link:
           Value: true
-        laser_link:
+        left_arm_claw_link:
           Value: true
-        left_arm_base_link:
+        left_arm_elbow_bend_link:
           Value: true
-        left_elbow_bend_link:
+        left_arm_elbow_bend_servo_link:
           Value: true
-        left_elbow_bend_servo_link:
+        left_arm_elbow_rotate_link:
           Value: true
-        left_elbow_rotate_link:
+        left_arm_elbow_rotate_servo_link:
           Value: true
-        left_elbow_rotate_servo_link:
+        left_arm_finger_link1:
           Value: true
-        left_lower_arm_link:
+        left_arm_lower_link:
           Value: true
-        left_shoulder_lift_link:
+        left_arm_shoulder_lift_servo_link:
           Value: true
-        left_shoulder_rotate_link:
+        left_arm_shoulder_rotate_link:
           Value: true
-        left_shoulder_rotate_servo_link:
+        left_arm_shoulder_rotate_servo_link:
           Value: true
-        left_upper_arm_link:
+        left_arm_torso_link:
           Value: true
-        left_wrist_rotate_link:
+        left_arm_upper_link:
           Value: true
-        left_wrist_rotate_servo_link:
+        left_arm_wrist_rotate_link:
           Value: true
-        right_arm_base_link:
+        left_arm_wrist_rotate_servo_link:
           Value: true
-        right_elbow_bend_link:
+        lidar_base_link:
           Value: true
-        right_elbow_bend_servo_link:
+        lidar_link:
           Value: true
-        right_elbow_rotate_link:
+        nuitrack_camera_link:
           Value: true
-        right_elbow_rotate_servo_link:
+        right_arm_claw_link:
           Value: true
-        right_lower_arm_link:
+        right_arm_elbow_bend_link:
           Value: true
-        right_shoulder_lift_link:
+        right_arm_elbow_bend_servo_link:
           Value: true
-        right_shoulder_rotate_link:
+        right_arm_elbow_rotate_link:
           Value: true
-        right_shoulder_rotate_servo_link:
+        right_arm_elbow_rotate_servo_link:
           Value: true
-        right_upper_arm_link:
+        right_arm_finger_link1:
           Value: true
-        right_wrist_rotate_link:
+        right_arm_lower_link:
           Value: true
-        right_wrist_rotate_servo_link:
+        right_arm_shoulder_lift_servo_link:
+          Value: true
+        right_arm_shoulder_rotate_link:
+          Value: true
+        right_arm_shoulder_rotate_servo_link:
+          Value: true
+        right_arm_torso_link:
+          Value: true
+        right_arm_upper_link:
+          Value: true
+        right_arm_wrist_rotate_link:
+          Value: true
+        right_arm_wrist_rotate_servo_link:
           Value: true
         tibia_link:
           Value: true
         torso_link:
           Value: true
-      Marker Scale: 1
+      Marker Scale: 0.75
       Name: TF
       Show Arrows: true
       Show Axes: true
@@ -361,11 +410,14 @@ Visualization Manager:
               {}
             base_r_wheel_link:
               {}
-            laser_link:
-              {}
+            lidar_base_link:
+              lidar_link:
+                {}
             tibia_link:
               femur_link:
                 torso_link:
+                  astra_camera_link:
+                    {}
                   head_torso_link:
                     head_pan_servo_link:
                       head_pan_link:
@@ -374,38 +426,44 @@ Visualization Manager:
                             head_sidetilt_servo_link:
                               head_sidetilt_link:
                                 head_link:
-                                  {}
-                  left_arm_base_link:
-                    left_shoulder_rotate_servo_link:
-                      left_shoulder_rotate_link:
-                        left_shoulder_lift_link:
-                          left_upper_arm_link:
-                            left_elbow_rotate_servo_link:
-                              left_elbow_rotate_link:
-                                left_elbow_bend_servo_link:
-                                  left_elbow_bend_link:
-                                    left_lower_arm_link:
-                                      left_wrist_rotate_servo_link:
-                                        left_wrist_rotate_link:
-                                          {}
-                  right_arm_base_link:
-                    right_shoulder_rotate_servo_link:
-                      right_shoulder_rotate_link:
-                        right_shoulder_lift_link:
-                          right_upper_arm_link:
-                            right_elbow_rotate_servo_link:
-                              right_elbow_rotate_link:
-                                right_elbow_bend_servo_link:
-                                  right_elbow_bend_link:
-                                    right_lower_arm_link:
-                                      right_wrist_rotate_servo_link:
-                                        right_wrist_rotate_link:
-                                          {}
+                                  nuitrack_camera_link:
+                                    {}
+                  left_arm_torso_link:
+                    left_arm_shoulder_rotate_servo_link:
+                      left_arm_shoulder_rotate_link:
+                        left_arm_shoulder_lift_servo_link:
+                          left_arm_upper_link:
+                            left_arm_elbow_rotate_servo_link:
+                              left_arm_elbow_rotate_link:
+                                left_arm_elbow_bend_servo_link:
+                                  left_arm_elbow_bend_link:
+                                    left_arm_lower_link:
+                                      left_arm_wrist_rotate_servo_link:
+                                        left_arm_wrist_rotate_link:
+                                          left_arm_claw_link:
+                                            left_arm_finger_link1:
+                                              {}
+                  right_arm_torso_link:
+                    right_arm_shoulder_rotate_servo_link:
+                      right_arm_shoulder_rotate_link:
+                        right_arm_shoulder_lift_servo_link:
+                          right_arm_upper_link:
+                            right_arm_elbow_rotate_servo_link:
+                              right_arm_elbow_rotate_link:
+                                right_arm_elbow_bend_servo_link:
+                                  right_arm_elbow_bend_link:
+                                    right_arm_lower_link:
+                                      right_arm_wrist_rotate_servo_link:
+                                        right_arm_wrist_rotate_link:
+                                          right_arm_claw_link:
+                                            right_arm_finger_link1:
+                                              {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
+    Default Light: true
     Fixed Frame: base_footprint
     Frame Rate: 30
   Name: root
@@ -463,5 +521,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 258
-  Y: 66
+  X: 80
+  Y: 24

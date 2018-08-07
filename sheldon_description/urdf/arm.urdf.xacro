@@ -12,6 +12,16 @@
   <xacro:property name="lower_arm_size_y" value="0.065" />
   <xacro:property name="lower_arm_size_z" value="0.110" /> 
 
+  <xacro:property name="finger_size_x" value="0.020" />
+  <xacro:property name="finger_size_y" value="0.035" />
+  <xacro:property name="finger_size_z" value="0.120" /> 
+
+  <xacro:property name="finger_joint_offset_x" value="0.0" /> 
+  <xacro:property name="finger_joint_offset_y" value="0.035" /> 
+  <xacro:property name="finger_joint_offset_z" value="0.085" /> 
+
+  <xacro:property name="gripper_target_offset_z" value="0.180" /> 
+
   <xacro:property name="rx28_servo_width" value="0.035" /> 
   <xacro:property name="wrist_servo_offset_x" value="-0.008" /> <!--  -0.008 wrist center is slightly behind forearm center  -->
 
@@ -203,13 +213,14 @@
       <origin xyz="0 0 0.0235" rpy="0 0 0"/>
     </rx28_side_revolute>
 
-    <!-- Claw fixed link -->
+    <!-- Claw fixed joint -->
     <joint name="${side}_claw_fixed_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <parent link="${side}_wrist_rotate_link"/>
       <child link="${side}_claw_link" />
     </joint>
 
+    <!-- Claw body fixed link -->
     <link name="${side}_claw_link">
       <inertial>
         <mass value="0.00001" />
@@ -233,6 +244,61 @@
           <box size="0.05 0.12 0.215"/>
         </geometry>
       </collision>
+    </link>
+
+
+    <!-- Finger Rotate -->
+    <joint name="${side}_finger_joint" type="revolute">
+      <axis xyz="1 0 0"/>
+      <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
+      <origin rpy="-0.20 0 0" xyz="${finger_joint_offset_x} -${finger_joint_offset_y} ${finger_joint_offset_z}"/>
+      <parent link="${side}_claw_link"/>
+      <child link="${side}_finger_link1"/>
+    </joint>
+
+    <link name="${side}_finger_link1">
+      <visual>
+        <origin rpy="0.0 0.0 0.0" xyz="0 -0.008 ${finger_size_z/2}"/>
+        <geometry>
+          <box size="${finger_size_x} ${finger_size_y} ${finger_size_z}" />
+        </geometry>
+      </visual>
+    </link>
+
+    <joint name="${side}_finger_joint2" type="revolute">
+      <mimic joint="${side}_finger_joint" />
+      <axis xyz="-1 0 0"/>
+      <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
+      <origin rpy="0.20 0 0" xyz="${finger_joint_offset_x} ${finger_joint_offset_y} ${finger_joint_offset_z}"/>
+      <parent link="${side}_claw_link"/>
+      <child link="${side}_finger_link2"/>
+    </joint>
+
+    <link name="${side}_finger_link2">
+      <visual>
+        <origin rpy="0.0 0.0 0.0" xyz="0 0.008 ${finger_size_z/2}"/>
+        <geometry>
+          <box size="${finger_size_x} ${finger_size_y} ${finger_size_z}" />
+        </geometry>
+      </visual>
+    </link>
+
+
+    <!-- Planning link and joint for the right gripper -->
+    <joint name="${side}_gripper_joint" type="fixed">
+      <origin rpy="${PI/2} 0 0" xyz="0 0 ${gripper_target_offset_z}"/>
+      <axis xyz="0 0 1" />
+      <parent link="${side}_claw_link"/>
+      <child link="${side}_gripper_link"/>
+    </joint>
+
+    <link name="${side}_gripper_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+           <box size="0.001 0.0005 0.0005"/>
+        </geometry>
+      </visual>
     </link>
 
 

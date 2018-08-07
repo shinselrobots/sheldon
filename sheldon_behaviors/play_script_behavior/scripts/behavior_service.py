@@ -226,6 +226,7 @@ class BehaviorAction(object):
         # determine which script to run
         script_dir_path = '/home/system/catkin_robot/src/sheldon/sheldon_behaviors/csv_scripts'      
         script_name = goal.param1 + '.csv'
+        music_name = goal.param1 + '.wav'
         #if goal.param1 == '':
         #    script_name = 'believer.csv' # default script to run 
 
@@ -246,7 +247,7 @@ class BehaviorAction(object):
 
         # get path to music file
         # TODO - get file name from the script!
-        music_file = os.path.join(self.music_dir, 'believer_trim2.wav')
+        music_file = os.path.join(self.music_dir, music_name)
         rospy.loginfo("DBG: music file: %s", music_file)
 
         # ===========================================================================

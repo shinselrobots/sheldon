@@ -60,7 +60,7 @@ enum EYE_CMD_STATE_T {
 // Global Variables
 
 EYE_CMD_STATE_T EyeCmdState = EYES_OFF;
-uint8_t EarCmdMode = 1; // TODO - DAVES
+uint8_t EarCmdMode = 0;
 bool HeartBeatLedState = false;
 bool FadeOnState = false;
 
@@ -189,7 +189,7 @@ void setup() {
     delay(300);
   }
   
-  EyeCmdState = EYES_AUTO_BLINK;          // DAVES TODO: EYES_OFF;  // Off by default, until ROS turns them on
+  EyeCmdState = EYES_OFF;  // Off by default, until ROS turns them on
   EyesOn(eyesStrip.Color(eyeColor.r, eyeColor.g, eyeColor.b) ); // DAVES TODO: comment this line out
   
   nh.loginfo("Head Arduino started");

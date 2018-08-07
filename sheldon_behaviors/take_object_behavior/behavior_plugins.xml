@@ -1,0 +1,5 @@
+<library path="lib/libtake_object_behavior">
+  <class name="behavior_plugin/TakeObjectBehaviorPlugin" type="take_object_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Take Object Behavior plugin</description>
+  </class>
+</library>
