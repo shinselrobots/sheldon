@@ -16,3 +16,15 @@ View live model of running robot:
     roslaunch sheldon robot.launch
     roslaunch sheldon_description view_model.launch
 
+IMPORTANT:
+the URDF is used for MOVE_IT!
+If you modify the URDF re-run the following:
+    cd urdf
+    rosrun xacro xacro --inorder robot.urdf.xacro > sheldon.urdf
+    roslaunch moveit_setup_assistant setup_assistant.launch and edit as needed
+
+
+
+Optional:
+    sudo apt install liburdfdom-tools
+    check_urdf sheldon.urdf

@@ -262,6 +262,7 @@
         <geometry>
           <box size="${finger_size_x} ${finger_size_y} ${finger_size_z}" />
         </geometry>
+        <material name="Mustard"/>
       </visual>
     </link>
 
@@ -280,6 +281,7 @@
         <geometry>
           <box size="${finger_size_x} ${finger_size_y} ${finger_size_z}" />
         </geometry>
+        <material name="Mustard"/>
       </visual>
     </link>
 
@@ -298,6 +300,7 @@
         <geometry>
            <box size="0.001 0.0005 0.0005"/>
         </geometry>
+        <material name="Orange"/>
       </visual>
     </link>
 

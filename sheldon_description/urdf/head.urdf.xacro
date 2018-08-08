@@ -8,9 +8,9 @@
   <xacro:property name="head_collision_offset_x" value="0.050" />
   <xacro:property name="head_collision_offset_y" value="0.020" />
 
-   <xacro:property name="head_depth_camera_offset_x" value="0.100" /> 
-   <xacro:property name="head_depth_camera_offset_y" value="0.0" />  
-   <xacro:property name="head_depth_camera_offset_z" value="0.0" /> <!-- 350 from bottom of torso? -->
+   <xacro:property name="head_depth_camera_offset_x" value="0.050" /> 
+   <xacro:property name="head_depth_camera_offset_y" value="0.000" />  
+   <xacro:property name="head_depth_camera_offset_z" value="0.025" /> <!-- 350 from bottom of torso? -->
    <xacro:property name="head_depth_camera_rotation" value="0.0" /> <!-- rotation  -->
 
 

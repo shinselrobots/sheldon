@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: sheldon_description
+    relative_path: urdf/sheldon.urdf
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/sheldon_robot.srdf
+  CONFIG:
+    author_name: Dave Shinsel
+    author_email: shinsel.robots@gmail.com
+    generated_timestamp: 1533759688
