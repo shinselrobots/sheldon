@@ -26,20 +26,20 @@ def head_down():
 # ================================================================
 # RIGHT ARM
 
-def right_claw_open():
-    print("-----> right_claw_open")
-    pub_right_arm_claw.publish(0.0)
+def right_gripper_open():
+    print("-----> right_gripper_open")
+    pub_right_arm_gripper.publish(0.0)
 
-def right_claw_open_half():
-    print("-----> right_claw_open")
-    pub_right_arm_claw.publish(-1.0)
+def right_gripper_open_half():
+    print("-----> right_gripper_open")
+    pub_right_arm_gripper.publish(-1.0)
 
-def right_claw_close():
-    print("-----> right_claw_close")
-    pub_right_arm_claw.publish(-2.0)
+def right_gripper_close():
+    print("-----> right_gripper_close")
+    pub_right_arm_gripper.publish(-2.0)
 
 def right_get_item():
-    pub_right_arm_claw.publish(-0.8)
+    pub_right_arm_gripper.publish(-0.8)
     right_arm_extend()
 
 def right_arm_down():
@@ -49,7 +49,7 @@ def right_arm_down():
     pub_right_arm_wrist_rotate.publish(0.0)
     #pub_right_arm_shoulder_lift.publish(0.25) # keep away from body
     pub_right_arm_shoulder_rotate.publish(-0.4)
-    right_claw_open_half()
+    right_gripper_open_half()
 
 def right_arm_home():
     print("-----> right_arm_home")
@@ -57,7 +57,7 @@ def right_arm_home():
     pub_right_arm_elbow_rotate.publish(0.0)
     pub_right_arm_elbow_bend.publish(2.0)
     pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_claw.publish(0.25)
+    #pub_right_arm_gripper.publish(0.25)
     pub_right_arm_shoulder_rotate.publish(-1.0)
 
 def right_arm_extend():
@@ -69,7 +69,7 @@ def right_arm_extend():
     pub_right_arm_elbow_rotate.publish(-0.25)
     pub_right_arm_elbow_bend.publish(1.8)
     pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_claw.publish(-0.8)
+    #pub_right_arm_gripper.publish(-0.8)
     pub_right_arm_shoulder_rotate.publish(1.0)
 
 def right_arm_extend_full(): 
@@ -78,7 +78,7 @@ def right_arm_extend_full():
     pub_right_arm_elbow_rotate.publish(0.0)
     pub_right_arm_elbow_bend.publish(0.0)
     pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_claw.publish(0.25)
+    #pub_right_arm_gripper.publish(0.25)
     pub_right_arm_shoulder_rotate.publish(3.0)
 
 def right_arm_write_ready():
@@ -87,7 +87,7 @@ def right_arm_write_ready():
     pub_right_arm_elbow_rotate.publish(-1.57)
     pub_right_arm_elbow_bend.publish(0.57)
     pub_right_arm_wrist_rotate.publish(1.57)
-    #pub_right_arm_claw.publish(0.25)
+    #pub_right_arm_gripper.publish(0.25)
     pub_right_arm_shoulder_rotate.publish(2.8)
 
 
@@ -96,20 +96,20 @@ def right_arm_write_ready():
 
 # ================================================================
 # LEFT ARM
-def left_claw_open():
-    print("-----> left_claw_open")
-    pub_left_arm_claw.publish(0.0)
+def left_gripper_open():
+    print("-----> left_gripper_open")
+    pub_left_arm_gripper.publish(0.0)
 
-def left_claw_open_half():
-    print("-----> left_claw_open")
-    pub_left_arm_claw.publish(0.8)
+def left_gripper_open_half():
+    print("-----> left_gripper_open")
+    pub_left_arm_gripper.publish(0.8)
 
-def left_claw_close():
-    print("-----> left_claw_close")
-    pub_left_arm_claw.publish(1.5)
+def left_gripper_close():
+    print("-----> left_gripper_close")
+    pub_left_arm_gripper.publish(1.5)
 
 def left_get_item():
-    pub_right_arm_claw.publish(0.8)
+    pub_right_arm_gripper.publish(0.8)
     right_arm_extend()
 
 def left_pen_up():
@@ -124,7 +124,7 @@ def left_pen_down():
 
 def left_elbow_bend_lock_position():
     print("-----> left_elbow_bend_lock_position")
-    pub_left_arm_claw.publish(3.1)
+    pub_left_arm_gripper.publish(3.1)
 
 def left_arm_down():
     print("-----> left_arm_down")
@@ -133,7 +133,7 @@ def left_arm_down():
     pub_left_arm_wrist_rotate.publish(0.0)
     pub_left_arm_shoulder_lift.publish(0.25) # keep away from body
     pub_left_arm_shoulder_rotate.publish(-0.4)
-    left_claw_open_half()
+    left_gripper_open_half()
 
 def left_arm_home():
     print("-----> left_arm_home")
@@ -141,7 +141,7 @@ def left_arm_home():
     pub_left_arm_elbow_rotate.publish(0.0)
     pub_left_arm_elbow_bend.publish(2.0)
     pub_left_arm_wrist_rotate.publish(0.0)
-    # pub_left_arm_claw.publish(0.25)
+    # pub_left_arm_gripper.publish(0.25)
     pub_left_arm_shoulder_rotate.publish(-1.0)
 
 def left_arm_extend():    
@@ -153,7 +153,7 @@ def left_arm_extend():
     pub_left_arm_elbow_rotate.publish(0.3)
     pub_left_arm_elbow_bend.publish(1.8)
     pub_left_arm_wrist_rotate.publish(0.0)
-    #pub_left_arm_claw.publish(0.8)
+    #pub_left_arm_gripper.publish(0.8)
     pub_left_arm_shoulder_rotate.publish(1.0)
 
 def left_arm_extend_full():
@@ -162,7 +162,7 @@ def left_arm_extend_full():
     pub_left_arm_elbow_rotate.publish(0.0)
     pub_left_arm_elbow_bend.publish(0.0)
     pub_left_arm_wrist_rotate.publish(0.0)
-    #pub_left_arm_claw.publish(0.25)
+    #pub_left_arm_gripper.publish(0.25)
     pub_left_arm_shoulder_rotate.publish(3.0)
 
 def left_arm_write_ready():
@@ -172,7 +172,7 @@ def left_arm_write_ready():
     pub_left_arm_wrist_rotate.publish(-1.57)
     pub_left_arm_shoulder_rotate.publish(3.0)
     left_pen_up() # does elbow rotate
-    left_claw_close()
+    left_gripper_close()
 
 def left_arm_draw_left_eye():
     sleep_time = 0.6
@@ -273,7 +273,7 @@ def draw_smiley():
     # go from home position to ready
 
     #get the elbow tight, to avoid hitting desk
-    left_claw_close()
+    left_gripper_close()
     pub_left_arm_elbow_bend.publish(2.5)
     time.sleep(0.5) # give time to avoid colliding with desk
     pub_left_arm_shoulder_lift.publish(g_left_draw_lift_origin)
@@ -314,7 +314,7 @@ def left_arm_wave():
     pub_left_arm_elbow_rotate.publish(0.0)
     pub_left_arm_elbow_bend.publish(2.2)
     pub_left_arm_wrist_rotate.publish(0.0)
-    #pub_left_arm_claw.publish(0.8)
+    #pub_left_arm_gripper.publish(0.8)
     pub_left_arm_shoulder_rotate.publish(1.7)
     time.sleep(2.5)
 
@@ -353,14 +353,14 @@ if __name__ == '__main__':
     pub_left_arm_elbow_rotate = rospy.Publisher('/left_arm_elbow_rotate_controller/command', Float64, queue_size=1)
     pub_left_arm_elbow_bend = rospy.Publisher('/left_arm_elbow_bend_controller/command', Float64, queue_size=1)
     pub_left_arm_wrist_rotate = rospy.Publisher('/left_arm_wrist_rotate_controller/command', Float64, queue_size=1)
-    pub_left_arm_claw = rospy.Publisher('/left_arm_claw_controller/command', Float64, queue_size=1)
+    pub_left_arm_gripper = rospy.Publisher('/left_arm_gripper_controller/command', Float64, queue_size=1)
     pub_left_arm_shoulder_rotate.= rospy.Publisher('/left_arm_shoulder_rotate.rotate_controller/command', Float64, queue_size=1)
 
     pub_right_arm_shoulder_lift.= rospy.Publisher('/right_arm_shoulder_rotate.lift_controller/command', Float64, queue_size=1)
     pub_right_arm_elbow_rotate = rospy.Publisher('/right_arm_elbow_rotate_controller/command', Float64, queue_size=1)
     pub_right_arm_elbow_bend = rospy.Publisher('/right_arm_elbow_bend_controller/command', Float64, queue_size=1)
     pub_right_arm_wrist_rotate = rospy.Publisher('/right_arm_wrist_rotate_controller/command', Float64, queue_size=1)
-    pub_right_arm_claw = rospy.Publisher('/right_arm_claw_controller/command', Float64, queue_size=1)
+    pub_right_arm_gripper = rospy.Publisher('/right_arm_gripper_controller/command', Float64, queue_size=1)
     pub_right_arm_shoulder_rotate.= rospy.Publisher('/right_arm_shoulder_rotate.rotate_controller/command', Float64, queue_size=1)
 
 
@@ -396,15 +396,15 @@ while(1):
     elif key == '12':
         right_get_item()
     elif key == '13':
-        right_arm_extend() # give item (claw stays)
+        right_arm_extend() # give item (gripper stays)
     elif key == '14':
         right_arm_extend_full()
     elif key == '15':
         right_arm_write_ready()
     elif key == '18': 
-        right_claw_open()
+        right_gripper_open()
     elif key == '19': 
-        right_claw_close()
+        right_gripper_close()
 
 # LEFT ARM
     elif key == '20':
@@ -415,15 +415,15 @@ while(1):
     elif key == '22':
         left_get_item()
     elif key == '23':
-        left_arm_extend() # give item (claw stays)
+        left_arm_extend() # give item (gripper stays)
     elif key == '24':
         left_arm_extend_full()
     elif key == '25':
         left_arm_write_ready()
     elif key == '28': 
-        left_claw_open()
+        left_gripper_open()
     elif key == '29': 
-        left_claw_close()
+        left_gripper_close()
 
     elif key == '60':
         left_arm_draw_left_eye()

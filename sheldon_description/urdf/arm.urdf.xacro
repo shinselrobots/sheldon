@@ -213,15 +213,17 @@
       <origin xyz="0 0 0.0235" rpy="0 0 0"/>
     </rx28_side_revolute>
 
-    <!-- Claw fixed joint -->
-    <joint name="${side}_claw_fixed_joint" type="fixed">
+
+
+    <!-- Gripper fixed joint -->
+    <joint name="${side}_gripper_fixed_joint" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <parent link="${side}_wrist_rotate_link"/>
-      <child link="${side}_claw_link" />
+      <child link="${side}_gripper_body_link" />
     </joint>
 
-    <!-- Claw body fixed link -->
-    <link name="${side}_claw_link">
+    <!-- Gripper body fixed link -->
+    <link name="${side}_gripper_body_link">
       <inertial>
         <mass value="0.00001" />
         <origin xyz="0 0 0" />
@@ -248,15 +250,15 @@
 
 
     <!-- Finger Rotate -->
-    <joint name="${side}_finger_joint" type="revolute">
+    <joint name="${side}_gripper_finger_joint" type="revolute">
       <axis xyz="1 0 0"/>
       <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
       <origin rpy="-0.20 0 0" xyz="${finger_joint_offset_x} -${finger_joint_offset_y} ${finger_joint_offset_z}"/>
-      <parent link="${side}_claw_link"/>
-      <child link="${side}_finger_link1"/>
+      <parent link="${side}_gripper_body_link"/>
+      <child link="${side}_gripper_finger_link1"/>
     </joint>
 
-    <link name="${side}_finger_link1">
+    <link name="${side}_gripper_finger_link1">
       <visual>
         <origin rpy="0.0 0.0 0.0" xyz="0 -0.008 ${finger_size_z/2}"/>
         <geometry>
@@ -266,16 +268,16 @@
       </visual>
     </link>
 
-    <joint name="${side}_finger_joint2" type="revolute">
-      <mimic joint="${side}_finger_joint" />
+    <joint name="${side}_gripper_finger_joint2" type="revolute">
+      <mimic joint="${side}_gripper_finger_joint" />
       <axis xyz="-1 0 0"/>
       <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
       <origin rpy="0.20 0 0" xyz="${finger_joint_offset_x} ${finger_joint_offset_y} ${finger_joint_offset_z}"/>
-      <parent link="${side}_claw_link"/>
-      <child link="${side}_finger_link2"/>
+      <parent link="${side}_gripper_body_link"/>
+      <child link="${side}_gripper_finger_link2"/>
     </joint>
 
-    <link name="${side}_finger_link2">
+    <link name="${side}_gripper_finger_link2">
       <visual>
         <origin rpy="0.0 0.0 0.0" xyz="0 0.008 ${finger_size_z/2}"/>
         <geometry>
@@ -286,11 +288,11 @@
     </link>
 
 
-    <!-- Planning link and joint for the right gripper -->
+    <!-- Planning link and joint for the gripper -->
     <joint name="${side}_gripper_joint" type="fixed">
       <origin rpy="${PI/2} 0 0" xyz="0 0 ${gripper_target_offset_z}"/>
       <axis xyz="0 0 1" />
-      <parent link="${side}_claw_link"/>
+      <parent link="${side}_gripper_body_link"/>
       <child link="${side}_gripper_link"/>
     </joint>
 

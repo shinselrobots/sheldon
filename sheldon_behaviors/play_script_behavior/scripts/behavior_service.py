@@ -395,14 +395,14 @@ class BehaviorAction(object):
                 self.MoveServo('right_arm_elbow_rotate',    pub_right_arm_elbow_rotate,     row['right_arm_elbow_rotate'])
                 self.MoveServo('right_arm_elbow_bend',      pub_right_arm_elbow_bend,       row['right_arm_elbow_bend'])
                 self.MoveServo('right_arm_wrist_rotate',    pub_right_arm_wrist_rotate,     row['right_arm_wrist_rotate'])
-                self.MoveServo('right_arm_claw',            pub_right_arm_claw,             row['right_arm_claw'])
+                self.MoveServo('right_arm_gripper',            pub_right_arm_gripper,             row['right_arm_gripper'])
 
                 self.MoveServo('left_arm_shoulder_rotate',  pub_left_arm_shoulder_rotate,   row['left_arm_shoulder_rotate'])
                 self.MoveServo('left_arm_shoulder_lift',    pub_left_arm_shoulder_lift,     row['left_arm_shoulder_lift'])
                 self.MoveServo('left_arm_elbow_rotate',     pub_left_arm_elbow_rotate,      row['left_arm_elbow_rotate'])
                 self.MoveServo('left_arm_elbow_bend',       pub_left_arm_elbow_bend,        row['left_arm_elbow_bend'])
                 self.MoveServo('left_arm_wrist_rotate',     pub_left_arm_wrist_rotate,      row['left_arm_wrist_rotate'])
-                self.MoveServo('left_arm_claw',             pub_left_arm_claw,              row['left_arm_claw'])
+                self.MoveServo('left_arm_gripper',             pub_left_arm_gripper,              row['left_arm_gripper'])
 
             elif field_type == '':
                 rospy.loginfo("skipping blank line (no field type)")

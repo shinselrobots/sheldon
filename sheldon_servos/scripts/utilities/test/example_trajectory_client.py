@@ -1,6 +1,9 @@
+# TESTED WITH SHELDON - WORKS!!!
+
+
 #!/usr/bin/env python
 import roslib
-roslib.load_manifest('sheldon_servos')
+#roslib.load_manifest('sheldon_servos')
 
 import rospy
 import actionlib
@@ -39,11 +42,13 @@ class Joint:
               
 
 def main():
+            duration = 2.0
             group = Joint('head')
-            group.move_joint([0.25, 0.5, 0.5], 0.5)
-            group.move_joint([-0.25, -0.5, -0.5], 1.0)
-            group.move_joint([0.0, 0.0, 0.0], 0.5)
+            group.move_joint([0.25, 0.5, 0.5],duration)
+            group.move_joint([-0.25, -0.5, -0.5], duration*2.0)
+            group.move_joint([0.0, 0.0, 0.0], duration)
             #arm.move_joint([6.28,3.14,6.28])
+
 
                         
 if __name__ == '__main__':

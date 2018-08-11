@@ -8,4 +8,4 @@ moveit_setup_assistant_config:
   CONFIG:
     author_name: Dave Shinsel
     author_email: shinsel.robots@gmail.com
-    generated_timestamp: 1533759688
+    generated_timestamp: 1533927937

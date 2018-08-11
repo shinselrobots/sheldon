@@ -170,7 +170,7 @@ namespace behavior_plugin
           ros::Publisher right_arm_elbow_rotate_;
           ros::Publisher right_arm_elbow_bend_;
           ros::Publisher right_arm_wrist_rotate_;
-          ros::Publisher right_arm_claw_;
+          ros::Publisher right_arm_gripper_;
           ros::Publisher right_arm_shoulder_rotate_;
           ros::Publisher mic_system_enable_;
 

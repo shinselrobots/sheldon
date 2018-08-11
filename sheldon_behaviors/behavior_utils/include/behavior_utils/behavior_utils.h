@@ -23,7 +23,7 @@ namespace sheldon_behavior_utils
 
   // TODO - MOVE THIS TO ANOTHER HEADER FILE (or better yet, YAML)
   // MOVE ARMS - All of below are in the form:
-  //                                    right_arm_shoulder_lift_joint', 'right_arm_elbow_rotate_joint', 'left_arm_claw_joint', 'right_arm_elbow_bend_joint', 'left_arm_elbow_rotate_joint', 'right_arm_wrist_joint', 'right_arm_claw_joint', 'head_roll_joint', 'left_arm_shoulder_lift_joint', 'left_arm_elbow_bend_joint', 'head_tilt_joint', 'right_arm_shoulder_rotate_joint', 'left_arm_wrist_joint', 'left_arm_shoulder_rotate_joint'
+  //                                    right_arm_shoulder_lift_joint', 'right_arm_elbow_rotate_joint', 'left_arm_gripper_joint', 'right_arm_elbow_bend_joint', 'left_arm_elbow_rotate_joint', 'right_arm_wrist_joint', 'right_arm_gripper_joint', 'head_roll_joint', 'left_arm_shoulder_lift_joint', 'left_arm_elbow_bend_joint', 'head_tilt_joint', 'right_arm_shoulder_rotate_joint', 'left_arm_wrist_joint', 'left_arm_shoulder_rotate_joint'
   #define MOVE_POSITION_HELLO           0.05522330836388308, 0.1303883669702795, 0.006135923151542565, 2.1690488340702965, -0.2500388684253595, -0.21322332951610412, 0.11351457830353745, HEAD_GLOBAL_Y, 0.039883500485026674, 1.9773012355845914, 0.0000000000000000, -0.019941750242513337, -0.0046019423636569235, 0.056757289151768725
   #define MOVE_POSITION_SELF_REFERENCE  0.09203884727313846, -0.8958447801252144, 0.006135923151542565, 2.366932355707544, 0.15033011721279282, -0.3328738309711841, -0.0337475773334841, HEAD_GLOBAL_Y, 0.0337475773334841, 2.072408044433501, 0.0000000000000000, 0.23930100291016002, 0.0030679615757712823, -0.34514567727426926
   #define MOVE_POSITION_BOW1            0.34974761963792617, -0.29605829206192874, 0.0966407896367954, 2.184388641949153, 0.28225246497095796, -0.1518640980006785, -0.021475731030398976, HEAD_GLOBAL_Y, 0.3175340230923277, 2.086213871524472, 0.0000000000000000, -0.7731263170943632, 0.056757289151768725, -0.8068738944278473
@@ -62,11 +62,11 @@ namespace sheldon_behavior_utils
 
       // RIGHT ARM CONTROL
       void rightArmHome();
-      void moveRightArm(float shoulder_rotate, float shoulder_lift, float elbow_rotate, float elbow_bend, float wrist_rotate, float claw_open, float intervalSeconds, bool waitForCompletion);
+      void moveRightArm(float shoulder_rotate, float shoulder_lift, float elbow_rotate, float elbow_bend, float wrist_rotate, float gripper_open, float intervalSeconds, bool waitForCompletion);
 
       // LEFT ARM CONTROL
       void leftArmHome();
-      void moveLeftArm(float shoulder_rotate, float shoulder_lift, float elbow_rotate, float elbow_bend, float wrist_rotate, float claw_open, float intervalSeconds, bool waitForCompletion);
+      void moveLeftArm(float shoulder_rotate, float shoulder_lift, float elbow_rotate, float elbow_bend, float wrist_rotate, float gripper_open, float intervalSeconds, bool waitForCompletion);
 
       // WAIST CONTROL
       void bowWaistDown(bool waitForCompletion);

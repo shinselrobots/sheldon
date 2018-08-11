@@ -1,9 +1,12 @@
+# WORKS WITH SHELDON!
+
 #!/usr/bin/env python
 import roslib
-roslib.load_manifest('sheldon_servos')
+#roslib.load_manifest('sheldon_servos')
 
 import rospy
 import actionlib
+import time
 from std_msgs.msg import Float64
 import trajectory_msgs.msg 
 import control_msgs.msg  
@@ -20,12 +23,25 @@ class Joint:
             rospy.loginfo('Waiting for joint trajectory action')
             self.jta.wait_for_server()
             rospy.loginfo('Found joint trajectory action!')
-            #if self.name == 'head':
-            self.joint_names = ['head_sidetilt_joint','head_tilt_joint','head_pan_joint']
-            #elif self.name == 'left_arm':
-            #    self.joint_names = ['left_shoulder_rotate_joint','left_shoulder_lift_joint','left_elbow_rotate_joint']
-            #else:
-            #    self.joint_names = ['right_shoulder_rotate_joint','right_shoulder_lift_joint','right_elbow_rotate_joint']
+
+            if self.name == 'head':
+                rospy.loginfo('Moving Head...')
+                self.joint_names = ['head_sidetilt_joint','head_tilt_joint','head_pan_joint']
+
+            elif self.name == 'left_arm':
+                rospy.loginfo('Moving Left Arm...')
+                self.joint_names = [
+                    'left_arm_shoulder_rotate_joint',  'left_arm_shoulder_lift_joint',
+                    'left_arm_elbow_rotate_joint',     'left_arm_elbow_bend_joint', 
+                    'left_arm_wrist_rotate_joint',     'left_arm_gripper_finger_joint']
+
+            else:
+                rospy.loginfo('Moving Right Arm...')
+                self.joint_names = [
+                    'right_arm_shoulder_rotate_joint', 'right_arm_shoulder_lift_joint', 
+                    'right_arm_elbow_rotate_joint',    'right_arm_elbow_bend_joint',
+                    'right_arm_wrist_rotate_joint',    'right_arm_gripper_finger_joint'] 
+
 
             
         def move_joint(self, angles, duration):
@@ -39,11 +55,21 @@ class Joint:
               
 
 def main():
-            group = Joint('head')
-            group.move_joint([0.25, 0.5, 0.5], 0.5)
-            group.move_joint([-0.25, -0.5, -0.5], 1.0)
-            group.move_joint([0.0, 0.0, 0.0], 0.5)
-            #arm.move_joint([6.28,3.14,6.28])
+            move_speed = 2.0
+            #group = Joint('head')
+            #group.move_joint([0.25, 0.5, 0.5], move_speed)
+            #group.move_joint([-0.25, -0.5, -0.5], move_speed*2.0)
+            #group.move_joint([0.0, 0.0, 0.0], move_speed)
+
+            group = Joint('right_arm')
+            rospy.loginfo('Moving Position 1')
+            group.move_joint([-0.7, 0.13, 0.0, 1.5, 0.0, 0.0], move_speed) # extend out
+
+            time.sleep(2.0)
+
+            rospy.loginfo('Moving Postion 2')
+            group.move_joint([0.49, 0.13, 0.0, 2.15, 0.0, 0.0], move_speed) # home
+            rospy.loginfo('DONE')
 
                         
 if __name__ == '__main__':

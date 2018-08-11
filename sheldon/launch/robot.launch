@@ -51,6 +51,10 @@
   <node pkg="sheldon_joybuttons" type="joy_buttons.py" name="joy_buttons"/>
 
 
+  <!-- Pose buttons to allow moving joints into poses for development / training -->
+  <node pkg="sheldon_pose_buttons" type="pose_buttons.py" name="pose_buttons" output="screen"/>
+
+
   <!-- This launch script starts the RealSense camera and optional middleware nodes. DISABLED
   <include file="$(find sheldon)/launch/include/realsense.launch"/>
   -->

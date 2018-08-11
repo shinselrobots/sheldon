@@ -49,14 +49,14 @@ def danger_position_2():
     #pub_right_arm_elbow_rotate.publish(-1.5)
     pub_right_arm_elbow_bend.publish(0.5) 
     #pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_claw.publish(-2.0)
+    #pub_right_arm_gripper.publish(-2.0)
 
     pub_left_arm_shoulder_rotate.publish(2.5)
     #pub_left_arm_shoulder_lift.publish(0.7)
     #pub_left_arm_elbow_rotate.publish(1.5)
     pub_left_arm_elbow_bend.publish(1.5)
     pub_left_arm_wrist_rotate.publish(0.0)
-    # pub_left_arm_claw.publish(0.25)
+    # pub_left_arm_gripper.publish(0.25)
     head_home() 
 
 
@@ -66,14 +66,14 @@ def danger_position_3():
     #pub_right_arm_elbow_rotate.publish(-1.5)
     pub_right_arm_elbow_bend.publish(1.5)
     #pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_claw.publish(-2.0)
+    #pub_right_arm_gripper.publish(-2.0)
 
     pub_left_arm_shoulder_rotate.publish(3.0)
     #pub_left_arm_shoulder_lift.publish(0.7)
     #pub_left_arm_elbow_rotate.publish(1.5)
     pub_left_arm_elbow_bend.publish(0.5)
     #pub_left_arm_wrist_rotate.publish(0.0)
-    # pub_left_arm_claw.publish(0.25)
+    # pub_left_arm_gripper.publish(0.25)
     head_home() 
 
 

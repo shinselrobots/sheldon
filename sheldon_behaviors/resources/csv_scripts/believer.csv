@@ -1,4 +1,4 @@
-comment,step,time,type,head_pan,head_tilt,head_sidetilt,r_arm,right_arm_shoulder_rotate,right_arm_shoulder_lift,right_arm_elbow_rotate,right_arm_elbow_bend,right_arm_wrist_rotate,right_arm_claw,l_arm,left_arm_shoulder_rotate,left_arm_shoulder_lift,left_arm_elbow_rotate,left_arm_elbow_bend,left_arm_wrist_rotate,left_arm_claw,param1,param2
+comment,step,time,type,head_pan,head_tilt,head_sidetilt,r_arm,right_arm_shoulder_rotate,right_arm_shoulder_lift,right_arm_elbow_rotate,right_arm_elbow_bend,right_arm_wrist_rotate,right_arm_gripper,l_arm,left_arm_shoulder_rotate,left_arm_shoulder_lift,left_arm_elbow_rotate,left_arm_elbow_bend,left_arm_wrist_rotate,left_arm_gripper,param1,param2
 Head Down,1,0,move,0,1.1428,0,R:,0.256,0.0399,0.1503,2.123,0.0015,-1.3438,L:,-0.4924,0.2132,0.0015,2.1046,-0.0153,2.0847,,
 lights off,2,0,lights,,,,,,,,,,,,,,,,,,0,
 start music,3,6,sound,,,,,,,,,,,,,,,,,,believer_trim.wav,

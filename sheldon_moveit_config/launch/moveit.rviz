@@ -5,7 +5,6 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /MotionPlanning1
-        - /MotionPlanning1/Scene Robot1
         - /MotionPlanning1/Planning Request1
         - /MotionPlanning1/Planned Path1
       Splitter Ratio: 0.742560029
@@ -137,11 +136,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          left_arm_claw_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           left_arm_elbow_bend_link:
             Alpha: 1
             Show Axes: false
@@ -162,12 +156,17 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          left_arm_finger_link1:
+          left_arm_gripper_body_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          left_arm_finger_link2:
+          left_arm_gripper_finger_link1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_arm_gripper_finger_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -231,11 +230,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          right_arm_claw_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           right_arm_elbow_bend_link:
             Alpha: 1
             Show Axes: false
@@ -256,12 +250,17 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          right_arm_finger_link1:
+          right_arm_gripper_body_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          right_arm_finger_link2:
+          right_arm_gripper_finger_link1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_arm_gripper_finger_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -342,7 +341,7 @@ Visualization Manager:
         Goal State Color: 250; 128; 0
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
-        Planning Group: left_arm
+        Planning Group: right_arm
         Query Goal State: true
         Query Start State: true
         Show Workspace: false
@@ -358,7 +357,7 @@ Visualization Manager:
         Voxel Coloring: Z-Axis
         Voxel Rendering: Occupied Voxels
       Scene Robot:
-        Attached Body Color: 255; 0; 0
+        Attached Body Color: 150; 50; 150
         Links:
           All Links Enabled: true
           Expand Joint Details: false
@@ -434,11 +433,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          left_arm_claw_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           left_arm_elbow_bend_link:
             Alpha: 1
             Show Axes: false
@@ -459,12 +453,17 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          left_arm_finger_link1:
+          left_arm_gripper_body_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          left_arm_finger_link2:
+          left_arm_gripper_finger_link1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_arm_gripper_finger_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -528,11 +527,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          right_arm_claw_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           right_arm_elbow_bend_link:
             Alpha: 1
             Show Axes: false
@@ -553,12 +547,17 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          right_arm_finger_link1:
+          right_arm_gripper_body_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          right_arm_finger_link2:
+          right_arm_gripper_finger_link1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_arm_gripper_finger_link2:
             Alpha: 1
             Show Axes: false
             Show Trail: false

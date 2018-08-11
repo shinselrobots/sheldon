@@ -1,0 +1,37 @@
+controller_list:
+  - name: right_arm_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - right_arm_shoulder_rotate_joint
+      - right_arm_shoulder_lift_joint
+      - right_arm_elbow_rotate_joint
+      - right_arm_elbow_bend_joint
+      - right_arm_wrist_rotate_joint
+
+  - name: left_arm_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - left_arm_shoulder_rotate_joint
+      - left_arm_shoulder_lift_joint
+      - left_arm_elbow_rotate_joint
+      - left_arm_elbow_bend_joint
+      - left_arm_wrist_rotate_joint
+
+  - name: right_gripper_controller
+    action_ns: gripper_action
+    type: GripperCommand
+    default: true
+    joints:
+      - right_arm_gripper_finger_joint
+
+  - name: left_gripper_controller
+    action_ns: gripper_action
+    type: GripperCommand
+    default: true
+    joints:
+      - left_arm_gripper_finger_joint
+

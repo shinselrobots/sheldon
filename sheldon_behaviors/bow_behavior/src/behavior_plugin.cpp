@@ -75,10 +75,10 @@ namespace behavior_plugin
 
         //utils_.headHome();
     
-        // shoulder_rotate, shoulder_lift, elbow_rotate, elbow_bend, wrist_rotate, claw
+        // shoulder_rotate, shoulder_lift, elbow_rotate, elbow_bend, wrist_rotate, gripper
         //utils_.moveRightArm(-1.0, 0.25, 0.0, 2.2, 0.0, 0.25, 3.0 /*Seconds*/, false);
 
-        // shoulder_rotate, shoulder_lift, elbow_rotate, elbow_bend, wrist_rotate, claw
+        // shoulder_rotate, shoulder_lift, elbow_rotate, elbow_bend, wrist_rotate, gripper
         //utils_.moveLeftArm(-1.0, 0.25, 0.0, 2.2, 0.0, 0.25, 3.0 /*Seconds*/, false);
 
         //speech_.speakAndWaitForCompletion("clear objects close to me");

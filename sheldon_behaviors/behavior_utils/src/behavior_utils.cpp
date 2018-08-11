@@ -187,12 +187,12 @@ namespace sheldon_behavior_utils
   void BehaviorUtils::rightArmHome()
   {
     ROS_INFO( "BehaviorUtils::rightArmHome called" );
-    // shoulder_rotate, shoulder_lift, elbow_rotate, elbow_bend, wrist_rotate, claw_open, intervalSeconds, waitForCompletion
+    // shoulder_rotate, shoulder_lift, elbow_rotate, elbow_bend, wrist_rotate, gripper_open, intervalSeconds, waitForCompletion
     moveRightArm(-1.0, 0.25, 0.0, 2.2, 0.0, 0.25, 3.0 /*Seconds*/, false);
 
   }
 
-  void BehaviorUtils::moveRightArm(float shoulder_rotate, float shoulder_lift, float elbow_rotate, float elbow_bend, float wrist_rotate, float claw_open, float intervalSeconds, bool waitForCompletion)
+  void BehaviorUtils::moveRightArm(float shoulder_rotate, float shoulder_lift, float elbow_rotate, float elbow_bend, float wrist_rotate, float gripper_open, float intervalSeconds, bool waitForCompletion)
   {
     //ROS_INFO("BehaviorUtils::moveRightArm");
 
@@ -204,7 +204,7 @@ namespace sheldon_behavior_utils
     goal.trajectory.joint_names[2] = "right_arm_elbow_rotate_joint";
     goal.trajectory.joint_names[3] = "right_arm_elbow_bend_joint";
     goal.trajectory.joint_names[4] = "right_arm_wrist_rotate_joint";
-    goal.trajectory.joint_names[5] = "right_arm_claw_joint";
+    goal.trajectory.joint_names[5] = "right_arm_gripper_joint";
 
     goal.trajectory.points.resize(1);
     goal.trajectory.points[0].positions.resize(6);
@@ -213,7 +213,7 @@ namespace sheldon_behavior_utils
     goal.trajectory.points[0].positions[2] = elbow_rotate;
     goal.trajectory.points[0].positions[3] = elbow_bend;
     goal.trajectory.points[0].positions[4] = wrist_rotate;
-    goal.trajectory.points[0].positions[5] = claw_open;
+    goal.trajectory.points[0].positions[5] = gripper_open;
     goal.trajectory.points[0].time_from_start = ros::Duration(intervalSeconds);
 
     rightArm->sendGoal(goal);
@@ -227,12 +227,12 @@ namespace sheldon_behavior_utils
   void BehaviorUtils::leftArmHome()
   {
     ROS_INFO( "BehaviorUtils::rightArmHome called" );
-    // shoulder_rotate, shoulder_lift, elbow_rotate, elbow_bend, wrist_rotate, claw_open, intervalSeconds, waitForCompletion
+    // shoulder_rotate, shoulder_lift, elbow_rotate, elbow_bend, wrist_rotate, gripper_open, intervalSeconds, waitForCompletion
     moveLeftArm(-1.0, 0.25, 0.0, 2.2, 0.0, 0.25, 3.0 /*Seconds*/, false);
 
   }
 
-  void BehaviorUtils::moveLeftArm(float shoulder_rotate, float shoulder_lift, float elbow_rotate, float elbow_bend, float wrist_rotate, float claw_open, float intervalSeconds, bool waitForCompletion)
+  void BehaviorUtils::moveLeftArm(float shoulder_rotate, float shoulder_lift, float elbow_rotate, float elbow_bend, float wrist_rotate, float gripper_open, float intervalSeconds, bool waitForCompletion)
   {  
     //ROS_INFO("BehaviorUtils::moveLeftArm");
 
@@ -244,7 +244,7 @@ namespace sheldon_behavior_utils
     goal.trajectory.joint_names[2] = "left_arm_elbow_rotate_joint";
     goal.trajectory.joint_names[3] = "left_arm_elbow_bend_joint";
     goal.trajectory.joint_names[4] = "left_arm_wrist_rotate_joint";
-    goal.trajectory.joint_names[5] = "left_arm_claw_joint";
+    goal.trajectory.joint_names[5] = "left_arm_gripper_joint";
 
     goal.trajectory.points.resize(1);
     goal.trajectory.points[0].positions.resize(6);
@@ -253,7 +253,7 @@ namespace sheldon_behavior_utils
     goal.trajectory.points[0].positions[2] = elbow_rotate;
     goal.trajectory.points[0].positions[3] = elbow_bend;
     goal.trajectory.points[0].positions[4] = wrist_rotate;
-    goal.trajectory.points[0].positions[5] = claw_open;
+    goal.trajectory.points[0].positions[5] = gripper_open;
     goal.trajectory.points[0].time_from_start = ros::Duration(intervalSeconds);
 
     leftArm->sendGoal(goal);

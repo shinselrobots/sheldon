@@ -1,0 +1,3 @@
+<launch>
+<node name="pose_buttons" pkg="sheldon_pose_buttons" type="pose_buttons.py" output="screen"/>
+</launch>

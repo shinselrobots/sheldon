@@ -45,7 +45,7 @@ def move_arm_shake_ready():
     pub_right_arm_elbow_rotate.publish(-0.47)
     pub_right_arm_elbow_bend.publish(1.37)
     pub_right_arm_wrist_rotate.publish(-1.35)
-    pub_right_arm_claw.publish(-1.675)
+    pub_right_arm_gripper.publish(-1.675)
 
 def move_arm_shake_up():
     pub_right_arm_elbow_bend.publish(1.47)

@@ -31,13 +31,13 @@ def all_home(): # all in home position
 
 # RIGHT
 
-def right_claw_open_half():
-    print("-----> right_claw_open")
-    pub_right_arm_claw.publish(-1.0)
+def right_gripper_open_half():
+    print("-----> right_gripper_open")
+    pub_right_arm_gripper.publish(-1.0)
 
-def right_claw_close():
-    print("-----> right_claw_close")
-    pub_right_arm_claw.publish(-2.0)
+def right_gripper_close():
+    print("-----> right_gripper_close")
+    pub_right_arm_gripper.publish(-2.0)
 
 def right_arm_home():
     print("-----> right_arm_home")
@@ -45,7 +45,7 @@ def right_arm_home():
     pub_right_arm_elbow_rotate.publish(0.0)
     pub_right_arm_elbow_bend.publish(2.0)
     pub_right_arm_wrist_rotate.publish(0.0)
-    pub_right_arm_claw.publish(0.25)
+    pub_right_arm_gripper.publish(0.25)
     pub_right_arm_shoulder.publish(-1.0)
 
 def left_arm_home():
@@ -54,7 +54,7 @@ def left_arm_home():
     pub_left_arm_elbow_rotate.publish(0.0)
     pub_left_arm_elbow_bend.publish(2.0)
     pub_left_arm_wrist_rotate.publish(0.0)
-    # pub_left_arm_claw.publish(0.25)
+    # pub_left_arm_gripper.publish(0.25)
     pub_left_arm_shoulder.publish(-1.0)
 
 
@@ -67,7 +67,7 @@ def right_arm_extend():
     pub_right_arm_elbow_rotate.publish(-0.25)
     pub_right_arm_elbow_bend.publish(1.8)
     pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_claw.publish(-0.8)
+    #pub_right_arm_gripper.publish(-0.8)
     pub_right_arm_shoulder.publish(1.0)
 
 
@@ -86,14 +86,14 @@ if __name__ == '__main__':
     pub_left_arm_elbow_rotate = rospy.Publisher('/left_arm_elbow_rotate_controller/command', Float64, queue_size=1)
     pub_left_arm_elbow_bend = rospy.Publisher('/left_arm_elbow_bend_controller/command', Float64, queue_size=1)
     pub_left_arm_wrist_rotate = rospy.Publisher('/left_arm_wrist_rotate_controller/command', Float64, queue_size=1)
-    pub_left_arm_claw = rospy.Publisher('/left_arm_claw_controller/command', Float64, queue_size=1)
+    pub_left_arm_gripper = rospy.Publisher('/left_arm_gripper_controller/command', Float64, queue_size=1)
     pub_left_arm_shoulder = rospy.Publisher('/left_arm_shoulder_controller/command', Float64, queue_size=1)
 
     pub_right_arm_lift = rospy.Publisher('/right_arm_lift_controller/command', Float64, queue_size=1)
     pub_right_arm_elbow_rotate = rospy.Publisher('/right_arm_elbow_rotate_controller/command', Float64, queue_size=1)
     pub_right_arm_elbow_bend = rospy.Publisher('/right_arm_elbow_bend_controller/command', Float64, queue_size=1)
     pub_right_arm_wrist_rotate = rospy.Publisher('/right_arm_wrist_rotate_controller/command', Float64, queue_size=1)
-    pub_right_arm_claw = rospy.Publisher('/right_arm_claw_controller/command', Float64, queue_size=1)
+    pub_right_arm_gripper = rospy.Publisher('/right_arm_gripper_controller/command', Float64, queue_size=1)
     pub_right_arm_shoulder = rospy.Publisher('/right_arm_shoulder_controller/command', Float64, queue_size=1)
 
 
@@ -107,15 +107,15 @@ print("Give item...")
 
 
 ##### START #####
-right_claw_open_half()
+right_gripper_open_half()
 key = raw_input("Insert Pen, then Enter")
-right_claw_close()
+right_gripper_close()
 
 key = raw_input("Ready!")
 right_arm_extend()
 
 key = raw_input("Enter to Release Pen ")
-right_claw_open_half()
+right_gripper_open_half()
 time.sleep(2.0)
 right_arm_home()
 head_center()

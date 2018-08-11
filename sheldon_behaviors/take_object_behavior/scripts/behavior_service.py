@@ -41,12 +41,12 @@ def move_arm_take_object_ready(): # TODO
     pub_right_arm_elbow_rotate.publish(-0.47)
     pub_right_arm_elbow_bend.publish(1.37)
     pub_right_arm_wrist_rotate.publish(-1.35)
-    pub_right_arm_claw.publish(-1.675)
+    pub_right_arm_gripper.publish(-1.675)
     head_home() 
 
 
-def move_arm_close_claw():
-    pub_right_arm_claw.publish(-1.675) #TODO
+def move_arm_close_gripper():
+    pub_right_arm_gripper.publish(-1.675) #TODO
     head_home() 
 
 def move_arm_view_object():
@@ -145,7 +145,7 @@ class BehaviorAction(object):
         # mute the microphone
         self.mic_system_enable_pub.publish(False)
  
-        # Move arm into ready position, with claw open
+        # Move arm into ready position, with gripper open
         move_arm_take_object_ready()
 
         # say something while arms are moving
@@ -182,8 +182,8 @@ class BehaviorAction(object):
         #result = client.wait_for_result()   # wait for speech to complete
         #rospy.loginfo("Speech goal returned result: %d", result)
 
-        # close claw 
-        move_arm_close_claw()
+        # close gripper 
+        move_arm_close_gripper()
         time.sleep(0.5) 
         if self.InterruptRequested():
             return

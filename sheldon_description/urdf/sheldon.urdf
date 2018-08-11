@@ -819,14 +819,14 @@
       </geometry>
     </collision>
   </link>
-  <!-- Claw fixed joint -->
-  <joint name="right_arm_claw_fixed_joint" type="fixed">
+  <!-- Gripper fixed joint -->
+  <joint name="right_arm_gripper_fixed_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="right_arm_wrist_rotate_link"/>
-    <child link="right_arm_claw_link"/>
+    <child link="right_arm_gripper_body_link"/>
   </joint>
-  <!-- Claw body fixed link -->
-  <link name="right_arm_claw_link">
+  <!-- Gripper body fixed link -->
+  <link name="right_arm_gripper_body_link">
     <inertial>
       <mass value="0.00001"/>
       <origin xyz="0 0 0"/>
@@ -850,14 +850,14 @@
     </collision>
   </link>
   <!-- Finger Rotate -->
-  <joint name="right_arm_finger_joint" type="revolute">
+  <joint name="right_arm_gripper_finger_joint" type="revolute">
     <axis xyz="1 0 0"/>
     <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
     <origin rpy="-0.20 0 0" xyz="0.0 -0.035 0.085"/>
-    <parent link="right_arm_claw_link"/>
-    <child link="right_arm_finger_link1"/>
+    <parent link="right_arm_gripper_body_link"/>
+    <child link="right_arm_gripper_finger_link1"/>
   </joint>
-  <link name="right_arm_finger_link1">
+  <link name="right_arm_gripper_finger_link1">
     <visual>
       <origin rpy="0.0 0.0 0.0" xyz="0 -0.008 0.06"/>
       <geometry>
@@ -866,15 +866,15 @@
       <material name="Mustard"/>
     </visual>
   </link>
-  <joint name="right_arm_finger_joint2" type="revolute">
-    <mimic joint="right_arm_finger_joint"/>
+  <joint name="right_arm_gripper_finger_joint2" type="revolute">
+    <mimic joint="right_arm_gripper_finger_joint"/>
     <axis xyz="-1 0 0"/>
     <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
     <origin rpy="0.20 0 0" xyz="0.0 0.035 0.085"/>
-    <parent link="right_arm_claw_link"/>
-    <child link="right_arm_finger_link2"/>
+    <parent link="right_arm_gripper_body_link"/>
+    <child link="right_arm_gripper_finger_link2"/>
   </joint>
-  <link name="right_arm_finger_link2">
+  <link name="right_arm_gripper_finger_link2">
     <visual>
       <origin rpy="0.0 0.0 0.0" xyz="0 0.008 0.06"/>
       <geometry>
@@ -883,11 +883,11 @@
       <material name="Mustard"/>
     </visual>
   </link>
-  <!-- Planning link and joint for the right gripper -->
+  <!-- Planning link and joint for the gripper -->
   <joint name="right_arm_gripper_joint" type="fixed">
     <origin rpy="1.570795 0 0" xyz="0 0 0.18"/>
     <axis xyz="0 0 1"/>
-    <parent link="right_arm_claw_link"/>
+    <parent link="right_arm_gripper_body_link"/>
     <child link="right_arm_gripper_link"/>
   </joint>
   <link name="right_arm_gripper_link">
@@ -1200,14 +1200,14 @@
       </geometry>
     </collision>
   </link>
-  <!-- Claw fixed joint -->
-  <joint name="left_arm_claw_fixed_joint" type="fixed">
+  <!-- Gripper fixed joint -->
+  <joint name="left_arm_gripper_fixed_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="left_arm_wrist_rotate_link"/>
-    <child link="left_arm_claw_link"/>
+    <child link="left_arm_gripper_body_link"/>
   </joint>
-  <!-- Claw body fixed link -->
-  <link name="left_arm_claw_link">
+  <!-- Gripper body fixed link -->
+  <link name="left_arm_gripper_body_link">
     <inertial>
       <mass value="0.00001"/>
       <origin xyz="0 0 0"/>
@@ -1231,14 +1231,14 @@
     </collision>
   </link>
   <!-- Finger Rotate -->
-  <joint name="left_arm_finger_joint" type="revolute">
+  <joint name="left_arm_gripper_finger_joint" type="revolute">
     <axis xyz="1 0 0"/>
     <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
     <origin rpy="-0.20 0 0" xyz="0.0 -0.035 0.085"/>
-    <parent link="left_arm_claw_link"/>
-    <child link="left_arm_finger_link1"/>
+    <parent link="left_arm_gripper_body_link"/>
+    <child link="left_arm_gripper_finger_link1"/>
   </joint>
-  <link name="left_arm_finger_link1">
+  <link name="left_arm_gripper_finger_link1">
     <visual>
       <origin rpy="0.0 0.0 0.0" xyz="0 -0.008 0.06"/>
       <geometry>
@@ -1247,15 +1247,15 @@
       <material name="Mustard"/>
     </visual>
   </link>
-  <joint name="left_arm_finger_joint2" type="revolute">
-    <mimic joint="left_arm_finger_joint"/>
+  <joint name="left_arm_gripper_finger_joint2" type="revolute">
+    <mimic joint="left_arm_gripper_finger_joint"/>
     <axis xyz="-1 0 0"/>
     <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
     <origin rpy="0.20 0 0" xyz="0.0 0.035 0.085"/>
-    <parent link="left_arm_claw_link"/>
-    <child link="left_arm_finger_link2"/>
+    <parent link="left_arm_gripper_body_link"/>
+    <child link="left_arm_gripper_finger_link2"/>
   </joint>
-  <link name="left_arm_finger_link2">
+  <link name="left_arm_gripper_finger_link2">
     <visual>
       <origin rpy="0.0 0.0 0.0" xyz="0 0.008 0.06"/>
       <geometry>
@@ -1264,11 +1264,11 @@
       <material name="Mustard"/>
     </visual>
   </link>
-  <!-- Planning link and joint for the right gripper -->
+  <!-- Planning link and joint for the gripper -->
   <joint name="left_arm_gripper_joint" type="fixed">
     <origin rpy="1.570795 0 0" xyz="0 0 0.18"/>
     <axis xyz="0 0 1"/>
-    <parent link="left_arm_claw_link"/>
+    <parent link="left_arm_gripper_body_link"/>
     <child link="left_arm_gripper_link"/>
   </joint>
   <link name="left_arm_gripper_link">
