@@ -14,30 +14,30 @@
     </rosparam>
   </node>
  
-  <!-- Start joint controller -->  
+  <!-- Start joint controllers -->  
   <rosparam file="$(find sheldon_servos)/config/dynamixel_params.yaml" command="load"/>
 
   <node name="dynamixel_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
         args="--manager=robot_dynamixel_manager
               --port=dynamixel_port
 
-        head_sidetilt_controller 
-        head_tilt_controller 
-        head_pan_controller
+        head_sidetilt_joint 
+        head_tilt_joint 
+        head_pan_joint
 
-        right_arm_shoulder_rotate_controller
-        right_arm_shoulder_lift_controller
-        right_arm_elbow_rotate_controller
-        right_arm_elbow_bend_controller
-        right_arm_wrist_rotate_controller
-        right_arm_gripper_controller
+        right_arm_shoulder_rotate_joint
+        right_arm_shoulder_lift_joint
+        right_arm_elbow_rotate_joint
+        right_arm_elbow_bend_joint
+        right_arm_wrist_rotate_joint
+        right_arm_gripper_finger_joint
 
-        left_arm_shoulder_rotate_controller
-        left_arm_shoulder_lift_controller
-        left_arm_elbow_rotate_controller
-        left_arm_elbow_bend_controller
-        left_arm_wrist_rotate_controller
-        left_arm_gripper_controller
+        left_arm_shoulder_rotate_joint
+        left_arm_shoulder_lift_joint
+        left_arm_elbow_rotate_joint
+        left_arm_elbow_bend_joint
+        left_arm_wrist_rotate_joint
+        left_arm_gripper_finger_joint
         "
         output="screen" />
 
@@ -48,9 +48,9 @@
                 --type=meta
 
           head_controller
-            head_sidetilt_controller
-            head_pan_controller
-            head_tilt_controller
+            head_sidetilt_joint
+            head_pan_joint
+            head_tilt_joint
           "
         output="screen"/>
 
@@ -61,13 +61,11 @@
                 --type=meta
 
           right_arm_controller
-            right_arm_shoulder_rotate_controller
-            right_arm_shoulder_lift_controller
-            right_arm_elbow_rotate_controller
-            right_arm_elbow_bend_controller
-            right_arm_wrist_rotate_controller
-            right_arm_gripper_controller
-
+            right_arm_shoulder_rotate_joint
+            right_arm_shoulder_lift_joint
+            right_arm_elbow_rotate_joint
+            right_arm_elbow_bend_joint
+            right_arm_wrist_rotate_joint
           "
         output="screen"/>
 
@@ -78,17 +76,45 @@
                 --type=meta
 
           left_arm_controller
-            left_arm_shoulder_rotate_controller
-            left_arm_shoulder_lift_controller
-            left_arm_elbow_rotate_controller
-            left_arm_elbow_bend_controller
-            left_arm_wrist_rotate_controller
-            left_arm_gripper_controller
-
+            left_arm_shoulder_rotate_joint
+            left_arm_shoulder_lift_joint
+            left_arm_elbow_rotate_joint
+            left_arm_elbow_bend_joint
+            left_arm_wrist_rotate_joint
           "
         output="screen"/>
 
    <node name="dynamixel_joint_state_publisher" pkg="sheldon_servos" type="dynamixel_joint_state_publisher.py" output="screen" />
+
+
+   <!-- Run a separate controller for the gripper. (From the arbitix controller package, as 
+   the dynamixel_controller package does not have a gripper controller (needed by Moveit) -->
+   <node name="right_gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
+      <rosparam>
+         model: parallel
+         invert: false
+         center: 1.0
+         pad_width: 0.004
+         finger_length: 0.065
+         min_opening: 0.0
+         max_opening: 2.5
+         joint: right_arm_gripper_finger_joint
+      </rosparam>
+   </node>
+
+   <node name="left_gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
+      <rosparam>
+         model: parallel
+         invert: false
+         center: 1.0
+         pad_width: 0.004
+         finger_length: 0.065
+         min_opening: 0.0
+         max_opening: 2.5
+         joint: left_arm_gripper_finger_joint
+      </rosparam>
+   </node>
+
 
    <node name="waist_joint_state_publisher" pkg="sheldon_servos" type="waist_joint_state_publisher.py" output="screen" />
 

@@ -48,6 +48,44 @@ class SetSingleServoSpeed():
         print("SetSingleServoSpeed complete.")
 
         
+if __name__=='__main__':
+
+    total = len(sys.argv)
+    cmdargs = str(sys.argv)
+    joints = all_joints
+
+    if total > 2:
+        option = sys.argv[1].lower()
+        if "all_joints" in option:
+            print 'Setting all_joints'
+            joints = all_joints
+        elif "head_joints" in option:
+            print 'Setting head_joints'
+            joints = head_joints
+        elif "right_arm_joints" in option:
+            print 'Setting right_arm_joints'
+            joints = right_arm_joints
+        elif "left_arm_joints" in option:
+            print 'Setting left_arm_joints'
+            joints = left_arm_joints
+        else:
+            print 'USAGE: specify one of: all_joints, head_joints, right_arm_joints, left_arm_joints'
+            sys.exit()
+
+        speed = float(sys.argv[2])
+
+        try:
+            SetServoSpeed(speed, joints)
+            rospy.loginfo("*** Set Speed Done ***")
+        except rospy.ROSInterruptException:
+            rospy.loginfo("Oops! Exception occurred while trying to set speed.") 
+
+    else:
+        print 'USAGE: set_servo_speed.py <joint_group> (all_joints, head_joints, right_arm_joints, left_arm_joints)  <speed>  (0.0 - 5.0)'
+        #sys.exit()
+
+
+
 
 
 

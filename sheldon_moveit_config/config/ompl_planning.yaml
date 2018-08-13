@@ -120,8 +120,8 @@ planner_configs:
     sparse_delta_fraction: 0.25  # delta fraction for connection distance. This value represents the visibility range of sparse samples. default: 0.25
     dense_delta_fraction: 0.001  # delta fraction for interface detection. default: 0.001
     max_failures: 5000  # maximum consecutive failure limit. default: 5000
+
 right_arm:
-  default_planner_config: NkConfigDefault
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -147,7 +147,6 @@ right_arm:
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
 left_arm:
-  default_planner_config: NkConfigDefault
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -173,7 +172,6 @@ left_arm:
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
 right_gripper:
-  default_planner_config: kConfigDefault
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -198,8 +196,8 @@ right_gripper:
     - LazyPRMstarkConfigDefault
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
+
 left_gripper:
-  default_planner_config: kConfigDefault
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -224,3 +222,4 @@ left_gripper:
     - LazyPRMstarkConfigDefault
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
+

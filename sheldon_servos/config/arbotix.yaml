@@ -1,0 +1,45 @@
+port: /dev/dynamixel
+baud: 1000000
+rate: 100
+sync_write: True
+sync_read: False
+read_rate: 20
+write_rate: 20
+
+joints: {
+    head_sidetilt_joint: {id: 2, ticks: 4096, neutral: 2048, min_angle: -90, max_angle: 90},
+    head_tilt_joint: {id: 3, ticks: 4096, neutral: 2048, min_angle: -90, max_angle: 90},
+    head_pan_joint: {id: 4, ticks: 4096, neutral: 2048, min_angle: -145, max_angle: 145},
+
+    right_arm_shoulder_rotate_joint: {id: 16, ticks: 4096, neutral: 2048, invert: True},
+    right_arm_shoulder_lift_joint: {id: 6, ticks: 4096, neutral: 2048, min_angle: -90, max_angle: 90},
+    right_arm_elbow_rotate_joint: {id: 7, ticks: 4096, neutral: 2048, min_angle: -90, max_angle: 90},
+    right_arm_elbow_bend_joint: {id: 8, ticks: 4096, neutral: 2048, min_angle: -90, max_angle: 90},
+    right_arm_wrist_rotate_joint: {id: 9, ticks: 4096, neutral: 2048, min_angle: -100, max_angle: 100},
+    right_arm_gripper_finger_joint: {id: 10, ticks: 4096, neutral: 2048},
+
+    left_arm_shoulder_rotate_joint: {id: 17, ticks: 4096, neutral: 2048, invert: True},
+    left_arm_shoulder_lift_joint: {id: 11, ticks: 4096, neutral: 2048, min_angle: -90, max_angle: 90},
+    left_arm_elbow_rotate_joint: {id: 12, ticks: 4096, neutral: 2048, min_angle: -90, max_angle: 90},
+    left_arm_elbow_bend_joint: {id: 13, ticks: 4096, neutral: 2048, min_angle: -90, max_angle: 90},
+    left_arm_wrist_rotate_joint: {id: 14, ticks: 4096, neutral: 2048, min_angle: -100, max_angle: 100},
+    left_arm_gripper_finger_joint: {id: 15, ticks: 4096, neutral: 2048}
+}
+
+controllers: {
+   
+   right_arm_controller: {onboard: False, action_name: right_arm_controller/follow_joint_trajectory, type: follow_controller, joints: [
+    right_arm_shoulder_rotate_joint, right_arm_shoulder_lift_joint, right_arm_elbow_rotate_joint,
+    right_arm_elbow_bend_joint, right_arm_wrist_rotate_joint]},
+
+   left_arm_controller: {onboard: False, action_name: left_arm_controller/follow_joint_trajectory, type: follow_controller, joints: [
+    left_arm_shoulder_rotate_joint, left_arm_shoulder_lift_joint, left_arm_elbow_rotate_joint,
+    left_arm_elbow_bend_joint, left_arm_wrist_rotate_joint]},
+
+   head_controller: {onboard: False, action_name: head_controller/follow_joint_trajectory, type: follow_controller, joints: [head_sidetilt_joint, head_tilt_joint, head_pan_joint]}
+
+}
+
+
+
+
