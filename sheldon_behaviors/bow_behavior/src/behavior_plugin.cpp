@@ -20,11 +20,11 @@ namespace behavior_plugin
         behavior_common::BehaviorActionServiceBase(service_name)
       {
           // Publishers for robot servo movements
-          head_pan_ = nh_.advertise<std_msgs::Float64>("/head_pan_controller/command", 1); 
-          head_tilt_ = nh_.advertise<std_msgs::Float64>("/head_tilt_controller/command", 1);
-          head_sidetilt_ = nh_.advertise<std_msgs::Float64>("/head_sidetilt_controller/command", 1);
-          //right_arm_shoulder_rotate_ = nh_.advertise<std_msgs::Float64>("/right_arm_shoulder_lift_controller/command", 1);
-          //right_arm_elbow_rotate_ = nh_.advertise<std_msgs::Float64>("/right_arm_elbow_rotate_controller/command", 1);
+          head_pan_ = nh_.advertise<std_msgs::Float64>("/head_pan_joint/command", 1); 
+          head_tilt_ = nh_.advertise<std_msgs::Float64>("/head_tilt_joint/command", 1);
+          head_sidetilt_ = nh_.advertise<std_msgs::Float64>("/head_sidetilt_joint/command", 1);
+          //right_arm_shoulder_rotate_ = nh_.advertise<std_msgs::Float64>("/right_arm_shoulder_lift_joint/command", 1);
+          //right_arm_elbow_rotate_ = nh_.advertise<std_msgs::Float64>("/right_arm_elbow_rotate_joint/command", 1);
 
           // enable/disable microphone when robot is moving servos.  
           // (Note system_enable vs. speech_enable vs. user_enable)

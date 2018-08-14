@@ -176,8 +176,8 @@ class PlaybackServoPositions():
         SetServoSpeed(0.5, head_joints)
         SetServoSpeed(1.0, right_arm_joints)
         SetServoSpeed(1.0, left_arm_joints)
-        SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_controller')
-        SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_controller')
+        SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_joint')
+        SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_joint')
 
         rospy.loginfo("======================================================")
         rospy.loginfo("               EXECUTING SCRIPT")

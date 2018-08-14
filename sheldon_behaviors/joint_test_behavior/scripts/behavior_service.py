@@ -78,8 +78,8 @@ class BehaviorAction(object):
 
         SetServoTorque(0.3, all_joints)
         SetServoSpeed(0.5, all_joints)
-        SetSingleServoSpeed(1.8, 'right_arm_shoulder_rotate_controller')
-        SetSingleServoSpeed(1.8, 'left_arm_shoulder_rotate_controller')
+        SetSingleServoSpeed(1.8, 'right_arm_shoulder_rotate_joint')
+        SetSingleServoSpeed(1.8, 'left_arm_shoulder_rotate_joint')
  
         goal = audio_and_speech_common.msg.speechGoal(text_to_speak="Moving into Shipping Mode")
         client.send_goal(goal)

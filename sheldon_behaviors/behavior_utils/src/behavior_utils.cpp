@@ -36,11 +36,11 @@ namespace sheldon_behavior_utils
 
     // NEW STUFF
     head_pan_speed_sc_ = 
-      nh_.serviceClient<dynamixel_controllers::SetSpeed>("/head_pan_controller/set_speed");
+      nh_.serviceClient<dynamixel_controllers::SetSpeed>("/head_pan_joint/set_speed");
     head_tilt_speed_sc_ = 
-      nh_.serviceClient<dynamixel_controllers::SetSpeed>("/head_tilt_controller/set_speed");
+      nh_.serviceClient<dynamixel_controllers::SetSpeed>("/head_tilt_joint/set_speed");
     head_sidetilt_speed_sc_ = 
-      nh_.serviceClient<dynamixel_controllers::SetSpeed>("/head_sidetilt_controller/set_speed");
+      nh_.serviceClient<dynamixel_controllers::SetSpeed>("/head_sidetilt_joint/set_speed");
 
 
     //register client actions

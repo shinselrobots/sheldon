@@ -63,10 +63,10 @@
     </link>
   </xacro:macro>
 
-  <xacro:macro name="rx28_side_revolute" params="parent name color llimit ulimit vlimit *origin">
+  <xacro:macro name="rx28_side_revolute" params="parent name color llimit ulimit vlimit *origin reflect=1">
     <joint name="${name}_joint" type="revolute">
       <xacro:insert_block name="origin" />
-       <axis xyz="0 0 1"/>
+       <axis xyz="0 0 ${reflect}"/>
       <limit effort="30" velocity="${vlimit}" lower="${llimit}" upper="${ulimit}" />
       <parent link="${parent}"/>
       <child link="${name}_link" />

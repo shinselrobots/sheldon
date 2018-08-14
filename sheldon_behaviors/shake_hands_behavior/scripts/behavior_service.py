@@ -138,8 +138,8 @@ class BehaviorAction(object):
 
         SetServoTorque(0.5, all_joints) # NOTE Extra weak Servos!
         SetServoSpeed(0.5, all_joints)
-        SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_controller')
-        #SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_controller')
+        SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_joint')
+        #SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_joint')
 
         # mute the microphone
         self.mic_system_enable_pub.publish(False)

@@ -84,8 +84,8 @@ class BehaviorAction(object):
 
         SetServoTorque(0.5, all_joints)
         SetServoSpeed(0.5, all_joints)
-        SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_controller')
-        SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_controller')
+        SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_joint')
+        SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_joint')
 
         # mute the microphone
         self.mic_system_enable_pub.publish(False)
@@ -96,8 +96,8 @@ class BehaviorAction(object):
         hands_up2()
         time.sleep(3)
         # slow arm to avoid jerk
-        SetSingleServoSpeed(0.5, 'right_arm_shoulder_rotate_controller')
-        SetSingleServoSpeed(0.5, 'left_arm_shoulder_rotate_controller')
+        SetSingleServoSpeed(0.5, 'right_arm_shoulder_rotate_joint')
+        SetSingleServoSpeed(0.5, 'left_arm_shoulder_rotate_joint')
         time.sleep(1)
 
         # say response
@@ -108,8 +108,8 @@ class BehaviorAction(object):
         rospy.loginfo("Speech goal returned result: %d", result)
 
         time.sleep(1)
-        SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_controller')
-        SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_controller')
+        SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_joint')
+        SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_joint')
 
         # Move head and arms back to ready position
         all_home()

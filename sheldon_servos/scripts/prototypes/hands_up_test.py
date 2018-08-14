@@ -95,8 +95,8 @@ if __name__ == '__main__':
   SetServoTorque(0.5, left_arm_joints)
   SetServoSpeed(0.5, left_arm_joints)
 
-  SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_controller')
-  SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_controller')
+  SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_joint')
+  SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_joint')
 
   all_home()
   #time.sleep(3)
@@ -109,12 +109,12 @@ if __name__ == '__main__':
   left_arm_up2()
   time.sleep(3)
 
-  SetSingleServoSpeed(0.5, 'right_arm_shoulder_rotate_controller')
-  SetSingleServoSpeed(0.5, 'left_arm_shoulder_rotate_controller')
+  SetSingleServoSpeed(0.5, 'right_arm_shoulder_rotate_joint')
+  SetSingleServoSpeed(0.5, 'left_arm_shoulder_rotate_joint')
 
   time.sleep(2)
-  SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_controller')
-  SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_controller')
+  SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_joint')
+  SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_joint')
 
 
   #say_something()

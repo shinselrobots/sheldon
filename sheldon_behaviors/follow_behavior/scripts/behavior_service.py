@@ -37,8 +37,8 @@ from sheldon_servos.set_servo_torque import *
 #from tb2s_pantilt.set_servo_speed import *
 
 # TB2S ONLY
-#pub_head_pan = rospy.Publisher('/head_pan_controller/command', Float64, queue_size=1)
-#pub_head_tilt = rospy.Publisher('/head_tilt_controller/command', Float64, queue_size=1)
+#pub_head_pan = rospy.Publisher('/head_pan_joint/command', Float64, queue_size=1)
+#pub_head_tilt = rospy.Publisher('/head_tilt_joint/command', Float64, queue_size=1)
 #pub_move = rospy.Publisher('/cmd_vel_mux/behavior', Twist, queue_size=5)
 pub_move = rospy.Publisher('move_base/priority1', Twist, queue_size=5)  # Low Priority
 

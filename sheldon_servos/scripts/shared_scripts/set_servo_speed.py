@@ -33,7 +33,7 @@ class SetServoSpeed():
         
 class SetSingleServoSpeed():
     def __init__(self, speed, servo_controller):
-        # input: a servo controller string, for example: 'right_arm_shoulder_rotate_controller'
+        # input: a servo controller string, for example: 'right_arm_shoulder_rotate_joint'
 
         rospy.loginfo('SetSingleServoSpeed to %1.4f rad/sec:' %speed)
         speed_service = '/' + servo_controller + '/set_speed'

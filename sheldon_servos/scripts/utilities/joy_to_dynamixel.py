@@ -14,6 +14,6 @@ def listener():
     rospy.spin()
 
 if __name__ == '__main__':
-    pub_pan = rospy.Publisher('/head_pan_controller/command', Float64, queue_size=1)
-    pub_tilt = rospy.Publisher('/head_tilt_controller/command', Float64, queue_size=1)
+    pub_pan = rospy.Publisher('/head_pan_joint/command', Float64, queue_size=1)
+    pub_tilt = rospy.Publisher('/head_tilt_joint/command', Float64, queue_size=1)
     listener()

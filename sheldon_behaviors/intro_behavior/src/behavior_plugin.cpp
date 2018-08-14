@@ -24,9 +24,9 @@ namespace behavior_plugin
           behavior_common::BehaviorActionServiceBase(service_name)
         {
           // Publishers for robot servo movements
-          head_pan_ = nh_.advertise<std_msgs::Float64>("/head_pan_controller/command", 1); 
-          head_tilt_ = nh_.advertise<std_msgs::Float64>("/head_tilt_controller/command", 1);
-          head_sidetilt_ = nh_.advertise<std_msgs::Float64>("/head_sidetilt_controller/command", 1);
+          head_pan_ = nh_.advertise<std_msgs::Float64>("/head_pan_joint/command", 1); 
+          head_tilt_ = nh_.advertise<std_msgs::Float64>("/head_tilt_joint/command", 1);
+          head_sidetilt_ = nh_.advertise<std_msgs::Float64>("/head_sidetilt_joint/command", 1);
  
         }
 

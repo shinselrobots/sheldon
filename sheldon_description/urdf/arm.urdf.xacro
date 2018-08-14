@@ -45,9 +45,7 @@
 
     <joint name="${side}_shoulder_rotate_joint" type="revolute">
       <origin xyz="0 0 0" rpy="-1.57 0 1.57"/>
-      <axis xyz="-1 0 0"/> 
-      <!-- NOTE: right arm needs to be backwards to match servo feedback!
-                 so we don't use reflect here! -->
+      <axis xyz="${reflect * -1} 0 0"/> 
       <limit effort="30" velocity="1.50" lower="-3.14" upper="3.14" />
       <parent link="${side}_shoulder_rotate_servo_link"/>
       <child link="${side}_shoulder_rotate_link" />
@@ -81,7 +79,7 @@
     <joint name="${side}_shoulder_lift_joint" type="revolute">
       <origin xyz="0.0869955 0 0" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
-      <limit effort="30" velocity="1.50" lower="-0.6" upper="2.2" />
+      <limit effort="30" velocity="1.50" lower="-0.050" upper="2.10" />
       <parent link="${side}_shoulder_rotate_link"/>
       <child link="${side}_shoulder_lift_servo_link" />
     </joint>
@@ -146,13 +144,12 @@
 
     <!-- Elbow Rotate -->
     <dynamixel_rx64_pan parent="${side}_upper_link" name="${side}_elbow_rotate_servo" color="Blue">
-      <origin xyz="0.335 ${reflect * 0.015} 0" rpy="-1.57 ${1.57+(reflect * 1.57)} -1.57"/>      <!-- WIP!!! rpy="-1.57 0 -1.57" -->
+      <origin xyz="0.335 ${reflect * 0.015} 0" rpy="-1.57 ${1.57+(reflect * 1.57)} -1.57"/> 
     </dynamixel_rx64_pan>
 
-    <rx64_side_revolute parent="${side}_elbow_rotate_servo_link" name="${side}_elbow_rotate" llimit="-2.50" ulimit="3.10" vlimit="3.0" color="${servo_bracket_color}">
+    <rx64_side_revolute parent="${side}_elbow_rotate_servo_link" name="${side}_elbow_rotate" llimit="-2.20" ulimit="3.14" vlimit="3.0" color="${servo_bracket_color}" reflect="${-reflect}">
       <origin xyz="0 0 0.0235" rpy="0 0 0"/>
     </rx64_side_revolute>
-
 
 
     <!-- Elbow Bend -->
@@ -161,7 +158,7 @@
       <!-- <origin xyz="0 0 0" rpy="0 0 0"/> -->
     </dynamixel_rx64_tilt>
 
-    <rx64_hinge parent="${side}_elbow_bend_servo_link" name="${side}_elbow_bend" llimit="-1.00" ulimit="3.0" vlimit="3.0" color="${servo_bracket_color}">
+    <rx64_hinge parent="${side}_elbow_bend_servo_link" name="${side}_elbow_bend" llimit="-1.20" ulimit="3.14" vlimit="3.0" color="${servo_bracket_color}">
       <origin xyz="0 0 0.0" rpy="0 0 0"/>
     </rx64_hinge>
 
@@ -202,7 +199,7 @@
       <origin xyz="${wrist_servo_offset_x} 0 ${lower_arm_size_z + (rx28_servo_width/2)}" rpy="0 0 3.14"/> <!-- <origin xyz="0 0 0.14" -->
     </dynamixel_rx28_pan>
 
-    <rx28_side_revolute parent="${side}_wrist_rotate_servo_link" name="${side}_wrist_rotate" llimit="-2.9" ulimit="1.57" vlimit="3.0" color="${servo_bracket_color}">
+    <rx28_side_revolute parent="${side}_wrist_rotate_servo_link" name="${side}_wrist_rotate" llimit="-3.0" ulimit="1.57" vlimit="3.0" color="${servo_bracket_color}" reflect="${-reflect}">
       <origin xyz="0 0 0.0235" rpy="0 0 0"/>
     </rx28_side_revolute>
 
@@ -245,7 +242,7 @@
     <!-- Finger Rotate -->
     <joint name="${side}_gripper_finger_joint" type="revolute">
       <axis xyz="1 0 0"/>
-      <limit effort="1000.0" lower="0.0" upper="0.548" velocity="1.0"/>
+      <limit effort="30.0" lower="-0.10" upper="3.14" velocity="1.0"/>
       <origin rpy="-0.20 0 0" xyz="${finger_joint_offset_x} -${finger_joint_offset_y} ${finger_joint_offset_z}"/>
       <parent link="${side}_gripper_body_link"/>
       <child link="${side}_gripper_finger_link1"/>
@@ -264,7 +261,7 @@
     <joint name="${side}_gripper_finger_joint2" type="revolute">
       <mimic joint="${side}_gripper_finger_joint" />
       <axis xyz="-1 0 0"/>
-      <limit effort="30.0" lower="0.0" upper="3.0" velocity="0.5"/>
+      <limit effort="30.0" lower="-0.10" upper="3.14" velocity="0.5"/>
       <origin rpy="0.20 0 0" xyz="${finger_joint_offset_x} ${finger_joint_offset_y} ${finger_joint_offset_z}"/>
       <parent link="${side}_gripper_body_link"/>
       <child link="${side}_gripper_finger_link2"/>

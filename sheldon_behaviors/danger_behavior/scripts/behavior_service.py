@@ -162,11 +162,11 @@ class BehaviorAction(object):
 
         SetServoTorque(0.5, all_joints)
         SetServoSpeed(0.5, all_joints)
-        SetSingleServoSpeed(2.0, 'right_arm_shoulder_rotate_controller')
-        SetSingleServoSpeed(2.0, 'left_arm_shoulder_rotate_controller')
+        SetSingleServoSpeed(2.0, 'right_arm_shoulder_rotate_joint')
+        SetSingleServoSpeed(2.0, 'left_arm_shoulder_rotate_joint')
 
-        SetSingleServoSpeed(2.0, 'right_arm_elbow_bend_controller')
-        SetSingleServoSpeed(2.0, 'left_arm_elbow_bend_controller')
+        SetSingleServoSpeed(2.0, 'right_arm_elbow_bend_joint')
+        SetSingleServoSpeed(2.0, 'left_arm_elbow_bend_joint')
 
         # mute the microphone, so the robot does not hear sounds and servos!
         self.mic_system_enable_pub.publish(False)
@@ -211,8 +211,8 @@ class BehaviorAction(object):
 
         # Move head and arms back to ready position
         #time.sleep(1)
-        #SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_controller')
-        #SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_controller')
+        #SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_joint')
+        #SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_joint')
         all_home() # arms/head in home position
         self.stop_turn()
 

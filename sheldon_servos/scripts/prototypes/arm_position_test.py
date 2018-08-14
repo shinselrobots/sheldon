@@ -86,7 +86,7 @@ def wave3():
 
 class SetSingleServoSpeed():
     def __init__(self, speed, servo_controller):
-        # input: a servo controller string, for example: 'right_arm_shoulder_rotate_controller'
+        # input: a servo controller string, for example: 'right_arm_shoulder_rotate_joint'
 
         speed_service = '/' + servo_controller + '/set_speed'
         print('  waiting for service: ' + speed_service)
@@ -114,7 +114,7 @@ if __name__ == '__main__':
   SetServoTorque(0.5, right_arm_joints)
   SetServoSpeed(0.5, right_arm_joints)
 
-  SetSingleServoSpeed(1.8, 'right_arm_shoulder_rotate_controller')
+  SetSingleServoSpeed(1.8, 'right_arm_shoulder_rotate_joint')
 
   all_home()
   time.sleep(3)
@@ -123,11 +123,11 @@ if __name__ == '__main__':
   time.sleep(4)
   wave2()
   time.sleep(2)
-  SetSingleServoSpeed(2.0, 'right_arm_elbow_rotate_controller')
+  SetSingleServoSpeed(2.0, 'right_arm_elbow_rotate_joint')
   wave3()
   time.sleep(2)
-  SetSingleServoSpeed(0.5, 'right_arm_elbow_rotate_controller')
-  SetSingleServoTorque(0.01, 'right_arm_elbow_rotate_controller')
+  SetSingleServoSpeed(0.5, 'right_arm_elbow_rotate_joint')
+  SetSingleServoTorque(0.01, 'right_arm_elbow_rotate_joint')
   time.sleep(5)
   #say_something()
   SetServoTorque(0.5, right_arm_joints) # set back to normal

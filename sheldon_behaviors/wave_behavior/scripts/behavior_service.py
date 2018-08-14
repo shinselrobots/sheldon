@@ -88,7 +88,7 @@ class BehaviorAction(object):
 
         SetServoTorque(0.5, right_arm_joints)
         SetServoSpeed(0.7, right_arm_joints)
-        SetSingleServoSpeed(1.8, 'right_arm_shoulder_rotate_controller')
+        SetSingleServoSpeed(1.8, 'right_arm_shoulder_rotate_joint')
 
 
         self.foo = False
