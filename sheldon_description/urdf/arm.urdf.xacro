@@ -46,7 +46,7 @@
     <joint name="${side}_shoulder_rotate_joint" type="revolute">
       <origin xyz="0 0 0" rpy="-1.57 0 1.57"/>
       <axis xyz="${reflect * -1} 0 0"/> 
-      <limit effort="30" velocity="1.50" lower="-3.14" upper="3.14" />
+      <limit effort="90" velocity="2.50" lower="-3.14" upper="3.14" />
       <parent link="${side}_shoulder_rotate_servo_link"/>
       <child link="${side}_shoulder_rotate_link" />
     </joint>
@@ -79,7 +79,7 @@
     <joint name="${side}_shoulder_lift_joint" type="revolute">
       <origin xyz="0.0869955 0 0" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
-      <limit effort="30" velocity="1.50" lower="-0.050" upper="2.10" />
+      <limit effort="90" velocity="1.50" lower="-0.050" upper="2.10" />
       <parent link="${side}_shoulder_rotate_link"/>
       <child link="${side}_shoulder_lift_servo_link" />
     </joint>
@@ -242,7 +242,7 @@
     <!-- Finger Rotate -->
     <joint name="${side}_gripper_finger_joint" type="revolute">
       <axis xyz="1 0 0"/>
-      <limit effort="30.0" lower="-0.10" upper="3.14" velocity="1.0"/>
+      <limit effort="90" lower="-0.10" upper="3.14" velocity="1.0"/>
       <origin rpy="-0.20 0 0" xyz="${finger_joint_offset_x} -${finger_joint_offset_y} ${finger_joint_offset_z}"/>
       <parent link="${side}_gripper_body_link"/>
       <child link="${side}_gripper_finger_link1"/>
@@ -261,7 +261,7 @@
     <joint name="${side}_gripper_finger_joint2" type="revolute">
       <mimic joint="${side}_gripper_finger_joint" />
       <axis xyz="-1 0 0"/>
-      <limit effort="30.0" lower="-0.10" upper="3.14" velocity="0.5"/>
+      <limit effort="90" lower="-0.10" upper="3.14" velocity="0.5"/>
       <origin rpy="0.20 0 0" xyz="${finger_joint_offset_x} ${finger_joint_offset_y} ${finger_joint_offset_z}"/>
       <parent link="${side}_gripper_body_link"/>
       <child link="${side}_gripper_finger_link2"/>

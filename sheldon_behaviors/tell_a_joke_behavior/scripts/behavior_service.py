@@ -31,7 +31,7 @@ from sheldon_servos.set_servo_torque import *
 
 # Globals
 def move_hands():
-    pub_right_arm_shoulder_rotate.publish(0.3 + random.uniform(-0.1, 0.1))
+    pub_right_arm_shoulder_rotate.publish(-0.3 + random.uniform(-0.1, 0.1))
     pub_right_arm_elbow_rotate.publish(random.uniform(-0.1, 0.1))
     pub_right_arm_elbow_bend.publish(2.2 + random.uniform(-0.2, 0.2))
 

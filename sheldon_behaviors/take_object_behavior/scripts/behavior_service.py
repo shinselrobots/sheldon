@@ -36,17 +36,17 @@ from sheldon_servos.set_servo_torque import *
 # TODO! FIX THESE BOGUS VALUES!!!
 
 def move_arm_take_object_ready(): # TODO
-    pub_right_arm_shoulder_rotate.publish(-1.12)
+    pub_right_arm_shoulder_rotate.publish(1.12)
     pub_right_arm_shoulder_lift.publish(0.05)
     pub_right_arm_elbow_rotate.publish(-0.47)
     pub_right_arm_elbow_bend.publish(1.37)
-    pub_right_arm_wrist_rotate.publish(-1.35)
-    pub_right_arm_gripper.publish(-1.675)
+    pub_right_arm_wrist_rotate.publish(0.0)
+    pub_right_arm_gripper.publish(1.0)
     head_home() 
 
 
 def move_arm_close_gripper():
-    pub_right_arm_gripper.publish(-1.675) #TODO
+    pub_right_arm_gripper.publish(0.0) #TODO
     head_home() 
 
 def move_arm_view_object():
@@ -71,7 +71,6 @@ class BehaviorAction(object):
         # (Note system_enable vs. speech_enable vs. user_enable)
         self.mic_system_enable_pub = rospy.Publisher('/microphone/system_enable', Bool, queue_size=1)        
 
-        sensor_sub = rospy.Subscriber('/arm_hand_sensor_right', UInt16, self.sensor_cb) # hand sensor messages
 
         rospy.loginfo('%s: Initialized behavior service' % (self._action_name))
 
@@ -113,6 +112,10 @@ class BehaviorAction(object):
         # un-mute the microphone
         self.mic_system_enable_pub.publish(True)
 
+        # unregister some publishers
+        if self.enable_body_tracking:
+            self.sensor_sub.unregister()
+
         if interrupted:
             rospy.loginfo('%s: Behavior preempted' % self._action_name)
             self._as.set_preempted()
@@ -136,6 +139,8 @@ class BehaviorAction(object):
         rospy.loginfo("Waiting for speech server (press ctrl-c to cancel at anytime)")
         client = actionlib.SimpleActionClient("/speech_service", audio_and_speech_common.msg.speechAction)
         client.wait_for_server()
+
+        self.sensor_sub = rospy.Subscriber('/arm_hand_sensor_right', UInt16, self.sensor_cb) # hand sensor messages
 
         SetServoTorque(0.5, all_joints) # NOTE Set extra weak Servos?!
         SetServoSpeed(0.5, all_joints)

@@ -25,7 +25,7 @@ the URDF is used for MOVE_IT!
 If you modify the URDF re-run the following:
     cd urdf
     rosrun xacro xacro --inorder robot.urdf.xacro > sheldon.urdf
-    roslaunch moveit_setup_assistant setup_assistant.launch and edit as needed
+    roslaunch moveit_setup_assistant setup_assistant.launch
 
 
 ## Optional:

@@ -34,21 +34,21 @@
   </node>
 
 
-  <!-- Dynamixel Servo Controllers, using dynamixel_controller module    DISABLED
+  <!-- Dynamixel Servo Controllers, using dynamixel_controller module -->
   <include file="$(find sheldon_servos)/launch/servos.launch"/>
-  -->
+  
 
   <!-- Text to speech (robot voice) and sound effects services -->
   <rosparam file="$(find sheldon)/config/jokes.yaml" command="load"/>
   <include file="$(find robot_sounds)/launch/robot_sounds.launch"/>
 
 
-  <!-- Behavior plugin loader, which will scan the system for all available       DISABLED
+  <!-- Behavior plugin loader, which will scan the system for all available      -->
        behavior plugins (both C++ and Python)    
   <node pkg="behavior_common" type="behavior_loader" name="behavior_common_node" output="screen">
     <param name="robot_startup_behavior" value="/wakeup_behavior"/>
   </node>
-  --> 
+   
 
   <!-- Joystick buttons to control some hard coded behaviors. -->
   <node pkg="sheldon_joybuttons" type="joy_buttons.py" name="joy_buttons"/>
@@ -74,9 +74,9 @@
   <include file="$(find sheldon)/launch/include/safety_control.launch"/>
   -->
 
-  <!-- Body Tracker 
+  <!-- Body Tracker -->
   <include file="$(find sheldon)/launch/include/nuitrack_body_tracker.launch"/>
-  -->
+  
   
 
   <!-- This launch script starts navigation capabilities DISABLED

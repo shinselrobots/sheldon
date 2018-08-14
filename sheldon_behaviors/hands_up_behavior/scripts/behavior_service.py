@@ -33,23 +33,23 @@ from sheldon_servos.set_servo_torque import *
 
 # Globals
 def hands_up1():
-    pub_right_arm_shoulder_rotate.publish(-3.0)
+    pub_right_arm_shoulder_rotate.publish(3.0)
     pub_left_arm_shoulder_rotate.publish(3.0)
 
 def hands_up2():
-    #pub_right_arm_shoulder_rotate.publish(-3.0)
+    #pub_right_arm_shoulder_rotate.publish(3.0)
     #pub_right_arm_shoulder_lift.publish(0.5)
     #pub_right_arm_elbow_rotate.publish(-1.5)
     pub_right_arm_elbow_bend.publish(0.5)
     pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_gripper.publish(-2.0)
+    #pub_right_arm_gripper.publish(0.0)
 
     #pub_left_arm_shoulder_rotate.publish(3.0)
     #pub_left_arm_shoulder_lift.publish(0.7)
     #pub_left_arm_elbow_rotate.publish(1.5)
     pub_left_arm_elbow_bend.publish(0.5)
     pub_left_arm_wrist_rotate.publish(0.0)
-    # pub_left_arm_gripper.publish(0.25)
+    # pub_left_arm_gripper.publish(0.0)
     head_home() 
 
 

@@ -147,10 +147,6 @@
   <!--  to top of shoulder .5112 .7112 28 inch torso for now -->
   <!-- rotation  -->
   <!--  -0.008 wrist center is slightly behind forearm center  -->
-  <!--  
-  <xacro:property name="knee_llimit" value="-0.175" /> 
-  <xacro:property name="knee_ulimit" value="0.873" /> 
-  <xacro:property name="knee_vlimit" value="1.571" />  velocity limit -->
   <!-- "base_link" is the origin that all other componets are measured from -->
   <link name="base_link">
     <visual>
@@ -551,10 +547,8 @@
   </link>
   <joint name="right_arm_shoulder_rotate_joint" type="revolute">
     <origin rpy="-1.57 0 1.57" xyz="0 0 0"/>
-    <axis xyz="-1 0 0"/>
-    <!-- NOTE: right arm needs to be backwards to match servo feedback!
-                 so we don't use reflect here! -->
-    <limit effort="30" lower="-3.14" upper="3.14" velocity="0.524"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="30" lower="-3.14" upper="3.14" velocity="1.50"/>
     <parent link="right_arm_shoulder_rotate_servo_link"/>
     <child link="right_arm_shoulder_rotate_link"/>
   </joint>
@@ -582,7 +576,7 @@
   <joint name="right_arm_shoulder_lift_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0.0869955 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-1.57" upper="2.617" velocity="0.524"/>
+    <limit effort="30" lower="-0.050" upper="2.10" velocity="1.50"/>
     <parent link="right_arm_shoulder_rotate_link"/>
     <child link="right_arm_shoulder_lift_servo_link"/>
   </joint>
@@ -661,7 +655,7 @@
   <joint name="right_arm_elbow_rotate_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.0235"/>
     <axis xyz="0 0 1"/>
-    <limit effort="30" lower="-1.57" upper="1.57" velocity="0.524"/>
+    <limit effort="30" lower="-2.2" upper="3.14" velocity="3.0"/>
     <parent link="right_arm_elbow_rotate_servo_link"/>
     <child link="right_arm_elbow_rotate_link"/>
   </joint>
@@ -713,7 +707,7 @@
   <joint name="right_arm_elbow_bend_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-1.57" upper="3.14" velocity="0.785"/>
+    <limit effort="30" lower="-1.2" upper="3.14" velocity="3.0"/>
     <parent link="right_arm_elbow_bend_servo_link"/>
     <child link="right_arm_elbow_bend_link"/>
   </joint>
@@ -795,7 +789,7 @@
   <joint name="right_arm_wrist_rotate_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.0235"/>
     <axis xyz="0 0 1"/>
-    <limit effort="30" lower="-1.57" upper="1.57" velocity="0.524"/>
+    <limit effort="30" lower="-3.0" upper="1.57" velocity="3.0"/>
     <parent link="right_arm_wrist_rotate_servo_link"/>
     <child link="right_arm_wrist_rotate_link"/>
   </joint>
@@ -852,7 +846,7 @@
   <!-- Finger Rotate -->
   <joint name="right_arm_gripper_finger_joint" type="revolute">
     <axis xyz="1 0 0"/>
-    <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
+    <limit effort="30.0" lower="-0.10" upper="3.14" velocity="1.0"/>
     <origin rpy="-0.20 0 0" xyz="0.0 -0.035 0.085"/>
     <parent link="right_arm_gripper_body_link"/>
     <child link="right_arm_gripper_finger_link1"/>
@@ -869,7 +863,7 @@
   <joint name="right_arm_gripper_finger_joint2" type="revolute">
     <mimic joint="right_arm_gripper_finger_joint"/>
     <axis xyz="-1 0 0"/>
-    <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
+    <limit effort="30.0" lower="-0.10" upper="3.14" velocity="0.5"/>
     <origin rpy="0.20 0 0" xyz="0.0 0.035 0.085"/>
     <parent link="right_arm_gripper_body_link"/>
     <child link="right_arm_gripper_finger_link2"/>
@@ -933,9 +927,7 @@
   <joint name="left_arm_shoulder_rotate_joint" type="revolute">
     <origin rpy="-1.57 0 1.57" xyz="0 0 0"/>
     <axis xyz="-1 0 0"/>
-    <!-- NOTE: right arm needs to be backwards to match servo feedback!
-                 so we don't use reflect here! -->
-    <limit effort="30" lower="-3.14" upper="3.14" velocity="0.524"/>
+    <limit effort="30" lower="-3.14" upper="3.14" velocity="1.50"/>
     <parent link="left_arm_shoulder_rotate_servo_link"/>
     <child link="left_arm_shoulder_rotate_link"/>
   </joint>
@@ -963,7 +955,7 @@
   <joint name="left_arm_shoulder_lift_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0.0869955 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-1.57" upper="2.617" velocity="0.524"/>
+    <limit effort="30" lower="-0.050" upper="2.10" velocity="1.50"/>
     <parent link="left_arm_shoulder_rotate_link"/>
     <child link="left_arm_shoulder_lift_servo_link"/>
   </joint>
@@ -1041,8 +1033,8 @@
   </link>
   <joint name="left_arm_elbow_rotate_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.0235"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="30" lower="-1.57" upper="1.57" velocity="0.524"/>
+    <axis xyz="0 0 -1"/>
+    <limit effort="30" lower="-2.2" upper="3.14" velocity="3.0"/>
     <parent link="left_arm_elbow_rotate_servo_link"/>
     <child link="left_arm_elbow_rotate_link"/>
   </joint>
@@ -1094,7 +1086,7 @@
   <joint name="left_arm_elbow_bend_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-1.57" upper="3.14" velocity="0.785"/>
+    <limit effort="30" lower="-1.2" upper="3.14" velocity="3.0"/>
     <parent link="left_arm_elbow_bend_servo_link"/>
     <child link="left_arm_elbow_bend_link"/>
   </joint>
@@ -1175,8 +1167,8 @@
   </link>
   <joint name="left_arm_wrist_rotate_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.0235"/>
-    <axis xyz="0 0 1"/>
-    <limit effort="30" lower="-1.57" upper="1.57" velocity="0.524"/>
+    <axis xyz="0 0 -1"/>
+    <limit effort="30" lower="-3.0" upper="1.57" velocity="3.0"/>
     <parent link="left_arm_wrist_rotate_servo_link"/>
     <child link="left_arm_wrist_rotate_link"/>
   </joint>
@@ -1233,7 +1225,7 @@
   <!-- Finger Rotate -->
   <joint name="left_arm_gripper_finger_joint" type="revolute">
     <axis xyz="1 0 0"/>
-    <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
+    <limit effort="30.0" lower="-0.10" upper="3.14" velocity="1.0"/>
     <origin rpy="-0.20 0 0" xyz="0.0 -0.035 0.085"/>
     <parent link="left_arm_gripper_body_link"/>
     <child link="left_arm_gripper_finger_link1"/>
@@ -1250,7 +1242,7 @@
   <joint name="left_arm_gripper_finger_joint2" type="revolute">
     <mimic joint="left_arm_gripper_finger_joint"/>
     <axis xyz="-1 0 0"/>
-    <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
+    <limit effort="30.0" lower="-0.10" upper="3.14" velocity="0.5"/>
     <origin rpy="0.20 0 0" xyz="0.0 0.035 0.085"/>
     <parent link="left_arm_gripper_body_link"/>
     <child link="left_arm_gripper_finger_link2"/>

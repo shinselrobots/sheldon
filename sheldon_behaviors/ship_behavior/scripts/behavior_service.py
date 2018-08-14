@@ -73,7 +73,7 @@ class BehaviorAction(object):
         SetServoTorque(0.0, all_joints)
 
         # Move arms forward, so they point down after waist moves
-        #pub_right_arm_shoulder_rotate.publish(-0.78)
+        #pub_right_arm_shoulder_rotate.publish(0.78)
         #pub_left_arm_shoulder_rotate.publish(0.78)
 
         # Move Waist into position

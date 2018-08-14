@@ -188,7 +188,7 @@ namespace sheldon_behavior_utils
   {
     ROS_INFO( "BehaviorUtils::rightArmHome called" );
     // shoulder_rotate, shoulder_lift, elbow_rotate, elbow_bend, wrist_rotate, gripper_open, intervalSeconds, waitForCompletion
-    moveRightArm(-1.0, 0.25, 0.0, 2.2, 0.0, 0.25, 3.0 /*Seconds*/, false);
+    moveRightArm(-1.0, 0.25, 0.0, 2.2, 0.0, 0.0, 3.0 /*Seconds*/, false);
 
   }
 
@@ -209,7 +209,7 @@ namespace sheldon_behavior_utils
     goal.trajectory.points.resize(1);
     goal.trajectory.points[0].positions.resize(6);
     goal.trajectory.points[0].positions[0] = shoulder_rotate;
-    goal.trajectory.points[0].positions[1] = shoulder_lift; // shoulder lift SERVO BROKEN
+    goal.trajectory.points[0].positions[1] = shoulder_lift;
     goal.trajectory.points[0].positions[2] = elbow_rotate;
     goal.trajectory.points[0].positions[3] = elbow_bend;
     goal.trajectory.points[0].positions[4] = wrist_rotate;
@@ -228,7 +228,7 @@ namespace sheldon_behavior_utils
   {
     ROS_INFO( "BehaviorUtils::rightArmHome called" );
     // shoulder_rotate, shoulder_lift, elbow_rotate, elbow_bend, wrist_rotate, gripper_open, intervalSeconds, waitForCompletion
-    moveLeftArm(-1.0, 0.25, 0.0, 2.2, 0.0, 0.25, 3.0 /*Seconds*/, false);
+    moveLeftArm(-1.0, 0.25, 0.0, 2.2, 0.0, 0.0, 3.0 /*Seconds*/, false);
 
   }
 

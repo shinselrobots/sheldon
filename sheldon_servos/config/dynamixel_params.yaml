@@ -34,7 +34,7 @@ head_sidetilt_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: head_sidetilt_joint
-    joint_speed: 0.5
+    joint_speed: 1.0
     motor:
         id: 2
         init: 2047 
@@ -47,7 +47,7 @@ head_tilt_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: head_tilt_joint
-    joint_speed: 0.25
+    joint_speed: 0.5
     motor:
         id: 3
         init: 2047
@@ -60,7 +60,7 @@ head_pan_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: head_pan_joint
-    joint_speed: 0.5
+    joint_speed: 1.0
     motor:
         id: 4
         init: 2047
@@ -73,7 +73,7 @@ right_arm_shoulder_rotate_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_shoulder_rotate_joint
-    joint_speed: 1.0
+    joint_speed: 2.0
     motor:
         id: 16
         init: 2000  #2047 default
@@ -86,7 +86,7 @@ right_arm_shoulder_lift_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_shoulder_lift_joint
-    joint_speed: 0.25
+    joint_speed: 1.0
     motor:
         id: 6
         init: 2074 # changed
@@ -99,7 +99,7 @@ right_arm_elbow_rotate_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_elbow_rotate_joint
-    joint_speed: 1.0
+    joint_speed: 2.0
     motor:
         id: 7
         init: 2047
@@ -112,7 +112,7 @@ right_arm_elbow_bend_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_elbow_bend_joint
-    joint_speed: 1.0
+    joint_speed: 2.0
     motor:
         id: 8
         init: 2047
@@ -125,7 +125,7 @@ right_arm_wrist_rotate_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_wrist_rotate_joint
-    joint_speed: 1.0
+    joint_speed: 2.0
     motor:
         id: 9
         init: 2047
@@ -138,7 +138,7 @@ right_arm_gripper_finger_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_gripper_finger_joint
-    joint_speed: 1.0
+    joint_speed: 0.5
     motor:
         id: 10
         init: 2047
@@ -152,7 +152,7 @@ left_arm_shoulder_rotate_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_shoulder_rotate_joint
-    joint_speed: 1.0
+    joint_speed: 2.0
     motor:
         id: 17
         init: 2047
@@ -165,10 +165,10 @@ left_arm_shoulder_lift_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_shoulder_lift_joint
-    joint_speed: 0.25
+    joint_speed: 1.0
     motor:
         id: 11
-        init: 2191 # changed
+        init: 2200 # changed
         min: 2140
         max: 3586
 
@@ -178,7 +178,7 @@ left_arm_elbow_rotate_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_elbow_rotate_joint
-    joint_speed: 1.0
+    joint_speed: 2.0
     motor:
         id: 12
         init: 2047
@@ -191,7 +191,7 @@ left_arm_elbow_bend_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_elbow_bend_joint
-    joint_speed: 1.0
+    joint_speed: 2.0
     motor:
         id: 13
         init: 2047
@@ -204,7 +204,7 @@ left_arm_wrist_rotate_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_wrist_rotate_joint
-    joint_speed: 1.0
+    joint_speed: 2.0
     motor:
         id: 14
         init: 2047
@@ -217,7 +217,7 @@ left_arm_gripper_finger_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_gripper_finger_joint
-    joint_speed: 1.0
+    joint_speed: 0.5
     motor:
         id: 15
         init: 2047

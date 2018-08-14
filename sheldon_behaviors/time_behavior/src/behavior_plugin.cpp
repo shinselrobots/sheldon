@@ -79,7 +79,7 @@ namespace behavior_plugin
           mic_system_enable_.publish(mic_enable_msg);
 
          // move arm forward
-		  pos.data = -0.7;  // reverse from left
+		  pos.data = 0.7; 
           right_arm_shoulder_rotate_.publish(pos);
 		  pos.data = 1.5708; // 90 degrees
           right_arm_elbow_bend_.publish(pos);
@@ -129,7 +129,7 @@ namespace behavior_plugin
           head_tilt_.publish(pos);
 		  pos.data = 0.0;
           head_pan_.publish(pos);
-		  pos.data = 0.5; // Home
+		  pos.data = -0.5; // Home
           right_arm_shoulder_rotate_.publish(pos);
 		  pos.data = 2.2; // Home
           right_arm_elbow_bend_.publish(pos);
