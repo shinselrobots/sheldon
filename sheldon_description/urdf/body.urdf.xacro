@@ -8,7 +8,7 @@
   <xacro:property name="tibia_offset_z" value="${base_deck}" />  <!-- distance above ground -->
 
   <xacro:property name="tibia_size_x" value="0.0726" />
-  <xacro:property name="tibia_size_y" value="0.340" /> 
+  <xacro:property name="tibia_size_y" value="0.320" /> <!-- 3.40 collides with gripper -->
   <xacro:property name="tibia_size_z" value="0.110" /> 
     
   <xacro:property name="knee_llimit" value="-0.175" /> 
