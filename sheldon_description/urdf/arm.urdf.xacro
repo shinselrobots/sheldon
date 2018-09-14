@@ -9,7 +9,11 @@
  
   <xacro:property name="lower_arm_size_x" value="0.040" />
   <xacro:property name="lower_arm_size_y" value="0.060" />
-  <xacro:property name="lower_arm_size_z" value="0.110" /> 
+
+  <!-- <xacro:property name="lower_arm_size_z" value="0.110" /> -->  <!-- CORRECT VALUE!! -->
+  <xacro:property name="lower_arm_size_z" value="0.080" />  <!-- KLUDGE FOR TESTING!!! -->
+
+
 
   <xacro:property name="finger_size_x" value="0.020" />
   <xacro:property name="finger_size_y" value="0.035" />
@@ -46,7 +50,7 @@
     <joint name="${side}_shoulder_rotate_joint" type="revolute">
       <origin xyz="0 0 0" rpy="-1.57 0 1.57"/>
       <axis xyz="${reflect * -1} 0 0"/> 
-      <limit effort="90" velocity="2.50" lower="-3.14" upper="3.14" />
+      <limit effort="1000" velocity="2.3" lower="-3.14" upper="3.14" />
       <parent link="${side}_shoulder_rotate_servo_link"/>
       <child link="${side}_shoulder_rotate_link" />
     </joint>
@@ -79,7 +83,7 @@
     <joint name="${side}_shoulder_lift_joint" type="revolute">
       <origin xyz="0.0869955 0 0" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
-      <limit effort="90" velocity="1.50" lower="-0.050" upper="2.10" />
+      <limit effort="1000" velocity="4.6" lower="-0.050" upper="2.10" />
       <parent link="${side}_shoulder_rotate_link"/>
       <child link="${side}_shoulder_lift_servo_link" />
     </joint>
@@ -147,7 +151,7 @@
       <origin xyz="0.335 ${reflect * 0.015} 0" rpy="-1.57 ${1.57+(reflect * 1.57)} -1.57"/> 
     </dynamixel_rx64_pan>
 
-    <rx64_side_revolute parent="${side}_elbow_rotate_servo_link" name="${side}_elbow_rotate" llimit="-2.20" ulimit="3.14" vlimit="3.0" color="${servo_bracket_color}" reflect="${-reflect}">
+    <rx64_side_revolute parent="${side}_elbow_rotate_servo_link" name="${side}_elbow_rotate" llimit="-2.20" ulimit="3.14" vlimit="6.6" color="${servo_bracket_color}" reflect="${-reflect}">
       <origin xyz="0 0 0.0235" rpy="0 0 0"/>
     </rx64_side_revolute>
 
@@ -158,14 +162,17 @@
       <!-- <origin xyz="0 0 0" rpy="0 0 0"/> -->
     </dynamixel_rx64_tilt>
 
-    <rx64_hinge parent="${side}_elbow_bend_servo_link" name="${side}_elbow_bend" llimit="-1.20" ulimit="3.14" vlimit="3.0" color="${servo_bracket_color}">
+    <rx64_hinge parent="${side}_elbow_bend_servo_link" name="${side}_elbow_bend" llimit="-1.20" ulimit="3.14" vlimit="6.6" color="${servo_bracket_color}">
       <origin xyz="0 0 0.0" rpy="0 0 0"/>
     </rx64_hinge>
 
 
     <!-- Lower Arm fixed link -->
     <joint name="${side}_lower_fixed_joint" type="fixed">
-      <origin xyz="0.030 0 0.031" rpy="0 1.57 0"/> <!-- .034... "0.14 0 0.05" half the length, plus bracket lenth and offset -->
+
+      <!--  "0.030 0 0.031" half the length, plus bracket lenth and offset -->
+      <origin xyz="0.030 0 0.031" rpy="0 1.57 0"/>  <!-- KLUDGE FOR TESTING!!! -->
+
       <parent link="${side}_elbow_bend_link"/>
       <child link="${side}_lower_link" />
     </joint>
@@ -194,20 +201,33 @@
       </collision>
     </link>
 
+
+
+    <!-- Wrist Bend (NEW!) -->
+    <dynamixel_rx28_tilt parent="${side}_lower_link" name="${side}_wrist_bend_servo" color="${servo_color}">
+      <origin xyz="0 0 ${lower_arm_size_z + (rx28_servo_width/2)}" rpy="0 -1.57 0"/>
+    </dynamixel_rx28_tilt>
+
+    <rx28_hinge parent="${side}_wrist_bend_servo_link" name="${side}_wrist_bend" llimit="-1.57" ulimit="1.57" vlimit="6.6" color="${servo_bracket_color}">
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+    </rx28_hinge>
+
+
+
     <!-- Wrist Rotate -->
-    <dynamixel_rx28_pan parent="${side}_lower_link" name="${side}_wrist_rotate_servo" color="${servo_color}">
-      <origin xyz="${wrist_servo_offset_x} 0 ${lower_arm_size_z + (rx28_servo_width/2)}" rpy="0 0 3.14"/> <!-- <origin xyz="0 0 0.14" -->
+    <dynamixel_rx28_pan parent="${side}_wrist_bend_link" name="${side}_wrist_rotate_servo" color="${servo_color}">
+      <origin xyz="${(rx28_servo_width/2)+0.03} 0 0" rpy="3.14 -1.57 0" /> 
     </dynamixel_rx28_pan>
 
-    <rx28_side_revolute parent="${side}_wrist_rotate_servo_link" name="${side}_wrist_rotate" llimit="-3.0" ulimit="1.57" vlimit="3.0" color="${servo_bracket_color}" reflect="${-reflect}">
-      <origin xyz="0 0 0.0235" rpy="0 0 0"/>
+    <rx28_side_revolute parent="${side}_wrist_rotate_servo_link" name="${side}_wrist_rotate" llimit="-3.0" ulimit="1.57" vlimit="5.8" color="${servo_bracket_color}" reflect="${-reflect}">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
     </rx28_side_revolute>
 
 
 
     <!-- Gripper fixed joint -->
     <joint name="${side}_gripper_fixed_joint" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>    <!-- "0 0.03 0" -->
       <parent link="${side}_wrist_rotate_link"/>
       <child link="${side}_gripper_body_link" />
     </joint>
@@ -233,7 +253,7 @@
       <collision>
         <origin xyz="0 0 ${0.215 / 2.0}" rpy="0 0 0" /> <!-- rpy="-1.57 0 0" -->
         <geometry>
-          <box size="0.05 0.09 0.180"/>
+          <box size="0.05 0.09 0.170"/>
         </geometry>
       </collision>
     </link>
@@ -242,7 +262,7 @@
     <!-- Finger Rotate -->
     <joint name="${side}_gripper_finger_joint" type="revolute">
       <axis xyz="1 0 0"/>
-      <limit effort="90" lower="-0.10" upper="3.14" velocity="1.0"/>
+      <limit effort="1000" lower="-0.10" upper="3.14" velocity="5.8"/>
       <origin rpy="-0.20 0 0" xyz="${finger_joint_offset_x} -${finger_joint_offset_y} ${finger_joint_offset_z}"/>
       <parent link="${side}_gripper_body_link"/>
       <child link="${side}_gripper_finger_link1"/>
@@ -261,7 +281,7 @@
     <joint name="${side}_gripper_finger_joint2" type="revolute">
       <mimic joint="${side}_gripper_finger_joint" />
       <axis xyz="-1 0 0"/>
-      <limit effort="90" lower="-0.10" upper="3.14" velocity="0.5"/>
+      <limit effort="1000" lower="-0.10" upper="3.14" velocity="5.8"/>
       <origin rpy="0.20 0 0" xyz="${finger_joint_offset_x} ${finger_joint_offset_y} ${finger_joint_offset_z}"/>
       <parent link="${side}_gripper_body_link"/>
       <child link="${side}_gripper_finger_link2"/>
@@ -280,7 +300,7 @@
 
     <!-- Planning link and joint for the gripper -->
     <joint name="${side}_gripper_joint" type="fixed">
-      <origin rpy="${PI/2} 0 0" xyz="0 0 ${gripper_target_offset_z}"/>
+      <origin rpy="0 ${PI/2} 0" xyz="0 0 ${gripper_target_offset_z}"/> 
       <axis xyz="0 0 1" />
       <parent link="${side}_gripper_body_link"/>
       <child link="${side}_gripper_link"/>

@@ -47,8 +47,8 @@ class MoveItDemo:
         right_arm.set_pose_reference_frame('base_footprint')
                 
         # Allow some leeway in position(meters) and orientation (radians)
-        right_arm.set_goal_position_tolerance(0.01)
-        right_arm.set_goal_orientation_tolerance(0.1)
+        right_arm.set_goal_position_tolerance(0.01)     # 0.01
+        right_arm.set_goal_orientation_tolerance(0.1)  # 0.05
         
         # Get the name of the end-effector link
         end_effector_link = right_arm.get_end_effector_link()
@@ -65,6 +65,7 @@ class MoveItDemo:
         # Initialize the waypoints list
         waypoints = []
                 
+        rospy.loginfo("=============> DEBUG: start pose - EXTENDED")
         # Set the first waypoint to be the starting pose
         if cartesian:
             # Append the pose to the waypoints list
@@ -74,33 +75,39 @@ class MoveItDemo:
                 
         # Set the next waypoint back 0.2 meters and right 0.2 meters
         wpose.position.x -= 0.2
-        wpose.position.y -= 0.2
+        wpose.position.z -= 0.1
 
         if cartesian:
+            rospy.loginfo("=============> DEBUG: cartesian1")
             # Append the pose to the waypoints list
             waypoints.append(deepcopy(wpose))
         else:
+            rospy.loginfo("=============> DEBUG: non-cartesian1")
             right_arm.set_pose_target(wpose)
             right_arm.go()
             rospy.sleep(1)
          
         # Set the next waypoint to the right 0.15 meters
         wpose.position.x += 0.05
-        wpose.position.y += 0.15
+        #wpose.position.y += 0.15
         wpose.position.z -= 0.15
           
         if cartesian:
             # Append the pose to the waypoints list
+            rospy.loginfo("=============> DEBUG: cartesian2")
             waypoints.append(deepcopy(wpose))
         else:
+            rospy.loginfo("=============> DEBUG: non-cartesian2")
             right_arm.set_pose_target(wpose)
             right_arm.go()
             rospy.sleep(1)
             
         if cartesian:
             # Append the pose to the waypoints list
+            rospy.loginfo("=============> DEBUG: cartesian3")
             waypoints.append(deepcopy(start_pose))
         else:
+            rospy.loginfo("=============> DEBUG: non-cartesian3")
             right_arm.set_pose_target(start_pose)
             right_arm.go()
             rospy.sleep(1)
@@ -111,6 +118,7 @@ class MoveItDemo:
             attempts = 0
             
             # Set the internal state to the current state
+            rospy.loginfo("=============> DEBUG: debug4")
             right_arm.set_start_state_to_current_state()
      
             # Plan the Cartesian path connecting the waypoints
@@ -129,6 +137,7 @@ class MoveItDemo:
                     rospy.loginfo("Still trying after " + str(attempts) + " attempts...")
                          
             # If we have a complete plan, execute the trajectory
+            rospy.loginfo("=============> DEBUG: debug5")
             if fraction == 1.0:
                 rospy.loginfo("Path computed successfully. Moving the arm.")
     
@@ -139,6 +148,7 @@ class MoveItDemo:
                 rospy.loginfo("Path planning failed with only " + str(fraction) + " success after " + str(maxtries) + " attempts.")  
 
         # Move normally back to the 'resting' position
+        rospy.loginfo("=============> DEBUG: done, moving home")
         right_arm.set_named_target('right_arm_home')
         right_arm.go()
         rospy.sleep(1)

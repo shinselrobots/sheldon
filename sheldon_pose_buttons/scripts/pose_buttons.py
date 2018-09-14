@@ -68,14 +68,18 @@ class PoseButtons():
             '~right_arm_elbow_bend_joint', 'right_arm_elbow_bend_joint')
         self.right_arm_elbow_bend = 0.0
         self.last_right_arm_elbow_bend = 0.0
+        self.right_arm_wrist_bend_joint = rospy.get_param(
+            '~right_arm_wrist_bend_joint', 'right_arm_wrist_bend_joint')
+        self.right_arm_wrist_bend = 0.0
+        self.last_right_arm_wrist_bend = 0.0
         self.right_arm_wrist_rotate_joint = rospy.get_param(
             '~right_arm_wrist_rotate_joint', 'right_arm_wrist_rotate_joint')
         self.right_arm_wrist_rotate = 0.0
         self.last_right_arm_wrist_rotate = 0.0
         self.right_arm_gripper_finger_joint = rospy.get_param(
             '~right_arm_gripper_finger_joint', 'right_arm_gripper_finger_joint')
-        self.right_arm_gripper = 0.0
-        self.last_right_arm_gripper = 0.0
+        self.right_arm_gripper_finger = 0.0
+        self.last_right_arm_gripper_finger = 0.0
 
 
         # Left Arm Joints
@@ -95,14 +99,18 @@ class PoseButtons():
             '~left_arm_elbow_bend_joint', 'left_arm_elbow_bend_joint')
         self.left_arm_elbow_bend = 0.0
         self.last_left_arm_elbow_bend = 0.0
+        self.left_arm_wrist_bend_joint = rospy.get_param(
+            '~left_arm_wrist_bend_joint', 'left_arm_wrist_bend_joint')
+        self.left_arm_wrist_bend = 0.0
+        self.last_left_arm_wrist_bend = 0.0
         self.left_arm_wrist_rotate_joint = rospy.get_param(
             '~left_arm_wrist_rotate_joint', 'left_arm_wrist_rotate_joint')
         self.left_arm_wrist_rotate = 0.0
         self.last_left_arm_wrist_rotate = 0.0
         self.left_arm_gripper_finger_joint = rospy.get_param(
             '~left_arm_gripper_finger_joint', 'left_arm_gripper_finger_joint')
-        self.left_arm_gripper = 0.0
-        self.last_left_arm_gripper = 0.0
+        self.left_arm_gripper_finger = 0.0
+        self.last_left_arm_gripper_finger = 0.0
 
         rospy.loginfo("pose_buttons ready")
 
@@ -167,9 +175,11 @@ class PoseButtons():
               self.joint_state.name.index(self.right_arm_elbow_rotate_joint)]
             self.right_arm_elbow_bend = self.joint_state.position[
               self.joint_state.name.index(self.right_arm_elbow_bend_joint)]
+            self.right_arm_wrist_bend = self.joint_state.position[
+              self.joint_state.name.index(self.right_arm_wrist_bend_joint)]
             self.right_arm_wrist_rotate = self.joint_state.position[
               self.joint_state.name.index(self.right_arm_wrist_rotate_joint)]
-            self.right_arm_gripper = self.joint_state.position[
+            self.right_arm_gripper_finger = self.joint_state.position[
               self.joint_state.name.index(self.right_arm_gripper_finger_joint)]
 
 
@@ -181,9 +191,11 @@ class PoseButtons():
               self.joint_state.name.index(self.left_arm_elbow_rotate_joint)]
             self.left_arm_elbow_bend = self.joint_state.position[
               self.joint_state.name.index(self.left_arm_elbow_bend_joint)]
+            self.left_arm_wrist_bend = self.joint_state.position[
+              self.joint_state.name.index(self.left_arm_wrist_bend_joint)]
             self.left_arm_wrist_rotate = self.joint_state.position[
               self.joint_state.name.index(self.left_arm_wrist_rotate_joint)]
-            self.left_arm_gripper = self.joint_state.position[
+            self.left_arm_gripper_finger = self.joint_state.position[
               self.joint_state.name.index(self.left_arm_gripper_finger_joint)]
 
         except:
@@ -197,11 +209,13 @@ class PoseButtons():
             rospy.loginfo("RIGHT ARM: ShoulderRotate = %f, ShoulderLift = %f, ElbowRotate = %f, ElbowBend = %f, WristRotate = %f, Gripper = %f", 
                 self.right_arm_shoulder_rotate, self.right_arm_shoulder_lift, 
                 self.right_arm_elbow_rotate, self.right_arm_elbow_bend, 
-                self.right_arm_wrist_rotate, self.right_arm_gripper)
+                self.right_arm_elbow_rotate, self.right_arm_wrist_bend, 
+                self.right_arm_wrist_rotate, self.right_arm_gripper_finger)
             rospy.loginfo("LEFT ARM: ShoulderRotate = %f, ShoulderLift = %f, ElbowRotate = %f, ElbowBend = %f, WristRotate = %f, Gripper = %f", 
                 self.left_arm_shoulder_rotate, self.left_arm_shoulder_lift, 
                 self.left_arm_elbow_rotate, self.left_arm_elbow_bend, 
-                self.left_arm_wrist_rotate, self.left_arm_gripper)
+                self.left_arm_elbow_rotate, self.left_arm_wrist_bend, 
+                self.left_arm_wrist_rotate, self.left_arm_gripper_finger)
 
 
 
@@ -212,8 +226,9 @@ class PoseButtons():
         rospy.loginfo("right_arm_shoulder_lift   = %7.4f", self.right_arm_shoulder_lift)
         rospy.loginfo("right_arm_elbow_rotate    = %7.4f", self.right_arm_elbow_rotate)
         rospy.loginfo("right_arm_elbow_bend      = %7.4f", self.right_arm_elbow_bend)
+        rospy.loginfo("right_arm_wrist_bend      = %7.4f", self.right_arm_wrist_bend)
         rospy.loginfo("right_arm_wrist_rotate    = %7.4f", self.right_arm_wrist_rotate)
-        rospy.loginfo("right_arm_gripper         = %7.4f", self.right_arm_gripper)
+        rospy.loginfo("right_arm_gripper_finger  = %7.4f", self.right_arm_gripper_finger)
         rospy.loginfo("-----------------------------------")
 
     def print_arm_servos_left(self):
@@ -222,8 +237,9 @@ class PoseButtons():
         rospy.loginfo("left_arm_shoulder_lift   = %7.4f", self.left_arm_shoulder_lift)
         rospy.loginfo("left_arm_elbow_rotate    = %7.4f", self.left_arm_elbow_rotate)
         rospy.loginfo("left_arm_elbow_bend      = %7.4f", self.left_arm_elbow_bend)
+        rospy.loginfo("left_arm_wrist_bend      = %7.4f", self.left_arm_wrist_bend)
         rospy.loginfo("left_arm_wrist_rotate    = %7.4f", self.left_arm_wrist_rotate)
-        rospy.loginfo("left_arm_gripper         = %7.4f", self.left_arm_gripper)
+        rospy.loginfo("left_arm_gripper_finger  = %7.4f", self.left_arm_gripper_finger)
         rospy.loginfo("-----------------------------------")
 
 

@@ -78,6 +78,8 @@ class BehaviorAction(object):
         rospy.loginfo("Speech goal returned result: %d", result)
 
         # Move head and arms to ready position
+        SetServoTorque(0.8, all_joints)
+        SetServoSpeed(0.8, all_joints)
         all_home()
 
         #calibrate waist

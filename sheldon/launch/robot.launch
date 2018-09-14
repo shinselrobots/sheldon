@@ -34,9 +34,9 @@
   </node>
 
 
-  <!-- Dynamixel Servo Controllers, using OLD dynamixel_controller module  DISABLED
+  <!-- Dynamixel Servo Controllers, using modified sheldon_dynamixel_motor module -->
   <include file="$(find sheldon_servos)/launch/servos.launch"/>
-  -->
+  
 
   <!-- Text to speech (robot voice) and sound effects services -->
   <rosparam file="$(find sheldon)/config/jokes.yaml" command="load"/>
@@ -66,20 +66,20 @@
   <include file="$(find sheldon)/launch/include/speech_recognition.launch"/>
 
 
-  <!-- This launch script starts the Lidar.   
+  <!-- This launch script starts the Lidar.  DISABLED 
   <include file="$(find sheldon)/launch/include/lidar.launch"/> 
   -->
 
-  <!-- Safety Controller 
+  <!-- Safety Controller  DISABLED
   <include file="$(find sheldon)/launch/include/safety_control.launch"/>
   -->
 
-  <!-- Body Tracker -->
+  <!-- Body Tracker   DISABLED
   <include file="$(find sheldon)/launch/include/nuitrack_body_tracker.launch"/>
-  
+  -->
   
 
-  <!-- This launch script starts navigation capabilities DISABLED
+  <!-- This launch script starts navigation capabilities   DISABLED
   <include file="$(find sheldon_navigation)/launch/include/navigation.launch" />
   -->
 

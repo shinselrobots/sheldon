@@ -28,18 +28,12 @@
         <link name="left_arm_gripper_link" />
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
-    <group_state name="right_arm_resting" group="right_arm">
+    <group_state name="right_arm_relaxed" group="right_arm">
         <joint name="right_arm_elbow_bend_joint" value="0" />
         <joint name="right_arm_elbow_rotate_joint" value="0" />
         <joint name="right_arm_shoulder_lift_joint" value="0" />
         <joint name="right_arm_shoulder_rotate_joint" value="0" />
-        <joint name="right_arm_wrist_rotate_joint" value="0" />
-    </group_state>
-    <group_state name="right_arm_extend_full" group="right_arm">
-        <joint name="right_arm_elbow_bend_joint" value="0" />
-        <joint name="right_arm_elbow_rotate_joint" value="0" />
-        <joint name="right_arm_shoulder_lift_joint" value="0" />
-        <joint name="right_arm_shoulder_rotate_joint" value="1.57" />
+        <joint name="right_arm_wrist_bend_joint" value="0" />
         <joint name="right_arm_wrist_rotate_joint" value="0" />
     </group_state>
     <group_state name="right_arm_home" group="right_arm">
@@ -47,20 +41,31 @@
         <joint name="right_arm_elbow_rotate_joint" value="0" />
         <joint name="right_arm_shoulder_lift_joint" value="0" />
         <joint name="right_arm_shoulder_rotate_joint" value="-0.45" />
+        <joint name="right_arm_wrist_bend_joint" value="0" />
         <joint name="right_arm_wrist_rotate_joint" value="0" />
     </group_state>
-    <group_state name="left_arm_resting" group="left_arm">
+    <group_state name="right_arm_extend" group="right_arm">
+        <joint name="right_arm_elbow_bend_joint" value="1.57" />
+        <joint name="right_arm_elbow_rotate_joint" value="0" />
+        <joint name="right_arm_shoulder_lift_joint" value="0" />
+        <joint name="right_arm_shoulder_rotate_joint" value="0.7" />
+        <joint name="right_arm_wrist_bend_joint" value="-0.7" />
+        <joint name="right_arm_wrist_rotate_joint" value="0" />
+    </group_state>
+    <group_state name="right_arm_extend_full" group="right_arm">
+        <joint name="right_arm_elbow_bend_joint" value="0" />
+        <joint name="right_arm_elbow_rotate_joint" value="0" />
+        <joint name="right_arm_shoulder_lift_joint" value="0" />
+        <joint name="right_arm_shoulder_rotate_joint" value="1.57" />
+        <joint name="right_arm_wrist_bend_joint" value="0" />
+        <joint name="right_arm_wrist_rotate_joint" value="0" />
+    </group_state>
+    <group_state name="left_arm_relaxed" group="left_arm">
         <joint name="left_arm_elbow_bend_joint" value="0" />
         <joint name="left_arm_elbow_rotate_joint" value="0" />
         <joint name="left_arm_shoulder_lift_joint" value="0" />
         <joint name="left_arm_shoulder_rotate_joint" value="0" />
-        <joint name="left_arm_wrist_rotate_joint" value="0" />
-    </group_state>
-    <group_state name="left_arm_extend_full" group="left_arm">
-        <joint name="left_arm_elbow_bend_joint" value="0" />
-        <joint name="left_arm_elbow_rotate_joint" value="0" />
-        <joint name="left_arm_shoulder_lift_joint" value="0" />
-        <joint name="left_arm_shoulder_rotate_joint" value="1.57" />
+        <joint name="left_arm_wrist_bend_joint" value="0" />
         <joint name="left_arm_wrist_rotate_joint" value="0" />
     </group_state>
     <group_state name="left_arm_home" group="left_arm">
@@ -68,21 +73,24 @@
         <joint name="left_arm_elbow_rotate_joint" value="0" />
         <joint name="left_arm_shoulder_lift_joint" value="0" />
         <joint name="left_arm_shoulder_rotate_joint" value="-0.45" />
+        <joint name="left_arm_wrist_bend_joint" value="0" />
         <joint name="left_arm_wrist_rotate_joint" value="0" />
     </group_state>
-    <group_state name="left_arm_cross" group="left_arm">
-        <joint name="left_arm_elbow_bend_joint" value="2.2338" />
-        <joint name="left_arm_elbow_rotate_joint" value="-1.1144" />
+    <group_state name="left_arm_extend" group="left_arm">
+        <joint name="left_arm_elbow_bend_joint" value="1.57" />
+        <joint name="left_arm_elbow_rotate_joint" value="0" />
         <joint name="left_arm_shoulder_lift_joint" value="0" />
-        <joint name="left_arm_shoulder_rotate_joint" value="0.5176" />
-        <joint name="left_arm_wrist_rotate_joint" value="-1.167" />
+        <joint name="left_arm_shoulder_rotate_joint" value="0.7" />
+        <joint name="left_arm_wrist_bend_joint" value="-0.7" />
+        <joint name="left_arm_wrist_rotate_joint" value="0" />
     </group_state>
-    <group_state name="right_arm_cross" group="right_arm">
-        <joint name="right_arm_elbow_bend_joint" value="2.3292" />
-        <joint name="right_arm_elbow_rotate_joint" value="-1.2318" />
-        <joint name="right_arm_shoulder_lift_joint" value="0" />
-        <joint name="right_arm_shoulder_rotate_joint" value="0.3105" />
-        <joint name="right_arm_wrist_rotate_joint" value="-1.167" />
+    <group_state name="left_arm_extend_full" group="left_arm">
+        <joint name="left_arm_elbow_bend_joint" value="0" />
+        <joint name="left_arm_elbow_rotate_joint" value="0" />
+        <joint name="left_arm_shoulder_lift_joint" value="0" />
+        <joint name="left_arm_shoulder_rotate_joint" value="1.57" />
+        <joint name="left_arm_wrist_bend_joint" value="0" />
+        <joint name="left_arm_wrist_rotate_joint" value="0" />
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="right_end_effector" parent_link="right_arm_gripper_link" group="right_gripper" />
@@ -105,6 +113,7 @@
     <disable_collisions link1="astra_camera_link" link2="left_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="astra_camera_link" link2="left_arm_gripper_body_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="left_arm_gripper_finger_link1" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="left_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="left_arm_gripper_link" reason="Never" />
@@ -113,6 +122,8 @@
     <disable_collisions link1="astra_camera_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="astra_camera_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="astra_camera_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="lidar_base_link" reason="Never" />
@@ -123,12 +134,15 @@
     <disable_collisions link1="astra_camera_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="right_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="astra_camera_link" link2="right_arm_gripper_finger_link2" reason="User" />
+    <disable_collisions link1="astra_camera_link" link2="right_arm_gripper_finger_link2" reason="Never" />
+    <disable_collisions link1="astra_camera_link" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="astra_camera_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="astra_camera_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="astra_camera_link" link2="tibia_link" reason="Never" />
@@ -148,15 +162,16 @@
     <disable_collisions link1="base_footprint" link2="left_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="base_footprint" link2="left_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="base_footprint" link2="left_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="base_footprint" link2="left_arm_gripper_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="left_arm_wrist_rotate_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="lidar_base_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="lidar_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="nuitrack_camera_link" reason="Never" />
@@ -164,14 +179,16 @@
     <disable_collisions link1="base_footprint" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="base_footprint" link2="right_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="base_footprint" link2="right_arm_gripper_finger_link2" reason="User" />
     <disable_collisions link1="base_footprint" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="right_arm_wrist_bend_servo_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="right_arm_wrist_rotate_link" reason="Never" />
+    <disable_collisions link1="base_footprint" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="tibia_link" reason="Never" />
     <disable_collisions link1="base_footprint" link2="torso_link" reason="Never" />
     <disable_collisions link1="base_l_wheel_link" link2="base_link" reason="Adjacent" />
@@ -188,8 +205,6 @@
     <disable_collisions link1="base_l_wheel_link" link2="left_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="base_l_wheel_link" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="base_l_wheel_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="base_l_wheel_link" link2="left_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="base_l_wheel_link" link2="left_arm_gripper_finger_link2" reason="User" />
     <disable_collisions link1="base_l_wheel_link" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="base_l_wheel_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="base_l_wheel_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
@@ -211,6 +226,8 @@
     <disable_collisions link1="base_l_wheel_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="base_l_wheel_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="base_l_wheel_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="base_l_wheel_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="base_l_wheel_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="base_l_wheel_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="base_l_wheel_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="base_l_wheel_link" link2="tibia_link" reason="Never" />
@@ -228,8 +245,6 @@
     <disable_collisions link1="base_link" link2="left_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="base_link" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="base_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="base_link" link2="left_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="base_link" link2="left_arm_gripper_finger_link2" reason="User" />
     <disable_collisions link1="base_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="base_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="base_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
@@ -241,12 +256,11 @@
     <disable_collisions link1="base_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="base_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="base_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="base_link" link2="right_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="base_link" link2="right_arm_gripper_finger_link2" reason="User" />
     <disable_collisions link1="base_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="base_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="base_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="base_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="base_link" link2="right_arm_wrist_bend_link" reason="Never" />
     <disable_collisions link1="base_link" link2="tibia_link" reason="Adjacent" />
     <disable_collisions link1="base_link" link2="torso_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="femur_link" reason="Never" />
@@ -270,6 +284,8 @@
     <disable_collisions link1="base_r_wheel_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="base_r_wheel_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="base_r_wheel_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="lidar_base_link" reason="Never" />
@@ -279,14 +295,14 @@
     <disable_collisions link1="base_r_wheel_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="base_r_wheel_link" link2="right_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="base_r_wheel_link" link2="right_arm_gripper_finger_link2" reason="User" />
+    <disable_collisions link1="base_r_wheel_link" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="right_arm_upper_link" reason="Never" />
-    <disable_collisions link1="base_r_wheel_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="base_r_wheel_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="base_r_wheel_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="base_r_wheel_link" link2="torso_link" reason="Never" />
     <disable_collisions link1="femur_link" link2="head_link" reason="Never" />
@@ -300,8 +316,6 @@
     <disable_collisions link1="femur_link" link2="left_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="femur_link" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="femur_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="femur_link" link2="left_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="femur_link" link2="left_arm_gripper_finger_link2" reason="User" />
     <disable_collisions link1="femur_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="femur_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="femur_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
@@ -313,8 +327,6 @@
     <disable_collisions link1="femur_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="femur_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="femur_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="femur_link" link2="right_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="femur_link" link2="right_arm_gripper_finger_link2" reason="User" />
     <disable_collisions link1="femur_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="femur_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="femur_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
@@ -331,9 +343,10 @@
     <disable_collisions link1="head_link" link2="left_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_link" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="head_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="head_link" link2="left_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="head_link" link2="left_arm_gripper_finger_link2" reason="User" />
     <disable_collisions link1="head_link" link2="left_arm_lower_link" reason="Never" />
+    <disable_collisions link1="head_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
+    <disable_collisions link1="head_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_link" link2="lidar_base_link" reason="Never" />
     <disable_collisions link1="head_link" link2="lidar_link" reason="Never" />
     <disable_collisions link1="head_link" link2="nuitrack_camera_link" reason="Adjacent" />
@@ -341,8 +354,6 @@
     <disable_collisions link1="head_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="head_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="head_link" link2="right_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="head_link" link2="right_arm_gripper_finger_link2" reason="User" />
     <disable_collisions link1="head_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="head_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="head_link" link2="tibia_link" reason="Never" />
@@ -365,6 +376,8 @@
     <disable_collisions link1="head_pan_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_pan_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_pan_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_pan_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_pan_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_link" link2="lidar_base_link" reason="Never" />
@@ -383,6 +396,8 @@
     <disable_collisions link1="head_pan_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_pan_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_pan_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_pan_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_pan_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_link" link2="tibia_link" reason="Never" />
@@ -404,6 +419,8 @@
     <disable_collisions link1="head_pan_servo_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_pan_servo_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_servo_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_pan_servo_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_pan_servo_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_servo_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_pan_servo_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_servo_link" link2="lidar_base_link" reason="Never" />
@@ -422,6 +439,8 @@
     <disable_collisions link1="head_pan_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_pan_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_pan_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_pan_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_pan_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_pan_servo_link" link2="tibia_link" reason="Never" />
@@ -433,15 +452,16 @@
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="head_sidetilt_link" link2="left_arm_gripper_body_link" reason="User" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="head_sidetilt_link" link2="left_arm_gripper_finger_link2" reason="User" />
+    <disable_collisions link1="head_sidetilt_link" link2="left_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_gripper_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_sidetilt_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_sidetilt_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="lidar_base_link" reason="Never" />
@@ -459,6 +479,8 @@
     <disable_collisions link1="head_sidetilt_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_sidetilt_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_sidetilt_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_link" link2="tibia_link" reason="Never" />
@@ -469,15 +491,16 @@
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_gripper_body_link" reason="User" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_gripper_finger_link2" reason="User" />
+    <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_gripper_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="lidar_base_link" reason="Never" />
@@ -495,6 +518,8 @@
     <disable_collisions link1="head_sidetilt_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_sidetilt_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_sidetilt_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_sidetilt_servo_link" link2="tibia_link" reason="Never" />
@@ -504,15 +529,17 @@
     <disable_collisions link1="head_tilt_link" link2="left_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="head_tilt_link" link2="left_arm_gripper_body_link" reason="User" />
-    <disable_collisions link1="head_tilt_link" link2="left_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="head_tilt_link" link2="left_arm_gripper_finger_link2" reason="User" />
+    <disable_collisions link1="head_tilt_link" link2="left_arm_gripper_body_link" reason="Never" />
+    <disable_collisions link1="head_tilt_link" link2="left_arm_gripper_finger_link1" reason="Never" />
+    <disable_collisions link1="head_tilt_link" link2="left_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="left_arm_gripper_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_tilt_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_tilt_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="lidar_base_link" reason="Never" />
@@ -522,6 +549,7 @@
     <disable_collisions link1="head_tilt_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="head_tilt_link" link2="right_arm_gripper_body_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="right_arm_gripper_finger_link1" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="right_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="right_arm_gripper_link" reason="Never" />
@@ -530,6 +558,8 @@
     <disable_collisions link1="head_tilt_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_tilt_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_tilt_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_link" link2="tibia_link" reason="Never" />
@@ -538,15 +568,17 @@
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="head_tilt_servo_link" link2="left_arm_gripper_body_link" reason="User" />
+    <disable_collisions link1="head_tilt_servo_link" link2="left_arm_gripper_body_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="head_tilt_servo_link" link2="left_arm_gripper_finger_link2" reason="User" />
+    <disable_collisions link1="head_tilt_servo_link" link2="left_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_gripper_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_tilt_servo_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_tilt_servo_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="lidar_base_link" reason="Never" />
@@ -556,6 +588,7 @@
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="head_tilt_servo_link" link2="right_arm_gripper_body_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_gripper_finger_link1" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_gripper_link" reason="Never" />
@@ -564,6 +597,8 @@
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="head_tilt_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="head_tilt_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="head_tilt_servo_link" link2="tibia_link" reason="Never" />
@@ -572,14 +607,14 @@
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_gripper_body_link" reason="Never" />
-    <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_gripper_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_lower_link" reason="Adjacent" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="lidar_base_link" reason="Never" />
@@ -598,6 +633,8 @@
     <disable_collisions link1="left_arm_elbow_bend_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_bend_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_bend_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_link" link2="tibia_link" reason="Never" />
@@ -605,13 +642,13 @@
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_elbow_rotate_link" reason="Adjacent" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_elbow_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_gripper_body_link" reason="Never" />
-    <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_gripper_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="lidar_base_link" reason="Never" />
@@ -630,19 +667,21 @@
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_bend_servo_link" link2="torso_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_elbow_rotate_servo_link" reason="Adjacent" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_gripper_body_link" reason="Never" />
-    <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_gripper_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="lidar_base_link" reason="Never" />
@@ -661,20 +700,18 @@
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_rotate_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_rotate_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_link" link2="torso_link" reason="Never" />
-    <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_gripper_body_link" reason="Never" />
-    <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_gripper_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_upper_link" reason="Adjacent" />
-    <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_wrist_rotate_link" reason="Never" />
-    <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="left_arm_wrist_bend_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="lidar_base_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="lidar_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="nuitrack_camera_link" reason="Never" />
@@ -691,6 +728,8 @@
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_elbow_rotate_servo_link" link2="tibia_link" reason="Never" />
@@ -701,33 +740,32 @@
     <disable_collisions link1="left_arm_gripper_body_link" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_body_link" link2="left_arm_shoulder_rotate_servo_link" reason="User" />
+    <disable_collisions link1="left_arm_gripper_body_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_body_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_body_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="left_arm_wrist_rotate_link" reason="Adjacent" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_body_link" link2="nuitrack_camera_link" reason="User" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_elbow_bend_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_gripper_finger_link1" reason="User" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_gripper_finger_link2" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_gripper_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_wrist_rotate_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_body_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_gripper_finger_link2" reason="User" />
-    <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_gripper_link" reason="User" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_upper_link" reason="User" />
+    <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_wrist_rotate_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_wrist_rotate_servo_link" reason="User" />
-    <disable_collisions link1="left_arm_gripper_finger_link1" link2="lidar_base_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link1" link2="lidar_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link1" link2="nuitrack_camera_link" reason="User" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_elbow_bend_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_elbow_rotate_link" reason="Never" />
@@ -741,27 +779,23 @@
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link1" link2="tibia_link" reason="User" />
-    <disable_collisions link1="left_arm_gripper_finger_link1" link2="torso_link" reason="User" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_gripper_link" reason="User" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_upper_link" reason="User" />
+    <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_wrist_rotate_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_wrist_rotate_servo_link" reason="User" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="lidar_base_link" reason="User" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="lidar_link" reason="User" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="nuitrack_camera_link" reason="User" />
+    <disable_collisions link1="left_arm_gripper_finger_link2" link2="lidar_base_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_finger_link2" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_finger_link2" link2="nuitrack_camera_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_elbow_bend_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_gripper_body_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_gripper_finger_link1" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_lower_link" reason="Never" />
@@ -769,34 +803,45 @@
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="tibia_link" reason="User" />
-    <disable_collisions link1="left_arm_gripper_finger_link2" link2="torso_link" reason="User" />
     <disable_collisions link1="left_arm_gripper_link" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_link" link2="lidar_base_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_link" link2="lidar_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="nuitrack_camera_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_elbow_bend_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_link" link2="right_arm_gripper_body_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_gripper_finger_link1" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_gripper_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_lower_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_lower_link" link2="left_arm_wrist_bend_servo_link" reason="Adjacent" />
     <disable_collisions link1="left_arm_lower_link" link2="left_arm_wrist_rotate_link" reason="Never" />
-    <disable_collisions link1="left_arm_lower_link" link2="left_arm_wrist_rotate_servo_link" reason="Adjacent" />
+    <disable_collisions link1="left_arm_lower_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="lidar_base_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="lidar_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="nuitrack_camera_link" reason="Never" />
@@ -807,16 +852,21 @@
     <disable_collisions link1="left_arm_lower_link" link2="right_arm_gripper_body_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="right_arm_gripper_finger_link1" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="right_arm_gripper_finger_link2" reason="Never" />
+    <disable_collisions link1="left_arm_lower_link" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_lower_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_lower_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_lower_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="left_arm_shoulder_rotate_link" reason="Adjacent" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="left_arm_upper_link" reason="Adjacent" />
+    <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="lidar_base_link" reason="Never" />
@@ -835,12 +885,16 @@
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_lift_servo_link" link2="torso_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="left_arm_shoulder_rotate_servo_link" reason="Adjacent" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_rotate_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_rotate_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="lidar_base_link" reason="Never" />
@@ -859,11 +913,15 @@
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_rotate_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_rotate_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_link" link2="torso_link" reason="Default" />
     <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="left_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="left_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="left_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="left_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="lidar_base_link" reason="Never" />
@@ -882,6 +940,8 @@
     <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_shoulder_rotate_servo_link" link2="tibia_link" reason="Never" />
@@ -896,15 +956,65 @@
     <disable_collisions link1="left_arm_upper_link" link2="right_arm_gripper_body_link" reason="Never" />
     <disable_collisions link1="left_arm_upper_link" link2="right_arm_gripper_finger_link1" reason="Never" />
     <disable_collisions link1="left_arm_upper_link" link2="right_arm_gripper_finger_link2" reason="Never" />
+    <disable_collisions link1="left_arm_upper_link" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="left_arm_upper_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="left_arm_upper_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_upper_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_upper_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_upper_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_upper_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_upper_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_upper_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_upper_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_upper_link" link2="tibia_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="left_arm_wrist_bend_servo_link" reason="Adjacent" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="left_arm_wrist_rotate_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="left_arm_wrist_rotate_servo_link" reason="Adjacent" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="lidar_base_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="nuitrack_camera_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_elbow_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_elbow_rotate_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_gripper_body_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_gripper_finger_link1" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_gripper_finger_link2" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_gripper_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_lower_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_wrist_rotate_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="left_arm_wrist_rotate_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="left_arm_wrist_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="lidar_base_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="lidar_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="nuitrack_camera_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_elbow_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_elbow_rotate_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_gripper_body_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_gripper_finger_link1" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_gripper_finger_link2" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_gripper_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_lower_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_bend_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_link" link2="left_arm_wrist_rotate_servo_link" reason="Adjacent" />
+    <disable_collisions link1="left_arm_wrist_rotate_link" link2="lidar_base_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_rotate_link" link2="lidar_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_link" link2="nuitrack_camera_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_link" link2="right_arm_elbow_bend_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
@@ -919,8 +1029,12 @@
     <disable_collisions link1="left_arm_wrist_rotate_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_rotate_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_rotate_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="lidar_base_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="lidar_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="nuitrack_camera_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="right_arm_elbow_bend_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
@@ -935,6 +1049,8 @@
     <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_wrist_rotate_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="lidar_link" reason="Adjacent" />
@@ -943,6 +1059,7 @@
     <disable_collisions link1="lidar_base_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="lidar_base_link" link2="right_arm_gripper_body_link" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="right_arm_gripper_finger_link1" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="right_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="right_arm_gripper_link" reason="Never" />
@@ -951,6 +1068,8 @@
     <disable_collisions link1="lidar_base_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="lidar_base_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="lidar_base_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="lidar_base_link" link2="tibia_link" reason="Never" />
@@ -968,6 +1087,8 @@
     <disable_collisions link1="lidar_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="lidar_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="lidar_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="lidar_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="lidar_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="lidar_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="lidar_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="lidar_link" link2="tibia_link" reason="Never" />
@@ -976,14 +1097,15 @@
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_elbow_bend_servo_link" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="nuitrack_camera_link" link2="right_arm_gripper_finger_link1" reason="User" />
-    <disable_collisions link1="nuitrack_camera_link" link2="right_arm_gripper_finger_link2" reason="Never" />
+    <disable_collisions link1="nuitrack_camera_link" link2="right_arm_gripper_finger_link1" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="nuitrack_camera_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="nuitrack_camera_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="nuitrack_camera_link" link2="tibia_link" reason="Never" />
@@ -992,14 +1114,14 @@
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_elbow_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_gripper_body_link" reason="Never" />
-    <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_lower_link" reason="Adjacent" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_link" link2="tibia_link" reason="Never" />
@@ -1007,40 +1129,37 @@
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_elbow_rotate_link" reason="Adjacent" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_elbow_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_gripper_body_link" reason="Never" />
-    <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_bend_servo_link" link2="torso_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_elbow_rotate_servo_link" reason="Adjacent" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_gripper_body_link" reason="Never" />
-    <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_link" link2="torso_link" reason="Never" />
-    <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_gripper_body_link" reason="Never" />
-    <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_gripper_finger_link1" reason="Never" />
-    <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_gripper_finger_link2" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_gripper_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_upper_link" reason="Adjacent" />
+    <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
-    <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="right_arm_elbow_rotate_servo_link" link2="torso_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_body_link" link2="right_arm_gripper_finger_link1" reason="Adjacent" />
@@ -1049,59 +1168,70 @@
     <disable_collisions link1="right_arm_gripper_body_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_body_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_body_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
+    <disable_collisions link1="right_arm_gripper_body_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_gripper_body_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_body_link" link2="right_arm_wrist_rotate_link" reason="Adjacent" />
     <disable_collisions link1="right_arm_gripper_body_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_gripper_finger_link2" reason="User" />
-    <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_gripper_link" reason="User" />
     <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_upper_link" reason="User" />
+    <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_wrist_rotate_link" reason="Never" />
-    <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_wrist_rotate_servo_link" reason="User" />
-    <disable_collisions link1="right_arm_gripper_finger_link1" link2="tibia_link" reason="User" />
-    <disable_collisions link1="right_arm_gripper_finger_link1" link2="torso_link" reason="User" />
-    <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_gripper_link" reason="User" />
     <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
-    <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_upper_link" reason="User" />
+    <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_wrist_rotate_link" reason="Never" />
-    <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_wrist_rotate_servo_link" reason="User" />
-    <disable_collisions link1="right_arm_gripper_finger_link2" link2="tibia_link" reason="User" />
-    <disable_collisions link1="right_arm_gripper_finger_link2" link2="torso_link" reason="User" />
     <disable_collisions link1="right_arm_gripper_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="right_arm_gripper_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_gripper_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_lower_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_lower_link" link2="right_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_lower_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="right_arm_lower_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_lower_link" link2="right_arm_wrist_bend_servo_link" reason="Adjacent" />
     <disable_collisions link1="right_arm_lower_link" link2="right_arm_wrist_rotate_link" reason="Never" />
-    <disable_collisions link1="right_arm_lower_link" link2="right_arm_wrist_rotate_servo_link" reason="Adjacent" />
+    <disable_collisions link1="right_arm_lower_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
+    <disable_collisions link1="right_arm_lower_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_lift_servo_link" link2="right_arm_shoulder_rotate_link" reason="Adjacent" />
     <disable_collisions link1="right_arm_shoulder_lift_servo_link" link2="right_arm_shoulder_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_lift_servo_link" link2="right_arm_upper_link" reason="Adjacent" />
+    <disable_collisions link1="right_arm_shoulder_lift_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_shoulder_lift_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_lift_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_lift_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_lift_servo_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_lift_servo_link" link2="torso_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_rotate_link" link2="right_arm_shoulder_rotate_servo_link" reason="Adjacent" />
     <disable_collisions link1="right_arm_shoulder_rotate_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="right_arm_shoulder_rotate_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_shoulder_rotate_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_rotate_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_rotate_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_rotate_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_rotate_link" link2="torso_link" reason="Default" />
     <disable_collisions link1="right_arm_shoulder_rotate_servo_link" link2="right_arm_upper_link" reason="Never" />
+    <disable_collisions link1="right_arm_shoulder_rotate_servo_link" link2="right_arm_wrist_bend_link" reason="Never" />
+    <disable_collisions link1="right_arm_shoulder_rotate_servo_link" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_rotate_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_rotate_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_rotate_servo_link" link2="tibia_link" reason="Never" />
     <disable_collisions link1="right_arm_shoulder_rotate_servo_link" link2="torso_link" reason="Adjacent" />
     <disable_collisions link1="right_arm_upper_link" link2="tibia_link" reason="Never" />
+    <disable_collisions link1="right_arm_wrist_bend_link" link2="right_arm_wrist_bend_servo_link" reason="Adjacent" />
+    <disable_collisions link1="right_arm_wrist_bend_link" link2="right_arm_wrist_rotate_link" reason="Never" />
+    <disable_collisions link1="right_arm_wrist_bend_link" link2="right_arm_wrist_rotate_servo_link" reason="Adjacent" />
+    <disable_collisions link1="right_arm_wrist_bend_servo_link" link2="right_arm_wrist_rotate_link" reason="Never" />
+    <disable_collisions link1="right_arm_wrist_bend_servo_link" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_wrist_rotate_link" link2="right_arm_wrist_rotate_servo_link" reason="Adjacent" />
     <disable_collisions link1="tibia_link" link2="torso_link" reason="Never" />
 </robot>

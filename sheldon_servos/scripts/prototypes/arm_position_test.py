@@ -34,7 +34,7 @@ def right_arm_sl():
     pub_right_arm_elbow_rotate.publish(0.07) # 0.13
     pub_right_arm_elbow_bend.publish(3.13)
     pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_gripper.publish(-0.8)
+    #pub_right_arm_gripper_finger.publish(-0.8)
 
 
 def say_something():
@@ -58,7 +58,7 @@ def wave1():
     pub_right_arm_elbow_rotate.publish(0.0)
     pub_right_arm_elbow_bend.publish(2.0)
     pub_right_arm_wrist_rotate.publish(0.0)
-    pub_right_arm_gripper.publish(-0.5)
+    pub_right_arm_gripper_finger.publish(-0.5)
 
     pub_head_sidetilt.publish(0.0)
     pub_head_tilt.publish(0.0)
@@ -75,7 +75,7 @@ def wave2():
     pub_right_arm_elbow_rotate.publish(-0.2)
     #pub_right_arm_elbow_bend.publish(1.5)
     #pub_right_arm_wrist_rotate.publish(0.0)
-    #pub_right_arm_gripper.publish(0.8)
+    #pub_right_arm_gripper_finger.publish(0.8)
 
 def wave3():
     print("-----> wave position 3")
@@ -132,7 +132,7 @@ if __name__ == '__main__':
   #say_something()
   SetServoTorque(0.5, right_arm_joints) # set back to normal
   all_home()
-  pub_right_arm_gripper.publish(-2.0)
+  pub_right_arm_gripper_finger.publish(-2.0)
 
 
 

@@ -146,6 +146,7 @@
   <!-- waist sits on top of femur -->
   <!--  to top of shoulder .5112 .7112 28 inch torso for now -->
   <!-- rotation  -->
+  <!-- KLUDGE FOR TESTING!!! -->
   <!--  -0.008 wrist center is slightly behind forearm center  -->
   <!-- "base_link" is the origin that all other componets are measured from -->
   <link name="base_link">
@@ -301,7 +302,7 @@
   <joint name="head_pan_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.020"/>
     <axis xyz="0 0 1"/>
-    <limit effort="30" lower="-1.57" upper="1.57" velocity="0.524"/>
+    <limit effort="1000" lower="-1.57" upper="1.57" velocity="0.524"/>
     <parent link="head_pan_servo_link"/>
     <child link="head_pan_link"/>
   </joint>
@@ -353,7 +354,7 @@
   <joint name="head_tilt_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-0.6" upper="1.2" velocity="0.524"/>
+    <limit effort="1000" lower="-0.6" upper="1.2" velocity="0.524"/>
     <parent link="head_tilt_servo_link"/>
     <child link="head_tilt_link"/>
   </joint>
@@ -405,7 +406,7 @@
   <joint name="head_sidetilt_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-0.35" upper="0.35" velocity="0.524"/>
+    <limit effort="1000" lower="-0.35" upper="0.35" velocity="0.524"/>
     <parent link="head_sidetilt_servo_link"/>
     <child link="head_sidetilt_link"/>
   </joint>
@@ -548,7 +549,7 @@
   <joint name="right_arm_shoulder_rotate_joint" type="revolute">
     <origin rpy="-1.57 0 1.57" xyz="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit effort="30" lower="-3.14" upper="3.14" velocity="1.50"/>
+    <limit effort="1000" lower="-3.14" upper="3.14" velocity="2.3"/>
     <parent link="right_arm_shoulder_rotate_servo_link"/>
     <child link="right_arm_shoulder_rotate_link"/>
   </joint>
@@ -576,7 +577,7 @@
   <joint name="right_arm_shoulder_lift_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0.0869955 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-0.050" upper="2.10" velocity="1.50"/>
+    <limit effort="1000" lower="-0.050" upper="2.10" velocity="4.6"/>
     <parent link="right_arm_shoulder_rotate_link"/>
     <child link="right_arm_shoulder_lift_servo_link"/>
   </joint>
@@ -655,7 +656,7 @@
   <joint name="right_arm_elbow_rotate_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.0235"/>
     <axis xyz="0 0 1"/>
-    <limit effort="30" lower="-2.2" upper="3.14" velocity="3.0"/>
+    <limit effort="1000" lower="-2.2" upper="3.14" velocity="6.6"/>
     <parent link="right_arm_elbow_rotate_servo_link"/>
     <child link="right_arm_elbow_rotate_link"/>
   </joint>
@@ -707,7 +708,7 @@
   <joint name="right_arm_elbow_bend_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-1.2" upper="3.14" velocity="3.0"/>
+    <limit effort="1000" lower="-1.2" upper="3.14" velocity="6.6"/>
     <parent link="right_arm_elbow_bend_servo_link"/>
     <child link="right_arm_elbow_bend_link"/>
   </joint>
@@ -733,8 +734,9 @@
   </link>
   <!-- Lower Arm fixed link -->
   <joint name="right_arm_lower_fixed_joint" type="fixed">
+    <!--  "0.030 0 0.031" half the length, plus bracket lenth and offset -->
     <origin rpy="0 1.57 0" xyz="0.030 0 0.031"/>
-    <!-- .034... "0.14 0 0.05" half the length, plus bracket lenth and offset -->
+    <!-- KLUDGE FOR TESTING!!! -->
     <parent link="right_arm_elbow_bend_link"/>
     <child link="right_arm_lower_link"/>
   </joint>
@@ -745,25 +747,77 @@
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
     </inertial>
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.055"/>
+      <origin rpy="0 0 0" xyz="0 0 0.04"/>
       <!-- rpy="-1.57 0 0" -->
       <geometry>
         <!-- TODO: <mesh filename="package://sheldon_description/meshes/sheldon_${side}_lower.stl" scale="0.1 0.1 0.1"/> -->
-        <box size="0.04 0.06 0.11"/>
+        <box size="0.04 0.06 0.08"/>
       </geometry>
       <material name="Yellow"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.055"/>
+      <origin rpy="0 0 0" xyz="0 0 0.04"/>
       <!-- rpy="-1.57 0 0"   divide a little more then 1/2 for collision-->
       <geometry>
-        <box size="0.04 0.06 0.099"/>
+        <box size="0.04 0.06 0.072"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_arm_wrist_bend_servo_joint" type="fixed">
+    <origin rpy="0 -1.57 0" xyz="0 0 0.0975"/>
+    <parent link="right_arm_lower_link"/>
+    <child link="right_arm_wrist_bend_servo_link"/>
+  </joint>
+  <link name="right_arm_wrist_bend_servo_link">
+    <inertial>
+      <mass value="0.00001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="1.57 1.57 0" xyz=" 0 0 0 "/>
+      <geometry>
+        <mesh filename="package://sheldon_description/meshes/rx28.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="Green"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="-0.0133 0 0"/>
+      <geometry>
+        <box size="0.0506 0.045 0.0356"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_arm_wrist_bend_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0 0.0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="1000" lower="-1.57" upper="1.57" velocity="6.6"/>
+    <parent link="right_arm_wrist_bend_servo_link"/>
+    <child link="right_arm_wrist_bend_link"/>
+  </joint>
+  <link name="right_arm_wrist_bend_link">
+    <inertial>
+      <mass value="0.00001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 -1.57" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://sheldon_description/meshes/rx28-hinge-bracket.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.015 0.0 0.0"/>
+      <geometry>
+        <box size="0.030 0.045 0.031"/>
       </geometry>
     </collision>
   </link>
   <joint name="right_arm_wrist_rotate_servo_joint" type="fixed">
-    <origin rpy="0 0 3.14" xyz="-0.008 0 0.1275"/>
-    <parent link="right_arm_lower_link"/>
+    <origin rpy="3.14 -1.57 0" xyz="0.0475 0 0"/>
+    <parent link="right_arm_wrist_bend_link"/>
     <child link="right_arm_wrist_rotate_servo_link"/>
   </joint>
   <link name="right_arm_wrist_rotate_servo_link">
@@ -787,9 +841,9 @@
     </collision>
   </link>
   <joint name="right_arm_wrist_rotate_joint" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.0235"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit effort="30" lower="-3.0" upper="1.57" velocity="3.0"/>
+    <limit effort="1000" lower="-3.0" upper="1.57" velocity="5.8"/>
     <parent link="right_arm_wrist_rotate_servo_link"/>
     <child link="right_arm_wrist_rotate_link"/>
   </joint>
@@ -816,6 +870,7 @@
   <!-- Gripper fixed joint -->
   <joint name="right_arm_gripper_fixed_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
+    <!-- "0 0.03 0" -->
     <parent link="right_arm_wrist_rotate_link"/>
     <child link="right_arm_gripper_body_link"/>
   </joint>
@@ -839,14 +894,14 @@
       <origin rpy="0 0 0" xyz="0 0 0.1075"/>
       <!-- rpy="-1.57 0 0" -->
       <geometry>
-        <box size="0.05 0.09 0.180"/>
+        <box size="0.05 0.09 0.170"/>
       </geometry>
     </collision>
   </link>
   <!-- Finger Rotate -->
   <joint name="right_arm_gripper_finger_joint" type="revolute">
     <axis xyz="1 0 0"/>
-    <limit effort="30.0" lower="-0.10" upper="3.14" velocity="1.0"/>
+    <limit effort="1000" lower="-0.10" upper="3.14" velocity="5.8"/>
     <origin rpy="-0.20 0 0" xyz="0.0 -0.035 0.085"/>
     <parent link="right_arm_gripper_body_link"/>
     <child link="right_arm_gripper_finger_link1"/>
@@ -863,7 +918,7 @@
   <joint name="right_arm_gripper_finger_joint2" type="revolute">
     <mimic joint="right_arm_gripper_finger_joint"/>
     <axis xyz="-1 0 0"/>
-    <limit effort="30.0" lower="-0.10" upper="3.14" velocity="0.5"/>
+    <limit effort="1000" lower="-0.10" upper="3.14" velocity="5.8"/>
     <origin rpy="0.20 0 0" xyz="0.0 0.035 0.085"/>
     <parent link="right_arm_gripper_body_link"/>
     <child link="right_arm_gripper_finger_link2"/>
@@ -879,7 +934,7 @@
   </link>
   <!-- Planning link and joint for the gripper -->
   <joint name="right_arm_gripper_joint" type="fixed">
-    <origin rpy="1.570795 0 0" xyz="0 0 0.18"/>
+    <origin rpy="0 1.570795 0" xyz="0 0 0.18"/>
     <axis xyz="0 0 1"/>
     <parent link="right_arm_gripper_body_link"/>
     <child link="right_arm_gripper_link"/>
@@ -927,7 +982,7 @@
   <joint name="left_arm_shoulder_rotate_joint" type="revolute">
     <origin rpy="-1.57 0 1.57" xyz="0 0 0"/>
     <axis xyz="-1 0 0"/>
-    <limit effort="30" lower="-3.14" upper="3.14" velocity="1.50"/>
+    <limit effort="1000" lower="-3.14" upper="3.14" velocity="2.3"/>
     <parent link="left_arm_shoulder_rotate_servo_link"/>
     <child link="left_arm_shoulder_rotate_link"/>
   </joint>
@@ -955,7 +1010,7 @@
   <joint name="left_arm_shoulder_lift_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0.0869955 0 0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-0.050" upper="2.10" velocity="1.50"/>
+    <limit effort="1000" lower="-0.050" upper="2.10" velocity="4.6"/>
     <parent link="left_arm_shoulder_rotate_link"/>
     <child link="left_arm_shoulder_lift_servo_link"/>
   </joint>
@@ -1034,7 +1089,7 @@
   <joint name="left_arm_elbow_rotate_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.0235"/>
     <axis xyz="0 0 -1"/>
-    <limit effort="30" lower="-2.2" upper="3.14" velocity="3.0"/>
+    <limit effort="1000" lower="-2.2" upper="3.14" velocity="6.6"/>
     <parent link="left_arm_elbow_rotate_servo_link"/>
     <child link="left_arm_elbow_rotate_link"/>
   </joint>
@@ -1086,7 +1141,7 @@
   <joint name="left_arm_elbow_bend_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0.0"/>
     <axis xyz="0 1 0"/>
-    <limit effort="30" lower="-1.2" upper="3.14" velocity="3.0"/>
+    <limit effort="1000" lower="-1.2" upper="3.14" velocity="6.6"/>
     <parent link="left_arm_elbow_bend_servo_link"/>
     <child link="left_arm_elbow_bend_link"/>
   </joint>
@@ -1112,8 +1167,9 @@
   </link>
   <!-- Lower Arm fixed link -->
   <joint name="left_arm_lower_fixed_joint" type="fixed">
+    <!--  "0.030 0 0.031" half the length, plus bracket lenth and offset -->
     <origin rpy="0 1.57 0" xyz="0.030 0 0.031"/>
-    <!-- .034... "0.14 0 0.05" half the length, plus bracket lenth and offset -->
+    <!-- KLUDGE FOR TESTING!!! -->
     <parent link="left_arm_elbow_bend_link"/>
     <child link="left_arm_lower_link"/>
   </joint>
@@ -1124,25 +1180,77 @@
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
     </inertial>
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.055"/>
+      <origin rpy="0 0 0" xyz="0 0 0.04"/>
       <!-- rpy="-1.57 0 0" -->
       <geometry>
         <!-- TODO: <mesh filename="package://sheldon_description/meshes/sheldon_${side}_lower.stl" scale="0.1 0.1 0.1"/> -->
-        <box size="0.04 0.06 0.11"/>
+        <box size="0.04 0.06 0.08"/>
       </geometry>
       <material name="Yellow"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.055"/>
+      <origin rpy="0 0 0" xyz="0 0 0.04"/>
       <!-- rpy="-1.57 0 0"   divide a little more then 1/2 for collision-->
       <geometry>
-        <box size="0.04 0.06 0.099"/>
+        <box size="0.04 0.06 0.072"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="left_arm_wrist_bend_servo_joint" type="fixed">
+    <origin rpy="0 -1.57 0" xyz="0 0 0.0975"/>
+    <parent link="left_arm_lower_link"/>
+    <child link="left_arm_wrist_bend_servo_link"/>
+  </joint>
+  <link name="left_arm_wrist_bend_servo_link">
+    <inertial>
+      <mass value="0.00001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="1.57 1.57 0" xyz=" 0 0 0 "/>
+      <geometry>
+        <mesh filename="package://sheldon_description/meshes/rx28.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="Green"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="-0.0133 0 0"/>
+      <geometry>
+        <box size="0.0506 0.045 0.0356"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="left_arm_wrist_bend_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0 0.0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="1000" lower="-1.57" upper="1.57" velocity="6.6"/>
+    <parent link="left_arm_wrist_bend_servo_link"/>
+    <child link="left_arm_wrist_bend_link"/>
+  </joint>
+  <link name="left_arm_wrist_bend_link">
+    <inertial>
+      <mass value="0.00001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 -1.57" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://sheldon_description/meshes/rx28-hinge-bracket.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="Grey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.015 0.0 0.0"/>
+      <geometry>
+        <box size="0.030 0.045 0.031"/>
       </geometry>
     </collision>
   </link>
   <joint name="left_arm_wrist_rotate_servo_joint" type="fixed">
-    <origin rpy="0 0 3.14" xyz="-0.008 0 0.1275"/>
-    <parent link="left_arm_lower_link"/>
+    <origin rpy="3.14 -1.57 0" xyz="0.0475 0 0"/>
+    <parent link="left_arm_wrist_bend_link"/>
     <child link="left_arm_wrist_rotate_servo_link"/>
   </joint>
   <link name="left_arm_wrist_rotate_servo_link">
@@ -1166,9 +1274,9 @@
     </collision>
   </link>
   <joint name="left_arm_wrist_rotate_joint" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.0235"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 -1"/>
-    <limit effort="30" lower="-3.0" upper="1.57" velocity="3.0"/>
+    <limit effort="1000" lower="-3.0" upper="1.57" velocity="5.8"/>
     <parent link="left_arm_wrist_rotate_servo_link"/>
     <child link="left_arm_wrist_rotate_link"/>
   </joint>
@@ -1195,6 +1303,7 @@
   <!-- Gripper fixed joint -->
   <joint name="left_arm_gripper_fixed_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
+    <!-- "0 0.03 0" -->
     <parent link="left_arm_wrist_rotate_link"/>
     <child link="left_arm_gripper_body_link"/>
   </joint>
@@ -1218,14 +1327,14 @@
       <origin rpy="0 0 0" xyz="0 0 0.1075"/>
       <!-- rpy="-1.57 0 0" -->
       <geometry>
-        <box size="0.05 0.09 0.180"/>
+        <box size="0.05 0.09 0.170"/>
       </geometry>
     </collision>
   </link>
   <!-- Finger Rotate -->
   <joint name="left_arm_gripper_finger_joint" type="revolute">
     <axis xyz="1 0 0"/>
-    <limit effort="30.0" lower="-0.10" upper="3.14" velocity="1.0"/>
+    <limit effort="1000" lower="-0.10" upper="3.14" velocity="5.8"/>
     <origin rpy="-0.20 0 0" xyz="0.0 -0.035 0.085"/>
     <parent link="left_arm_gripper_body_link"/>
     <child link="left_arm_gripper_finger_link1"/>
@@ -1242,7 +1351,7 @@
   <joint name="left_arm_gripper_finger_joint2" type="revolute">
     <mimic joint="left_arm_gripper_finger_joint"/>
     <axis xyz="-1 0 0"/>
-    <limit effort="30.0" lower="-0.10" upper="3.14" velocity="0.5"/>
+    <limit effort="1000" lower="-0.10" upper="3.14" velocity="5.8"/>
     <origin rpy="0.20 0 0" xyz="0.0 0.035 0.085"/>
     <parent link="left_arm_gripper_body_link"/>
     <child link="left_arm_gripper_finger_link2"/>
@@ -1258,7 +1367,7 @@
   </link>
   <!-- Planning link and joint for the gripper -->
   <joint name="left_arm_gripper_joint" type="fixed">
-    <origin rpy="1.570795 0 0" xyz="0 0 0.18"/>
+    <origin rpy="0 1.570795 0" xyz="0 0 0.18"/>
     <axis xyz="0 0 1"/>
     <parent link="left_arm_gripper_body_link"/>
     <child link="left_arm_gripper_link"/>

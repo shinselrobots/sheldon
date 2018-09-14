@@ -41,12 +41,12 @@ def move_arm_take_object_ready(): # TODO
     pub_right_arm_elbow_rotate.publish(-0.47)
     pub_right_arm_elbow_bend.publish(1.37)
     pub_right_arm_wrist_rotate.publish(0.0)
-    pub_right_arm_gripper.publish(1.0)
+    pub_right_arm_gripper_finger.publish(1.0)
     head_home() 
 
 
 def move_arm_close_gripper():
-    pub_right_arm_gripper.publish(0.0) #TODO
+    pub_right_arm_gripper_finger.publish(0.0) #TODO
     head_home() 
 
 def move_arm_view_object():

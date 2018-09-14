@@ -1,41 +1,56 @@
 # Servo Config for Sheldon
 # Limits defined here are absolute limits (before something breaks).  Limits in code/Moveit should be smaller than these.
-## MODIFIED FOR FASTER SPEED
+
+## MODIFIED FOR CORRECT SPEED
+## SERVO SPEEDS USED:
+# MX28:   55 RPM --> 5.8 rad/sec
+# MX64:   63 RPM --> 6.6 rad/sec
+# MX-106: 45 RPM --> 4.6 rad/sec
+# MX-106 (gear reduced for shoulder): 45 RPM / 2 --> 2.3 rad/sec
+
+
+## WARNING!  IF YOU ADD SERVOS, CHANGE "max_motor_id" in "servos.launch"
 
 dynamixels: [
 
   'head_sidetilt_joint', 'head_tilt_joint', 'head_pan_joint',
+  # 'chest_camera_joint',
 
-  'right_arm_shoulder_rotate_joint', 'right_arm_shoulder_lift_joint', 
-  'right_arm_elbow_rotate_joint',    'right_arm_elbow_bend_joint',
-  'right_arm_wrist_rotate_joint',    'right_arm_gripper_finger_joint', 
+  'right_arm_shoulder_rotate_joint',  'right_arm_shoulder_lift_joint', 
+  'right_arm_elbow_rotate_joint',     'right_arm_elbow_bend_joint',
+  'right_arm_wrist_bend_joint',       'right_arm_wrist_rotate_joint',
+  'right_arm_gripper_finger_joint', 
 
-  'left_arm_shoulder_rotate_joint',  'left_arm_shoulder_lift_joint',
-  'left_arm_elbow_rotate_joint',     'left_arm_elbow_bend_joint', 
-  'left_arm_wrist_rotate_joint',     'left_arm_gripper_finger_joint']
+  'left_arm_shoulder_rotate_joint',   'left_arm_shoulder_lift_joint',
+  'left_arm_elbow_rotate_joint',      'left_arm_elbow_bend_joint', 
+  'left_arm_wrist_bend_joint',        'left_arm_wrist_rotate_joint',
+  'left_arm_gripper_finger_joint']
 
 
 controllers: [
 
   'head_sidetilt_joint', 'head_tilt_joint', 'head_pan_joint',
+  #'chest_camera_joint',
 
-  'right_arm_shoulder_rotate_joint', 'right_arm_shoulder_lift_joint', 
-  'right_arm_elbow_rotate_joint',    'right_arm_elbow_bend_joint',
-  'right_arm_wrist_rotate_joint',    'right_arm_gripper_finger_joint', 
+  'right_arm_shoulder_rotate_joint',  'right_arm_shoulder_lift_joint', 
+  'right_arm_elbow_rotate_joint',     'right_arm_elbow_bend_joint',
+  'right_arm_wrist_bend_joint',       'right_arm_wrist_rotate_joint',
+  'right_arm_gripper_finger_joint', 
 
-  'left_arm_shoulder_rotate_joint',  'left_arm_shoulder_lift_joint',
-  'left_arm_elbow_rotate_joint',     'left_arm_elbow_bend_joint', 
-  'left_arm_wrist_rotate_joint',     'left_arm_gripper_finger_joint']
+  'left_arm_shoulder_rotate_joint',   'left_arm_shoulder_lift_joint',
+  'left_arm_elbow_rotate_joint',      'left_arm_elbow_bend_joint', 
+  'left_arm_wrist_bend_joint',        'left_arm_wrist_rotate_joint',
+  'left_arm_gripper_finger_joint']
 
 
-
+# Head
 head_sidetilt_joint:
     controller:
         package: dynamixel_controllers
         module: joint_position_controller
         type: JointPositionController
     joint_name: head_sidetilt_joint
-    joint_speed: 1.5
+    joint_speed: 5.8
     motor:
         id: 2
         init: 2047 
@@ -48,7 +63,7 @@ head_tilt_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: head_tilt_joint
-    joint_speed: 1.0
+    joint_speed: 5.8
     motor:
         id: 3
         init: 2047
@@ -61,33 +76,26 @@ head_pan_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: head_pan_joint
-    joint_speed: 1.5
+    joint_speed: 6.6
     motor:
         id: 4
         init: 2047
         min: 921    # look right
         max: 3195   # look left
 
-right_arm_shoulder_rotate_joint:
-    controller:
-        package: dynamixel_controllers
-        module: joint_position_controller
-        type: JointPositionController
-    joint_name: right_arm_shoulder_rotate_joint
-    joint_speed: 4.0
-    motor:
-        id: 16
-        init: 2000  #2047 default
-        min: 4095  # reversed
-        max: 0     # positive = forward
+# TODO chest_camera_joint:
+#    motor:
+#        id: 5
 
+
+# Right Arm
 right_arm_shoulder_lift_joint:
     controller:
         package: dynamixel_controllers
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_shoulder_lift_joint
-    joint_speed: 1.0
+    joint_speed: 4.6
     motor:
         id: 6
         init: 2074 # changed
@@ -100,7 +108,7 @@ right_arm_elbow_rotate_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_elbow_rotate_joint
-    joint_speed: 2.0
+    joint_speed: 6.6
     motor:
         id: 7
         init: 2047
@@ -113,9 +121,22 @@ right_arm_elbow_bend_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_elbow_bend_joint
-    joint_speed: 6.0
+    joint_speed: 6.6
     motor:
         id: 8
+        init: 2047
+        min: 1189  
+        max: 4095  
+
+right_arm_wrist_bend_joint:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: right_arm_wrist_bend_joint
+    joint_speed: 6.6
+    motor:
+        id: 9
         init: 2047
         min: 1189  
         max: 4095  
@@ -126,9 +147,9 @@ right_arm_wrist_rotate_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_wrist_rotate_joint
-    joint_speed: 2.0
+    joint_speed: 5.8
     motor:
-        id: 9
+        id: 10
         init: 2047
         min: 64
         max: 3270
@@ -139,36 +160,24 @@ right_arm_gripper_finger_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: right_arm_gripper_finger_joint
-    joint_speed: 1.0
+    joint_speed: 5.8
     motor:
-        id: 10
+        id: 11
         init: 2047
-        min: 1923
-        max: 4095
+        min: 2184
+        max: 0    # reversed
 
 
-left_arm_shoulder_rotate_joint:
-    controller:
-        package: dynamixel_controllers
-        module: joint_position_controller
-        type: JointPositionController
-    joint_name: left_arm_shoulder_rotate_joint
-    joint_speed: 4.0
-    motor:
-        id: 17
-        init: 2047
-        min: 0
-        max: 4095
-
+#Left Arm
 left_arm_shoulder_lift_joint:
     controller:
         package: dynamixel_controllers
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_shoulder_lift_joint
-    joint_speed: 1.0
+    joint_speed: 4.6
     motor:
-        id: 11
+        id: 12
         init: 2200 # changed
         min: 2140
         max: 3586
@@ -179,9 +188,9 @@ left_arm_elbow_rotate_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_elbow_rotate_joint
-    joint_speed: 2.0
+    joint_speed: 6.6
     motor:
-        id: 12
+        id: 13
         init: 2047
         min: 4095 # reversed
         max: 300  # turn outward = positive
@@ -192,12 +201,25 @@ left_arm_elbow_bend_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_elbow_bend_joint
-    joint_speed: 6.0
+    joint_speed: 6.6
     motor:
-        id: 13
+        id: 14
         init: 2047
         min: 1189
         max: 4095
+
+left_arm_wrist_bend_joint:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: left_arm_wrist_bend_joint
+    joint_speed: 6.6
+    motor:
+        id: 15
+        init: 2047
+        min: 4095    # reversed
+        max: 1189
 
 left_arm_wrist_rotate_joint:
     controller:
@@ -205,9 +227,9 @@ left_arm_wrist_rotate_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_wrist_rotate_joint
-    joint_speed: 2.0
+    joint_speed: 5.8
     motor:
-        id: 14
+        id: 16
         init: 2047
         min: 4095  # reversed
         max: 752   # turn outward = positive
@@ -218,11 +240,39 @@ left_arm_gripper_finger_joint:
         module: joint_position_controller
         type: JointPositionController
     joint_name: left_arm_gripper_finger_joint
-    joint_speed: 1.0
+    joint_speed: 5.8
     motor:
-        id: 15
+        id: 17
         init: 2047
-        min: 2110
-        max: 0
+        min: 1894
+        max: 4095  
+
+
+# Shoulder Motors
+right_arm_shoulder_rotate_joint:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: right_arm_shoulder_rotate_joint
+    joint_speed: 2.3
+    motor:
+        id: 18
+        init: 2047  #2047 default
+        min: 4095  # reversed
+        max: 0     # positive = forward
+
+left_arm_shoulder_rotate_joint:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: left_arm_shoulder_rotate_joint
+    joint_speed: 2.3
+    motor:
+        id: 19
+        init: 2047
+        min: 0
+        max: 4095
 
 

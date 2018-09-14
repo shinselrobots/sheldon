@@ -146,6 +146,10 @@ right_arm:
     - LazyPRMstarkConfigDefault
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
+  projection_evaluator: joints(right_arm_shoulder_rotate_joint, right_arm_shoulder_lift_joint, 
+            right_arm_elbow_bend_joint)
+  longest_valid_segment_fraction: 0.005
+
 left_arm:
   planner_configs:
     - SBLkConfigDefault
@@ -171,6 +175,10 @@ left_arm:
     - LazyPRMstarkConfigDefault
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
+  projection_evaluator: joints(left_arm_shoulder_rotate_joint, left_arm_shoulder_lift_joint, 
+            left_arm_elbow_bend_joint)
+  longest_valid_segment_fraction: 0.005
+
 right_gripper:
   planner_configs:
     - SBLkConfigDefault

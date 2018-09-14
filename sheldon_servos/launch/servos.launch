@@ -9,7 +9,7 @@
             port_name: "/dev/dynamixel"
             baud_rate: 1000000
             min_motor_id: 2
-            max_motor_id: 17
+            max_motor_id: 19
             update_rate: 10 
     </rosparam>
   </node>
@@ -30,12 +30,14 @@
         right_arm_elbow_rotate_joint
         right_arm_elbow_bend_joint
         right_arm_wrist_rotate_joint
+        right_arm_wrist_bend_joint
         right_arm_gripper_finger_joint
 
         left_arm_shoulder_rotate_joint
         left_arm_shoulder_lift_joint
         left_arm_elbow_rotate_joint
         left_arm_elbow_bend_joint
+        left_arm_wrist_bend_joint
         left_arm_wrist_rotate_joint
         left_arm_gripper_finger_joint
         "
@@ -65,6 +67,7 @@
             right_arm_shoulder_lift_joint
             right_arm_elbow_rotate_joint
             right_arm_elbow_bend_joint
+            right_arm_wrist_bend_joint
             right_arm_wrist_rotate_joint
           "
         output="screen"/>
@@ -80,6 +83,7 @@
             left_arm_shoulder_lift_joint
             left_arm_elbow_rotate_joint
             left_arm_elbow_bend_joint
+            left_arm_wrist_bend_joint
             left_arm_wrist_rotate_joint
           "
         output="screen"/>
@@ -87,8 +91,8 @@
    <node name="dynamixel_joint_state_publisher" pkg="sheldon_servos" type="dynamixel_joint_state_publisher.py" output="screen" />
 
 
-   <!-- Run a separate controller for the gripper. (From the arbitix controller package, as 
-   the dynamixel_controller package does not have a gripper controller (needed by Moveit) -->
+   <!-- Run a separate controller for each of the grippers. (From the arbitix controller package, as 
+   the dynamixel_controller package does not have a gripper controller (needed by Moveit) 
    <node name="right_gripper_controller" pkg="arbotix_controllers" type="gripper_controller" output="screen">
       <rosparam>
          model: parallel
@@ -115,6 +119,7 @@
       </rosparam>
    </node>
 
+-->
 
    <node name="waist_joint_state_publisher" pkg="sheldon_servos" type="waist_joint_state_publisher.py" output="screen" />
 

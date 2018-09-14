@@ -10,6 +10,7 @@ pub_right_arm_shoulder_rotate = rospy.Publisher('/right_arm_shoulder_rotate_join
 pub_right_arm_shoulder_lift = rospy.Publisher('/right_arm_shoulder_lift_joint/command', Float64, queue_size=1)
 pub_right_arm_elbow_rotate = rospy.Publisher('/right_arm_elbow_rotate_joint/command', Float64, queue_size=1)
 pub_right_arm_elbow_bend = rospy.Publisher('/right_arm_elbow_bend_joint/command', Float64, queue_size=1)
+pub_right_arm_wrist_bend = rospy.Publisher('/right_arm_wrist_bend_joint/command', Float64, queue_size=1)
 pub_right_arm_wrist_rotate = rospy.Publisher('/right_arm_wrist_rotate_joint/command', Float64, queue_size=1)
-pub_right_arm_gripper = rospy.Publisher('/right_arm_gripper_joint/command', Float64, queue_size=1)
+pub_right_arm_gripper_finger = rospy.Publisher('/right_arm_gripper_finger_joint/command', Float64, queue_size=1)
 

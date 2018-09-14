@@ -25,6 +25,12 @@ import rospy, sys
 import moveit_commander
 from control_msgs.msg import GripperCommand
 
+# reset servo at end
+from sheldon_servos.standard_servo_positions import *
+from sheldon_servos.set_servo_speed import *
+from sheldon_servos.set_servo_torque import *
+
+
 class MoveItDemo:
     def __init__(self):
         # Initialize the move_group API
@@ -37,7 +43,7 @@ class MoveItDemo:
         right_arm = moveit_commander.MoveGroupCommander('right_arm')
         
         # Set a small tolerance on joint angles
-        right_arm.set_goal_joint_tolerance(0.001)
+        right_arm.set_goal_joint_tolerance(0.05) # 0.001
         
         # Start the arm target in "resting" pose stored in the SRDF file
         right_arm.set_named_target('right_arm_home')
@@ -56,19 +62,27 @@ class MoveItDemo:
         right_arm.set_named_target('right_arm_extend_full')
          
         # Plan and execute the motion
+        rospy.loginfo("=============> go right_arm_extend_full")
         right_arm.go()
+        rospy.loginfo("=============> go right_arm_extend_full - DONE")
         rospy.sleep(5)
                   
         
         # Return the arm to the named "resting" pose stored in the SRDF file
         right_arm.set_named_target('right_arm_home')
+        rospy.loginfo("=============> go right_arm_home")
         right_arm.go()
+        rospy.loginfo("=============> go right_arm_home - DONE")
         rospy.sleep(2)
          
        
         # Cleanly shut down MoveIt
         moveit_commander.roscpp_shutdown()
         
+        # Move head and arms back to ready position (keep motors from overheating)
+        rospy.loginfo("=============> Real right_arm_home")
+        all_home()
+
         # Exit the script
         moveit_commander.os._exit(0)
 

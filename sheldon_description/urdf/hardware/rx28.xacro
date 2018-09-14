@@ -67,7 +67,7 @@
     <joint name="${name}_joint" type="revolute">
       <xacro:insert_block name="origin" />
        <axis xyz="0 0 ${reflect}"/>
-      <limit effort="30" velocity="${vlimit}" lower="${llimit}" upper="${ulimit}" />
+      <limit effort="1000" velocity="${vlimit}" lower="${llimit}" upper="${ulimit}" />
       <parent link="${parent}"/>
       <child link="${name}_link" />
     </joint>
@@ -131,7 +131,7 @@
     <joint name="${name}_joint" type="revolute">
       <xacro:insert_block name="origin" />
        <axis xyz="0 1 0"/>
-      <limit effort="30" velocity="${vlimit}" lower="${llimit}" upper="${ulimit}" />
+      <limit effort="1000" velocity="${vlimit}" lower="${llimit}" upper="${ulimit}" />
       <parent link="${parent}"/>
       <child link="${name}_link" />
     </joint>

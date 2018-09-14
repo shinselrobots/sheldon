@@ -9,7 +9,7 @@ Panels:
         - /RobotModel1
         - /TF1
         - /TF1/Frames1
-      Splitter Ratio: 0.5
+      Splitter Ratio: 0.718023241
     Tree Height: 387
   - Class: rviz/Selection
     Name: Selection
@@ -130,11 +130,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        left_arm_claw_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         left_arm_elbow_bend_link:
           Alpha: 1
           Show Axes: false
@@ -155,7 +150,22 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        left_arm_finger_link1:
+        left_arm_gripper_body_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_arm_gripper_finger_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_arm_gripper_finger_link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_arm_gripper_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -189,6 +199,16 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        left_arm_wrist_bend_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_arm_wrist_bend_servo_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         left_arm_wrist_rotate_link:
           Alpha: 1
           Show Axes: false
@@ -214,11 +234,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        right_arm_claw_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         right_arm_elbow_bend_link:
           Alpha: 1
           Show Axes: false
@@ -239,7 +254,22 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        right_arm_finger_link1:
+        right_arm_gripper_body_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_gripper_finger_link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_gripper_finger_link2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_gripper_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -269,6 +299,16 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
         right_arm_upper_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_wrist_bend_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_arm_wrist_bend_servo_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -303,102 +343,118 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: true
+        All Enabled: false
         astra_camera_link:
-          Value: true
+          Value: false
         base_footprint:
-          Value: true
+          Value: false
         base_l_wheel_link:
-          Value: true
+          Value: false
         base_link:
-          Value: true
+          Value: false
         base_r_wheel_link:
-          Value: true
+          Value: false
         femur_link:
-          Value: true
+          Value: false
         head_link:
-          Value: true
+          Value: false
         head_pan_link:
-          Value: true
+          Value: false
         head_pan_servo_link:
-          Value: true
+          Value: false
         head_sidetilt_link:
-          Value: true
+          Value: false
         head_sidetilt_servo_link:
-          Value: true
+          Value: false
         head_tilt_link:
-          Value: true
+          Value: false
         head_tilt_servo_link:
-          Value: true
+          Value: false
         head_torso_link:
-          Value: true
-        left_arm_claw_link:
-          Value: true
+          Value: false
         left_arm_elbow_bend_link:
-          Value: true
+          Value: false
         left_arm_elbow_bend_servo_link:
-          Value: true
+          Value: false
         left_arm_elbow_rotate_link:
-          Value: true
+          Value: false
         left_arm_elbow_rotate_servo_link:
-          Value: true
-        left_arm_finger_link1:
+          Value: false
+        left_arm_gripper_body_link:
+          Value: false
+        left_arm_gripper_finger_link1:
+          Value: false
+        left_arm_gripper_finger_link2:
+          Value: false
+        left_arm_gripper_link:
           Value: true
         left_arm_lower_link:
-          Value: true
+          Value: false
         left_arm_shoulder_lift_servo_link:
-          Value: true
+          Value: false
         left_arm_shoulder_rotate_link:
-          Value: true
+          Value: false
         left_arm_shoulder_rotate_servo_link:
-          Value: true
+          Value: false
         left_arm_torso_link:
-          Value: true
+          Value: false
         left_arm_upper_link:
-          Value: true
+          Value: false
+        left_arm_wrist_bend_link:
+          Value: false
+        left_arm_wrist_bend_servo_link:
+          Value: false
         left_arm_wrist_rotate_link:
-          Value: true
+          Value: false
         left_arm_wrist_rotate_servo_link:
-          Value: true
+          Value: false
         lidar_base_link:
-          Value: true
+          Value: false
         lidar_link:
-          Value: true
+          Value: false
         nuitrack_camera_link:
-          Value: true
-        right_arm_claw_link:
-          Value: true
+          Value: false
         right_arm_elbow_bend_link:
-          Value: true
+          Value: false
         right_arm_elbow_bend_servo_link:
-          Value: true
+          Value: false
         right_arm_elbow_rotate_link:
-          Value: true
+          Value: false
         right_arm_elbow_rotate_servo_link:
-          Value: true
-        right_arm_finger_link1:
+          Value: false
+        right_arm_gripper_body_link:
+          Value: false
+        right_arm_gripper_finger_link1:
+          Value: false
+        right_arm_gripper_finger_link2:
+          Value: false
+        right_arm_gripper_link:
           Value: true
         right_arm_lower_link:
-          Value: true
+          Value: false
         right_arm_shoulder_lift_servo_link:
-          Value: true
+          Value: false
         right_arm_shoulder_rotate_link:
-          Value: true
+          Value: false
         right_arm_shoulder_rotate_servo_link:
-          Value: true
+          Value: false
         right_arm_torso_link:
-          Value: true
+          Value: false
         right_arm_upper_link:
-          Value: true
+          Value: false
+        right_arm_wrist_bend_link:
+          Value: false
+        right_arm_wrist_bend_servo_link:
+          Value: false
         right_arm_wrist_rotate_link:
-          Value: true
+          Value: false
         right_arm_wrist_rotate_servo_link:
-          Value: true
+          Value: false
         tibia_link:
-          Value: true
+          Value: false
         torso_link:
-          Value: true
-      Marker Scale: 0.75
+          Value: false
+      Marker Scale: 0.5
       Name: TF
       Show Arrows: true
       Show Axes: true
@@ -438,11 +494,17 @@ Visualization Manager:
                                 left_arm_elbow_bend_servo_link:
                                   left_arm_elbow_bend_link:
                                     left_arm_lower_link:
-                                      left_arm_wrist_rotate_servo_link:
-                                        left_arm_wrist_rotate_link:
-                                          left_arm_claw_link:
-                                            left_arm_finger_link1:
-                                              {}
+                                      left_arm_wrist_bend_servo_link:
+                                        left_arm_wrist_bend_link:
+                                          left_arm_wrist_rotate_servo_link:
+                                            left_arm_wrist_rotate_link:
+                                              left_arm_gripper_body_link:
+                                                left_arm_gripper_finger_link1:
+                                                  {}
+                                                left_arm_gripper_finger_link2:
+                                                  {}
+                                                left_arm_gripper_link:
+                                                  {}
                   right_arm_torso_link:
                     right_arm_shoulder_rotate_servo_link:
                       right_arm_shoulder_rotate_link:
@@ -453,11 +515,17 @@ Visualization Manager:
                                 right_arm_elbow_bend_servo_link:
                                   right_arm_elbow_bend_link:
                                     right_arm_lower_link:
-                                      right_arm_wrist_rotate_servo_link:
-                                        right_arm_wrist_rotate_link:
-                                          right_arm_claw_link:
-                                            right_arm_finger_link1:
-                                              {}
+                                      right_arm_wrist_bend_servo_link:
+                                        right_arm_wrist_bend_link:
+                                          right_arm_wrist_rotate_servo_link:
+                                            right_arm_wrist_rotate_link:
+                                              right_arm_gripper_body_link:
+                                                right_arm_gripper_finger_link1:
+                                                  {}
+                                                right_arm_gripper_finger_link2:
+                                                  {}
+                                                right_arm_gripper_link:
+                                                  {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -485,25 +553,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.05768323
+      Distance: 2.26503682
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.333950311
-        Y: -0.0014200334
-        Z: 0.425971597
+        X: 0.060883522
+        Y: -0.00106166303
+        Z: 0.607257843
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.450398326
+      Pitch: 0.397606999
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.910397947
+      Yaw: 1.05898714
     Saved: ~
 Window Geometry:
   Displays:

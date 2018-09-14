@@ -37,7 +37,7 @@ def wave1():
     pub_right_arm_elbow_rotate.publish(0.0)
     pub_right_arm_elbow_bend.publish(2.0)
     pub_right_arm_wrist_rotate.publish(0.0)
-    pub_right_arm_gripper.publish(0.0)
+    pub_right_arm_gripper_finger.publish(0.0)
 
     head_home() # look slightly up at people
     #pub_head_sidetilt.publish(0.0)
@@ -119,7 +119,7 @@ class BehaviorAction(object):
 
         # Move head and arms back to ready position
         all_home()
-        #pub_right_arm_gripper.publish(-2.0)
+        #pub_right_arm_gripper_finger.publish(-2.0)
 
         # Finish Behavior
         for i in range(1, 5):

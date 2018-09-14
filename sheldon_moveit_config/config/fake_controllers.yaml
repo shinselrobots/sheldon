@@ -5,6 +5,7 @@ controller_list:
       - right_arm_shoulder_lift_joint
       - right_arm_elbow_rotate_joint
       - right_arm_elbow_bend_joint
+      - right_arm_wrist_bend_joint
       - right_arm_wrist_rotate_joint
   - name: fake_left_arm_controller
     joints:
@@ -12,6 +13,7 @@ controller_list:
       - left_arm_shoulder_lift_joint
       - left_arm_elbow_rotate_joint
       - left_arm_elbow_bend_joint
+      - left_arm_wrist_bend_joint
       - left_arm_wrist_rotate_joint
   - name: fake_right_gripper_controller
     joints:

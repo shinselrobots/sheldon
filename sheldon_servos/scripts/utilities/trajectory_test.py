@@ -31,14 +31,14 @@ class Joint:
                 self.joint_names = [
                     'left_arm_shoulder_rotate_joint',  'left_arm_shoulder_lift_joint',
                     'left_arm_elbow_rotate_joint',     'left_arm_elbow_bend_joint', 
-                    'left_arm_wrist_rotate_joint']
+                    'left_arm_wrist_bend_joint', 'left_arm_wrist_rotate_joint']
 
             else:
                 rospy.loginfo('Moving Right Arm...')
                 self.joint_names = [
                     'right_arm_shoulder_rotate_joint', 'right_arm_shoulder_lift_joint', 
                     'right_arm_elbow_rotate_joint',    'right_arm_elbow_bend_joint',
-                    'right_arm_wrist_rotate_joint'] 
+                    'right_arm_wrist_bend_joint', 'right_arm_wrist_rotate_joint'] 
 
 
             
@@ -53,7 +53,7 @@ class Joint:
               
 
 def main():
-            move_duration = 0.5  # time in seconds for move to complete!
+            move_duration = 2.0  # time in seconds for move to complete!
             #head_group = Joint('head')
             #head_group.move_joint([0.25, 0.5, 0.5], move_duration)
             #head_group.move_joint([-0.25, -0.5, -0.5], move_duration*2.0)
@@ -61,18 +61,21 @@ def main():
 
             right_arm_group = Joint('right_arm')
             rospy.loginfo('Moving Position 1')
-            right_arm_group.move_joint([0.7, 0.13, 0.0, 1.5, 0.0], move_duration) # extend out
-            time.sleep(2.0)
+            #right_arm_group.move_joint([1.57, 0.13, 0.0, 0.0, 0.0, 0.0], move_duration) # extend out
+            right_arm_group.move_joint( [ 0.7, 0.13, 0.0, 1.5, 0.0, 0.0], move_duration) # extend out
+            time.sleep(4.0)
             rospy.loginfo('Moving Postion 2 (Home)')
-            right_arm_group.move_joint([-0.49, 0.13, 0.0, 2.15, 0.0], move_duration) # home
+            right_arm_group.move_joint([-0.49, 0.13, 0.0, 2.15, 0.0, 0.0], move_duration) # home
             rospy.loginfo('DONE')
 
             left_arm_group = Joint('left_arm')
             rospy.loginfo('Moving Position 1')
-            left_arm_group.move_joint([0.7, 0.13, 0.0, 1.5, 0.0], move_duration) # extend out
+            left_arm_group.move_joint([1.57, 0.13, 0.0, 0.0, 0.0, 0.0], move_duration) # extend out
+            #left_arm_group.move_joint([0.7, 0.13, 0.0, 1.5, 0.0, 0.0], move_duration) # extend out
             time.sleep(2.0)
             rospy.loginfo('Moving Postion 2 (Home)')
-            left_arm_group.move_joint([-0.49, 0.13, 0.0, 2.15, 0.0], move_duration) # home
+            left_arm_group.move_joint([-0.49, 0.13, 0.0, 2.15, 0.0, 0.0], move_duration) # home
+            #left_arm_group.move_joint([-0.49, 0.13, 0.0, 2.15, 0.0, 0.0], move_duration) # home
             rospy.loginfo('DONE')
 
                         

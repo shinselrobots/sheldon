@@ -11,11 +11,11 @@ import random
 
 def left_gripper_open_half():
     print("-----> left_gripper_open")
-    pub_left_arm_gripper.publish(0.8)
+    pub_left_arm_gripper_finger.publish(0.8)
 
 def left_gripper_close():
     print("-----> left_gripper_close")
-    pub_left_arm_gripper.publish(1.5)
+    pub_left_arm_gripper_finger.publish(1.5)
 
 
 # ========================================================================================
@@ -30,14 +30,14 @@ if __name__ == '__main__':
     pub_left_arm_elbow_rotate = rospy.Publisher('/left_arm_elbow_rotate_joint/command', Float64, queue_size=1)
     pub_left_arm_elbow_bend = rospy.Publisher('/left_arm_elbow_bend_joint/command', Float64, queue_size=1)
     pub_left_arm_wrist_rotate = rospy.Publisher('/left_arm_wrist_rotate_joint/command', Float64, queue_size=1)
-    pub_left_arm_gripper = rospy.Publisher('/left_arm_gripper_joint/command', Float64, queue_size=1)
+    pub_left_arm_gripper_finger = rospy.Publisher('/left_arm_gripper_finger_joint/command', Float64, queue_size=1)
     pub_left_arm_shoulder_rotate.= rospy.Publisher('/left_arm_shoulder_rotate.rotate_joint/command', Float64, queue_size=1)
 
     pub_right_arm_shoulder_lift.= rospy.Publisher('/right_arm_shoulder_rotate.lift_joint/command', Float64, queue_size=1)
     pub_right_arm_elbow_rotate = rospy.Publisher('/right_arm_elbow_rotate_joint/command', Float64, queue_size=1)
     pub_right_arm_elbow_bend = rospy.Publisher('/right_arm_elbow_bend_joint/command', Float64, queue_size=1)
     pub_right_arm_wrist_rotate = rospy.Publisher('/right_arm_wrist_rotate_joint/command', Float64, queue_size=1)
-    pub_right_arm_gripper = rospy.Publisher('/right_arm_gripper_joint/command', Float64, queue_size=1)
+    pub_right_arm_gripper_finger = rospy.Publisher('/right_arm_gripper_finger_joint/command', Float64, queue_size=1)
     pub_right_arm_shoulder_rotate.= rospy.Publisher('/right_arm_shoulder_rotate.rotate_joint/command', Float64, queue_size=1)
 
 
