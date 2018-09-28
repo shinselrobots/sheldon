@@ -45,6 +45,7 @@ __email__ = 'anton@email.arizona.edu'
 Dynamixel Constants
 """
 # Control Table Constants
+###### EPROM VALUES (persist in the servo) ######
 DXL_MODEL_NUMBER_L = 0
 DXL_MODEL_NUMBER_H = 1
 DXL_VERSION = 2
@@ -65,10 +66,19 @@ DXL_RETURN_LEVEL = 16
 DXL_ALARM_LED = 17
 DXL_ALARM_SHUTDOWN = 18
 DXL_OPERATING_MODE = 19
-DXL_DOWN_CALIBRATION_L = 20
-DXL_DOWN_CALIBRATION_H = 21
-DXL_UP_CALIBRATION_L = 22
-DXL_UP_CALIBRATION_H = 23
+# OBSOLETE - OLD SERVOS
+#DXL_DOWN_CALIBRATION_L = 20
+#DXL_DOWN_CALIBRATION_H = 21
+#DXL_UP_CALIBRATION_L = 22 
+#DXL_UP_CALIBRATION_H = 23
+
+# NEW DEFINITION USED BY MX28, MX64, MX106
+DXL_MULTI_TURN_OFFSET_L = 20
+DXL_MULTI_TURN_OFFSET_H = 21
+DXL_RESOLUTION_DIVIDER = 22  # For EXTERNALLY GEARED SERVOS!
+#DXL_NOT_USED = 23
+
+###### RAM VALUES (reset when power off) ######
 DXL_TORQUE_ENABLE = 24
 DXL_LED = 25
 DXL_CW_COMPLIANCE_MARGIN = 26
@@ -150,6 +160,7 @@ DXL_MAX_TORQUE_TICK = 1023                  # maximum torque in encoder units
 
 KGCM_TO_NM = 0.0980665                      # 1 kg-cm is that many N-m
 RPM_TO_RADSEC = 0.104719755                 # 1 RPM is that many rad/sec
+
 
 # maximum holding torque is in N-m per volt
 # maximum velocity is in rad/sec per volt
@@ -283,5 +294,6 @@ DXL_MODEL_TO_PARAMS = \
            'rpm_per_tick':       0.114,
            'features':           [DXL_CURRENT_L, DXL_TORQUE_CONTROL_MODE, DXL_GOAL_ACCELERATION]
          },
+
 }
 

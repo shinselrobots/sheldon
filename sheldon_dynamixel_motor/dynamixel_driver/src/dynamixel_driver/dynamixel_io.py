@@ -872,6 +872,13 @@ class DynamixelIO(object):
         # return the data in a dictionary
         return {'min':min_voltage, 'max':max_voltage}
 
+    def get_resolution_divider(self, servo_id):
+        """ Returns the resolution divider for externally geared servos """
+        response = self.read(servo_id, DXL_RESOLUTION_DIVIDER, 1)
+        if response:
+            self.exception_on_error(response[4], servo_id, 'fetching resolution divider')
+        return response[5]
+
     def get_position(self, servo_id):
         """ Reads the servo's position value from its registers. """
         response = self.read(servo_id, DXL_PRESENT_POSITION_L, 2)

@@ -117,18 +117,21 @@ class SerialProxy():
         angles = self.dxl_io.get_angle_limits(motor_id)
         voltage = self.dxl_io.get_voltage(motor_id)
         voltages = self.dxl_io.get_voltage_limits(motor_id)
+        resolution_divider = self.dxl_io.get_resolution_divider(motor_id) # for externally geared servos
+        if resolution_divider == 0:
+            resolution_divider = 1 # make sure we don't divide by zero
         
         rospy.set_param('dynamixel/%s/%d/model_number' %(self.port_namespace, motor_id), model_number)
         rospy.set_param('dynamixel/%s/%d/model_name' %(self.port_namespace, motor_id), DXL_MODEL_TO_PARAMS[model_number]['name'])
         rospy.set_param('dynamixel/%s/%d/min_angle' %(self.port_namespace, motor_id), angles['min'])
         rospy.set_param('dynamixel/%s/%d/max_angle' %(self.port_namespace, motor_id), angles['max'])
         
-        torque_per_volt = DXL_MODEL_TO_PARAMS[model_number]['torque_per_volt']
+        torque_per_volt = DXL_MODEL_TO_PARAMS[model_number]['torque_per_volt'] * resolution_divider
         rospy.set_param('dynamixel/%s/%d/torque_per_volt' %(self.port_namespace, motor_id), torque_per_volt)
         rospy.set_param('dynamixel/%s/%d/max_torque' %(self.port_namespace, motor_id), torque_per_volt * voltage)
         
-        velocity_per_volt = DXL_MODEL_TO_PARAMS[model_number]['velocity_per_volt']
-        rpm_per_tick = DXL_MODEL_TO_PARAMS[model_number]['rpm_per_tick']
+        velocity_per_volt = DXL_MODEL_TO_PARAMS[model_number]['velocity_per_volt'] / resolution_divider
+        rpm_per_tick = DXL_MODEL_TO_PARAMS[model_number]['rpm_per_tick']  / resolution_divider
         rospy.set_param('dynamixel/%s/%d/velocity_per_volt' %(self.port_namespace, motor_id), velocity_per_volt)
         rospy.set_param('dynamixel/%s/%d/max_velocity' %(self.port_namespace, motor_id), velocity_per_volt * voltage)
         rospy.set_param('dynamixel/%s/%d/radians_second_per_encoder_tick' %(self.port_namespace, motor_id), rpm_per_tick * RPM_TO_RADSEC)
