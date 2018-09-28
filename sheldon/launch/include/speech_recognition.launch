@@ -3,16 +3,17 @@
 
   <!-- Use this for Google Cloud Speech Recogniton (just speech to text)   DISABLED
   <node pkg="google_cloud_speech" type="google_cloud_speech.py" name="google_cloud_speech_recognition" output="screen"/>
+   NOTE:  Add param's here if using this...
   -->
 
   <!-- Use this for Google Assistant (Speech Recogniton and Web Info)  -->
   <node pkg="google_assistant_speech" type="google_assistant_speech.py" name="google_assistant_speech_interface" output="screen"/>
 
     <!-- Key Phrase spotting using Snowboy -->
-    <param name="key_phrase_dir" type="string" value="$(find google_cloud_speech)/scripts/resources" />
+    <param name="key_phrase_dir" type="string" value="$(find google_assistant_speech)/scripts/resources" />
     <param name="key_phrase_1" type="string" value="sheldon.pmdl" />        <!-- Robot's Name -->
     <param name="key_phrase_2" type="string" value="microphone_on.pmdl" />  <!-- Mic Enable Phrase -->
-    <param name="hotword_sensitivity" type="double" value="0.4" />         <!-- Larger = more sensitive -->
-    <param name="apply_frontend" type="bool" value="False" />                <!-- noise processing for keyword? -->
+    <param name="hotword_sensitivity" type="double" value="0.5" />          <!-- Larger = more sensitive -->
+    <param name="apply_frontend" type="bool" value="False" />               <!-- noise processing for keyword? -->
 
 </launch>

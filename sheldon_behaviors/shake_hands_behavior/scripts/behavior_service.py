@@ -33,7 +33,6 @@ from sheldon_servos.set_servo_torque import *
 
 # Globals
 
-# TODO! FIX THESE BOGUS VALUES!!!
 def move_arm_shake_preliminary():
     pub_right_arm_shoulder_rotate.publish(1.12)
     pub_right_arm_shoulder_lift.publish(0.05)
@@ -136,8 +135,8 @@ class BehaviorAction(object):
         client = actionlib.SimpleActionClient("/speech_service", audio_and_speech_common.msg.speechAction)
         client.wait_for_server()
 
-        SetServoTorque(0.5, all_joints) # NOTE Extra weak Servos!
-        SetServoSpeed(0.5, all_joints)
+        SetServoTorque(1.0, all_joints) 
+        SetServoSpeed(0.6, all_joints)
         SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_joint')
         #SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_joint')
 

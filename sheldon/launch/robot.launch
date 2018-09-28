@@ -64,7 +64,7 @@
 
   <!-- Speech Recognition  -->
   <include file="$(find sheldon)/launch/include/speech_recognition.launch"/>
-
+  
 
   <!-- This launch script starts the Lidar.  DISABLED 
   <include file="$(find sheldon)/launch/include/lidar.launch"/> 
@@ -74,9 +74,9 @@
   <include file="$(find sheldon)/launch/include/safety_control.launch"/>
   -->
 
-  <!-- Body Tracker   DISABLED
+  <!-- Body Tracker  -->
   <include file="$(find sheldon)/launch/include/nuitrack_body_tracker.launch"/>
-  -->
+  
   
 
   <!-- This launch script starts navigation capabilities   DISABLED
