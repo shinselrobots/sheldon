@@ -12,11 +12,9 @@ install(DIRECTORY launch config udev scripts
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-
-catkin_install_python(PROGRAMS scripts/record_servos.py scripts/shared_scripts/head_servo_publishers.py  scripts/shared_scripts/dynamixel_joint_state_publisher.py DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
-
-
 catkin_python_setup()
+
+
 
 
 

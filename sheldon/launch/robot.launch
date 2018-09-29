@@ -74,9 +74,9 @@
   <include file="$(find sheldon)/launch/include/safety_control.launch"/>
   -->
 
-  <!-- Body Tracker  -->
+  <!-- Body Tracker  DISABLED
   <include file="$(find sheldon)/launch/include/nuitrack_body_tracker.launch"/>
-  
+  -->
   
 
   <!-- This launch script starts navigation capabilities   DISABLED
