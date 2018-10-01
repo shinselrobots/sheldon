@@ -26,6 +26,18 @@
 
   <!-- launch rviz to view the tensorflow image -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_people_object_detection_tensorflow)/rviz/view_tensorflow_image.rviz" />
+
+
+  <!-- launch tensorflow Face Recognizer
+       optionally sleeps "n" seconds, then activates python environment and launches the detector  DISABLED
+
+  <node pkg="sheldon" type="activated_tensorflow.sh"
+    name="activated_cob_face_recognizer" 
+    args="1 cob_people_object_detection_tensorflow cob_face_recognizer.launch"
+    output="screen">
+  </node>
+-->
+
   
 
 </launch>
