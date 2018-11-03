@@ -58,6 +58,9 @@ private:
   tf::TransformBroadcaster odom_broadcaster_;
   ros::Publisher odom_pub_;
   ros::Publisher vel_pub_; // send Motor commands to Sabertooth
+  ros::Publisher wheel_speed_left_pub_;
+  ros::Publisher wheel_speed_right_pub_;
+  ros::Publisher wheel_speed_total_pub_;
 
   //ros::Timer ramp_timer_;
 
@@ -86,10 +89,10 @@ private:
   
 
   // CONSTANTS
-  const bool ROBOT_HAS_COMPASS  = true;
+  const bool ROBOT_HAS_COMPASS  = false;// DAVESDAVES TODO!
   const bool ROBOT_HAS_IMU  = false; // DAVES TODO!
   const double WHEEL_BASE_METERS = 330.0/1000.0; // mm -> Meters - Tune this value as needed
-  const double TICKS_PER_METER = 398.0; // Calibrated, +/- 0.5 ticks!
+  const double TICKS_PER_METER =  833.33; // 398.0; // 
   const double BASE_CIRMUMFERENCE = M_PI*WHEEL_BASE_METERS;
   const double ANGULAR_SCALE = BASE_CIRMUMFERENCE / (2.0*M_PI); // TODO - CHECK/FIX THIS!
   const double RADIANS_TO_DEGREES = 180.0 / M_PI;
@@ -133,6 +136,14 @@ WheelControl::WheelControl() //:
   // PUBLISHERS
   odom_pub_ = nh_.advertise<nav_msgs::Odometry>("odom", 10, true); // latch last one sent
   vel_pub_ = nh_.advertise<geometry_msgs::Twist>("/wheel_motors_cmd_vel", 2, true);
+
+  // For DEBUG:
+  wheel_speed_left_pub_ = nh_.advertise<std_msgs::Float32>("/wheel_speed_left", 1, false); // don't latch last one sent
+  wheel_speed_right_pub_ = nh_.advertise<std_msgs::Float32>("/wheel_speed_right", 1, false); // don't latch last one sent
+
+  wheel_speed_total_pub_ = nh_.advertise<std_msgs::Float32>("/wheel_speed_total", 1, false); // don't latch last one sent
+
+
 	ROS_INFO("WheelControl: publishing topics: odom, /wheel_motors_cmd_vel");
 
   lastCmdMsgTime_ = ros::Time::now();
@@ -144,7 +155,7 @@ void WheelControl::rawOdomMsgCallback(const wheel_control::WheelOdomRaw::ConstPt
 {
 	int32_t odomTicksRight = msg->odom_ticks_right;
 	int32_t odomTicksLeft = msg->odom_ticks_left;
-	// ROS_INFO("WheelControl: Raw: Odom Left=[%d] Right=[%d] ", odomTicksLeft, odomTicksRight );
+	///ROS_INFO("WheelControl: Raw: Odom Left=[%d] Right=[%d] ", odomTicksLeft, odomTicksRight );
 
 	// Convert raw values to ROS messages and publish
 	publishOdometry(odomTicksRight, odomTicksLeft);
@@ -152,10 +163,17 @@ void WheelControl::rawOdomMsgCallback(const wheel_control::WheelOdomRaw::ConstPt
 
 void WheelControl::rawSpeedMsgCallback(const wheel_control::WheelSpeedRaw::ConstPtr& msg)
 {
+  static int32_t lastSpeedTicksLeft = 0;
+  static int32_t lastSpeedTicksRight = 0;
 	int32_t speedTicksRight = msg->speed_ticks_right;
 	int32_t speedTicksLeft = msg->speed_ticks_left;
 
-	/// ROS_INFO("WheelControl: Raw: Speed Left=[%d] Right=[%d]", speedTicksLeft, speedTicksRight);
+	///ROS_INFO("WheelControl: Raw: Speed Left=[%d] Right=[%d]", speedTicksLeft, speedTicksRight);
+
+  // smooth out the values a little (raw odom is very jittery)
+  int32_t smoothSpeedTicksLeft = (speedTicksLeft + lastSpeedTicksLeft) / 2;
+  lastSpeedTicksLeft = speedTicksLeft;
+
 
 	// Convert raw values to ROS values for publishing on the odom topic
 	updateVelocity(speedTicksRight, speedTicksLeft);
@@ -214,8 +232,8 @@ void WheelControl::prioritizeCmdMessages(int priority, double speedRequested, do
   if (priority >= currentPriority_ )
   {
   	// interrupt any lower priority
-  	ROS_INFO_STREAM( "WheelControl: Servicing command.  Current Priority = " 
-      << currentPriority_ << "  Request Priority = " << priority );
+  	///ROS_INFO_STREAM( "WheelControl: New command: Priority Current =" 
+    ///  << currentPriority_ << "  Requested = " << priority << "  ====================" );
 
   	currentPriority_ = priority;
   	speedRequested_ = speedRequested; 
@@ -236,25 +254,24 @@ void WheelControl::controlMotors(int32_t speed_ticks_right, int32_t speed_ticks_
 {
   // A basic active speed control.  Ramps motor speed to desired target, and adjusts for load changes.
   // Calculate current vs. requested speed, and control motors for constant speed
-  // This gets called once each time a velocity update arrives (about every 250ms)
-  const double FEEDBACK_TICKS_TO_COMMAND_RATIO = 420.0; // ticks for commanded speed of 1.0.  Linear 42 steps per 0.1 twist command.
-  const double TURN_TICKS_TO_COMMAND_RATIO = 1.0; // ticks for commanded speed in Radians/Second.
-  const double RAMP_INCREMENT = 0.02; //0.01
-  const double HYSTERYSIS = 0.04;  // 0.02
-  const double FAST_RAMP_HYSTERYSIS = HYSTERYSIS * 4.0; 
-  const double MAX_RAMP = 0.2; // 0.1
-  const double TURN_HYSTERYSIS = 0.05;   // 0.05
-  const double FAST_TURN_HYSTERYSIS = TURN_HYSTERYSIS * 4.0; 
-  const double TURN_INCREMENT = 0.02; // 0.01
-  const double MAX_TURN_COMPENSATION = 0.2; // 0.1
-  const double MAX_SPEED_METERS_PER_SECOND = 3.0; // fastest speed robot is capable of moving (Sabertooth speed = 1.0)
-  const double MAX_TURN_RADIANS_PER_SECOND = 8.0; // fastest turn robot is capable of (Sabertooth speed = 1.0)
+  // This gets called once each time a velocity update arrives (about every ???ms)
+  // NOTE:  all calculations are done in range -1.0 to 1.0, representing % of max motor speed
+
+  const double RAMP_INCREMENT = 0.001; //0.02
+  const double HYSTERYSIS = 0.02;  // 0.04
+  const double FAST_RAMP_HYSTERYSIS = HYSTERYSIS * 8.0;   // 4.0
+  const double MAX_RAMP = 0.4; // 0.2
+
+  const double TURN_INCREMENT = 0.01; // 0.02
+  const double TURN_HYSTERYSIS = 0.02;   // 0.05
+  const double FAST_TURN_HYSTERYSIS = TURN_HYSTERYSIS * 4.0;  // 4.0
+  const double MAX_TURN_COMPENSATION = 0.3; // 0.2
+
+  const double MAX_SPEED_METERS_PER_SECOND = 3.0;   // fastest speed robot is capable of moving 
+  const double MAX_TURN_RADIANS_PER_SECOND = 8.0;   // (Sabertooth speed = 1.0)
 
   double speedCmd = 0.0;
   double turnCmd = 0.0;
-
-  // note: 420 ticks/sec full speed; 42 ticks/sec for each 0.1 step in command speed (pretty linear)
-  // TODO!!! make this map to Meters per second and Radians per second!!!
 
 
   ros::Duration elapsedTime = ros::Time::now() - lastCmdMsgTime_;
@@ -284,9 +301,11 @@ void WheelControl::controlMotors(int32_t speed_ticks_right, int32_t speed_ticks_
 
 
   // Trap gross error conditions
-  if( (abs(speed_ticks_right) > 1000) || (abs(speed_ticks_right) > 1000)  )
+
+  /// DEBUG: Comment out this "if" to DISABLE speed control for testing
+  if( (abs(speed_ticks_right) > 3000) || (abs(speed_ticks_right) > 3000)  )
   {
-    // Encoder Error!  Should never be greater than about 500 ticks / second!
+    // Encoder Error!  Should never be greater than about 2500 ticks / second!
     ROS_WARN_STREAM( "WHEEL ENCODER ERROR!: IGNORING ENCODERS FOR SPEED CONTROL! speed_ticks_left= " << 
       speed_ticks_left << " speed_ticks_right= " << speed_ticks_right  );
 
@@ -300,72 +319,112 @@ void WheelControl::controlMotors(int32_t speed_ticks_right, int32_t speed_ticks_
 
 
   // Speed Control calculations
-   double feedbackRight = (double)speed_ticks_right / FEEDBACK_TICKS_TO_COMMAND_RATIO;
-  double feedbackLeft = (double)speed_ticks_left / FEEDBACK_TICKS_TO_COMMAND_RATIO;
+  // we map speed as 0 - 1.0, with 1.0 = full speed
+  // note: 2000 ticks/sec full speed; about 200 ticks/sec for each 0.1 step in command speed
+  // formula is:   tick_speed = (requested_speed * 2000) - 100
+  // so, feedback calculation is: calculated_speed = (tick_speed + 100) / 2000
+
+
+  // Calculate feedback from Odom, scaled as percent of max motor speed
+  double feedbackLeft = 0.0;
+  double feedbackRight = 0.0;
+  if(0.0 != speed_ticks_left) // prevent creep due to "+100" below
+  {
+    feedbackLeft = (double)(speed_ticks_left + 100) / 2000.0;
+  }
+  if(0.0 != speed_ticks_right) // prevent creep due to "+100" below
+  {
+    feedbackRight = (double)(speed_ticks_right + 100) / 2000.0;
+  }
+
+  // publish feedback from odom so it can be graphed to debug speed control
+  // should range up to 1.0 at full speed
+  std_msgs::Float32 msgSpeedLeft;
+  msgSpeedLeft.data = feedbackLeft;
+  wheel_speed_left_pub_.publish( msgSpeedLeft );
+
+  std_msgs::Float32 msgSpeedRight;
+  msgSpeedRight.data = feedbackRight;
+  wheel_speed_right_pub_.publish( msgSpeedRight );
+
+  std_msgs::Float32 msgSpeedTotal;
+  msgSpeedTotal.data = (feedbackRight + feedbackLeft) / 2.0;
+  wheel_speed_total_pub_.publish( msgSpeedTotal );
+
+
+  ///ROS_INFO_STREAM( std::setprecision(3) << std::fixed << "DEBUG: feedbackLeft= " << feedbackLeft 
+	///	<< " feedbackRight = " << feedbackRight  );
+
+
   double speedFeedback = (feedbackRight + feedbackLeft) / 2.0;
   double turnFeedback = (feedbackRight - feedbackLeft) / 2.0; 
-  if((0.0 != speedRequested_) || (0.0 != turnRequested_)) // || (0.0 != speedFeedback)  || (0.0 != turnFeedback) )
-  {
-	  ROS_INFO_STREAM( std::setprecision(3) << std::fixed << "WheelControl: TargetSpeed= " << speedRequested_ 
-	  	<< " TargetTurn =" << turnRequested_ << " FBSpeed= " << speedFeedback << " FBTurn =" << turnFeedback );
-  }
-
-  // SPEED CONTROL
 
   double speedDelta = speedRequested_ - speedFeedback;
+  double turnDelta = turnRequested_ - turnFeedback;
 
-  if( speedDelta > FAST_RAMP_HYSTERYSIS )
+  if((0.0 != speedRequested_) || (0.0 != turnRequested_)) 
   {
-  	speedCorrection_ += (RAMP_INCREMENT * 3.0);
-  	//ROS_INFO_STREAM(" WheelControl: ++RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
+	 // ROS_INFO_STREAM( std::setprecision(3) << std::fixed << "WheelControl: speedFeedback = " << speedFeedback << " turnFeedback = " << turnFeedback << " speedDelta = " << speedDelta << " turnDelta = " << turnDelta);
   }
-  else if( speedDelta > HYSTERYSIS )
+
+
+  // SPEED CONTROL
+  if( 0.0 == speedRequested_ ) 
   {
-  	speedCorrection_ += RAMP_INCREMENT;
-  	//ROS_INFO_STREAM(" WheelControl: +RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
-  }
-  else if( speedDelta < (-FAST_RAMP_HYSTERYSIS) )
-  {
-  	speedCorrection_ -= (RAMP_INCREMENT * 3.0); 
-  	//ROS_INFO_STREAM(" WheelControl: --RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
-  }
-  else if( speedDelta < (-HYSTERYSIS) )
-  {
-  	speedCorrection_ -= RAMP_INCREMENT; 
-  	//ROS_INFO_STREAM(" WheelControl: -RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
+    // Don't do any speed control at zero speed, it messes up when combined with turn
+    speedCmd = speedRequested_;
   }
   else
   {
-  	// close to command requested.  Prevent round-off creep at stop
-  	if( 0.0 == speedRequested_ )
-  	{
-  		speedCorrection_ = 0.0;
-	  	//ROS_INFO_STREAM(" WheelControl: SPEED CLAMP AT STOP");
-  	}
+    if( speedDelta > FAST_RAMP_HYSTERYSIS )
+    {
+    	speedCorrection_ += (RAMP_INCREMENT * 2.0);
+    	ROS_INFO_STREAM(" WheelControl: ++RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
+    }
+    else if( speedDelta > HYSTERYSIS )
+    {
+    	speedCorrection_ += RAMP_INCREMENT;
+    	ROS_INFO_STREAM(" WheelControl: +RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
+    }
+    else if( speedDelta < (-FAST_RAMP_HYSTERYSIS) )
+    {
+    	speedCorrection_ -= (RAMP_INCREMENT * 2.0); 
+    	ROS_INFO_STREAM(" WheelControl: --RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
+    }
+    else if( speedDelta < (-HYSTERYSIS) )
+    {
+    	speedCorrection_ -= RAMP_INCREMENT; 
+    	ROS_INFO_STREAM(" WheelControl: -RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
+    }
+    else
+    {
+    	// close to command requested.  Just leave speedCorrection alone.
+    }
+
+    // clamp max speedCorrection_
+    if(fabs(speedCorrection_) >= MAX_RAMP)
+    {
+      //ROS_INFO_STREAM("WheelControl:: DBG: Exceeds MAX_RAMP: speedCorrection_ = " << speedCorrection_);
+      if(speedCorrection_ > 0)
+      {
+        speedCorrection_ = MAX_RAMP;
+        ROS_INFO_STREAM(" WheelControl: Clamping to MAX_RAMP");
+      }
+      else if(speedCorrection_ < 0)
+      {
+        speedCorrection_ = -MAX_RAMP;
+        ROS_INFO_STREAM(" WheelControl: Clamping to Negative MAX_RAMP");
+      }
+
+    }
+    speedCmd = speedRequested_ + speedCorrection_;
   }
 
-  // clamp max speedCorrection_
-  if(fabs(speedCorrection_) >= MAX_RAMP)
-  {
-    //ROS_INFO_STREAM("WheelControl:: DBG: Exceeds MAX_RAMP: speedCorrection_ = " << speedCorrection_);
-    if(speedCorrection_ > 0)
-    {
-      speedCorrection_ = MAX_RAMP;
-      //ROS_INFO_STREAM(" WheelControl: Clamping to MAX_RAMP");
-    }
-    else if(speedCorrection_ < 0)
-    {
-      speedCorrection_ = -MAX_RAMP;
-      //ROS_INFO_STREAM(" WheelControl: Clamping to Negative MAX_RAMP");
-    }
-
-  }
-  speedCmd = speedRequested_ + speedCorrection_;
-
+  // DAVESDAVES DEBUG!!! TODO  ENABLE THIS TO OVERRIDE SPEED CONTROL!!!
+  //speedCmd = speedRequested_ ;
 
 
   // TURN CONTROL
-  double turnDelta = turnRequested_ - turnFeedback;
 
   if( (turnRequested_ != lastTurnRequested_) || (speedRequested_ != lastSpeedRequested_) )
   {
@@ -374,63 +433,68 @@ void WheelControl::controlMotors(int32_t speed_ticks_right, int32_t speed_ticks_
   }
   else
   {
-
-    double turnDelta = turnRequested_ - turnFeedback;
-
     if( turnDelta > FAST_TURN_HYSTERYSIS )
     {
       turnCorrection_ += (TURN_INCREMENT * 2.0);
-      //ROS_INFO_STREAM(" WheelControl: ++TURN_INCREMENT");
+      ROS_INFO_STREAM(" WheelControl: ++TURN_INCREMENT");
     }
     else if( turnDelta > TURN_HYSTERYSIS )
     {
       turnCorrection_ += TURN_INCREMENT;
-      //ROS_INFO_STREAM(" WheelControl: +TURN_INCREMENT");
+      ROS_INFO_STREAM(" WheelControl: +TURN_INCREMENT");
     }
     else if( turnDelta < -FAST_TURN_HYSTERYSIS )
     {
       turnCorrection_ -= (TURN_INCREMENT * 2.0); 
-      //ROS_INFO_STREAM(" WheelControl: --TURN_INCREMENT");
+      ROS_INFO_STREAM(" WheelControl: --TURN_INCREMENT");
     }
     else if( turnDelta < -TURN_HYSTERYSIS )
     {
       turnCorrection_ -= TURN_INCREMENT; 
-      //ROS_INFO_STREAM(" WheelControl: -TURN_INCREMENT");
+      ROS_INFO_STREAM(" WheelControl: -TURN_INCREMENT");
     }
     else
     {
-      // close to command requested.  Prevent round-off creep at center
-      if( 0.0 == turnRequested_ )
-      {
-        turnCorrection_ = 0.0;
-        //ROS_INFO_STREAM(" WheelControl: TURN CLAMP AT CENTER");
-      }
+    	// close to command requested.  Just leave turnCorrection alone.
+
+      // but, if full stop requested (no speed OR turn!), make sure robot does not creep 
+    	if( (0.0 == speedRequested_) && (0.0 == turnRequested_) )
+    	{
+    		turnCorrection_ = 0.0;
+        //ROS_INFO_STREAM(" WheelControl: TURN CLAMP AT CENTER-STOP");
+    	}
     }
 
+
+
     // clamp max turnCorrection_
-    if(fabs(turnCorrection_) >= MAX_RAMP)
+    if(fabs(turnCorrection_) >= MAX_TURN_COMPENSATION)
     {
       if(turnCorrection_ > 0)
       {
-        turnCorrection_ = MAX_RAMP;
-        //ROS_INFO_STREAM(" WheelControl: Clamping TURN to MAX_RAMP");
+        turnCorrection_ = MAX_TURN_COMPENSATION;
+        ROS_INFO_STREAM(" WheelControl: Clamping TURN to MAX_TURN_COMPENSATION");
       }
       else if(turnCorrection_ < 0)
       {
-        turnCorrection_ = -MAX_RAMP;
-        //ROS_INFO_STREAM(" WheelControl: Clamping TURN to Negative MAX_RAMP");
+        turnCorrection_ = -MAX_TURN_COMPENSATION;
+        ROS_INFO_STREAM(" WheelControl: Clamping TURN to Negative MAX_TURN_COMPENSATION");
       }
 
     }
     turnCmd = turnRequested_ + turnCorrection_;
 
+
   }
+
+  // DAVESDAVES DEBUG!!! TODO  REMOVE THIS!!!
+  //turnCmd = turnRequested_ ;
 
  
   if((0.0 != speedRequested_) || (0.0 != speedFeedback) || (0.0 != speedDelta) || (0.0 != speedCmd) ||
      (0.0 != turnRequested_)  || (0.0 != turnFeedback)  || (0.0 != turnDelta) || (0.0 != turnCmd))
   {
-  	//* DBG-DAVE
+  	/* / DBG-DAVES
     ROS_INFO_STREAM( std::setprecision(3) << std::fixed << 
       "WheelControl: SPEED: Target=" << speedRequested_ << " Feedback=" << speedFeedback <<
       " Delta=" << speedDelta << " Bias=" << speedCorrection_ << " Cmd=" << speedCmd );
@@ -438,16 +502,17 @@ void WheelControl::controlMotors(int32_t speed_ticks_right, int32_t speed_ticks_
     ROS_INFO_STREAM( std::setprecision(3) << std::fixed << 
       "WheelControl: TURN:  Target=" << turnRequested_ << " Feedback=" << turnFeedback <<
       " Delta=" << turnDelta << " Bias=" << turnCorrection_ <<" Cmd=" << turnCmd );
-    //*/
-    // NOTE!  If motor does not run, check that voltate to Sabertooth is not too high (plugged into charger)
+    */
+
+    // NOTE!  If motor does not run, check that voltage to Sabertooth is not too high (plugged into charger)
   }
 
   lastTurnRequested_ = turnRequested_;
   lastSpeedRequested_ = speedRequested_;
 
   geometry_msgs::Twist vel;
-  vel.linear.x = speedCmd / MAX_SPEED_METERS_PER_SECOND; // NOTE: Sabertooth value of +/- 1.0 is full speed!
-  vel.angular.z = turnCmd / MAX_TURN_RADIANS_PER_SECOND; // NOTE: Sabertooth value of +/- 1.0 is full speed!
+  vel.linear.x = speedCmd; // / MAX_SPEED_METERS_PER_SECOND; // NOTE: Sabertooth value of +/- 1.0 is full speed!
+  vel.angular.z = turnCmd; // / MAX_TURN_RADIANS_PER_SECOND; // NOTE: Sabertooth value of +/- 1.0 is full speed!
   vel_pub_.publish(vel); // Send update to the Sabertooth motor controller
 
 }
@@ -458,12 +523,12 @@ void WheelControl::updateVelocity(int32_t speed_ticks_right, int32_t speed_ticks
   // Arduino publishes ticks/second. Convert to ROS standard units (meters, m/s)
   // Sets currentLinearVelocity_ and currentRotationVelocity_ for publishOdometry() which is called more often
 
-  // ROS_INFO("---SPEED---"); // separate frames of data on output
-  double speedLeft = speed_ticks_left / TICKS_PER_METER;
-  double speedRight = speed_ticks_right / TICKS_PER_METER; // convert ticks/sec to meter/sec
-  
 
+  // ROS_INFO("---SPEED---"); // separate frames of data on output
+  double speedLeft =  (double)speed_ticks_left  / TICKS_PER_METER;
+  double speedRight = (double)speed_ticks_right / TICKS_PER_METER; // convert ticks/sec to meter/sec
   currentLinearVelocity_ =  (speedLeft + speedRight) / 2.0; // Linear Speed
+
 
   if( ROBOT_HAS_IMU || ROBOT_HAS_COMPASS )
   {
@@ -479,11 +544,13 @@ void WheelControl::updateVelocity(int32_t speed_ticks_right, int32_t speed_ticks
 
   // Print velocity if it is non-zero, for debug purposes
 
-  /* DBG-DAVE
-    if (fabs(currentLinearVelocity_) + fabs(currentRotationVelocity_) > 0) {
+  /* DEBUG
+  double current_speed_miles_per_hour = currentLinearVelocity_ * 2.23694;  // meters/sec --> miles/hour
+  if (fabs(currentLinearVelocity_) + fabs(currentRotationVelocity_) > 0) {
     ROS_INFO_STREAM(std::setprecision(3) << std::fixed <<
-    "WheelControl: updateVelocity: Ticks/sec=[ " << speed_ticks_left << ", " << speed_ticks_right << 
-    " ] Meters/sec: Linear= " << currentLinearVelocity_ << " Angular= " << currentRotationVelocity_);
+      "WheelControl: updateVelocity: Ticks/sec=[ " << speed_ticks_left << ", " << speed_ticks_right << 
+      " ] Meters/sec: Linear= " << currentLinearVelocity_ << " Angular= " << currentRotationVelocity_ <<
+      "   MPH = " << current_speed_miles_per_hour);
   }
   */
   
@@ -590,7 +657,7 @@ void WheelControl::publishOdometry(int32_t odom_ticks_right, int32_t odom_ticks_
       currentRotationVelocity_ = 0.0;  
       lastCompassDegrees_ = currentCompassDegrees_;
       lastRotationVelocityTime_ = ros::Time::now();
-      ROS_INFO_STREAM( "ROBOT_HAS_COMPASS: received first reading " );
+      ROS_INFO_STREAM( "ROBOT_HAS_COMPASS: received first reading  =======================" );
     }
     else
     {
@@ -617,7 +684,7 @@ void WheelControl::publishOdometry(int32_t odom_ticks_right, int32_t odom_ticks_
   	rotationUpdateRadians = difference / ANGULAR_SCALE;
     if(0.0 != difference)
     {
-      ROS_INFO_STREAM( "ROBOT_NO_COMPASS:  rotation update = " << rotationUpdateRadians << " Radians");
+      //DAVES ROS_INFO_STREAM( "ROBOT_NO_COMPASS:  rotation update = " << rotationUpdateRadians << " Radians");
     }
   }
 

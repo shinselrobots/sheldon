@@ -1,8 +1,20 @@
 <launch>
-  <!-- turtlebot_teleop_key already has its own built in velocity smoother -->
+  <!-- turtlebot_teleop_key already has its own built in velocity smoother 
   <node pkg="turtlebot_teleop" type="turtlebot_teleop_key" name="turtlebot_teleop_keyboard"  output="screen">
+  forked here for sheldon testing...
+  -->
+
+  <node pkg="sheldon_teleop" type="sheldon_teleop_key" name="sheldon_teleop_keyboard">
+
     <param name="scale_linear" value="0.5" type="double"/>
-    <param name="scale_angular" value="1.5" type="double"/>
+    <param name="scale_angular" value="0.25" type="double"/>
+    
+    <!-- Sheldon uses priority input to control motors 
     <remap from="turtlebot_teleop_keyboard/cmd_vel" to="cmd_vel_mux/input/teleop"/>
+    -->    
+
+    <remap from="sheldon_teleop_keyboard/cmd_vel" to="move_base/priority2"/>
+
+
   </node>
 </launch>

@@ -1,0 +1,27 @@
+<launch>
+
+  <!-- BASE ONLY launch file for Sheldon Robot. Starts base with wheel motors,
+  remote control the robot using a joystick, etc.  -->
+
+
+  <!-- Base, including joystick, arduino (waist actuators, odom), 
+  and wheel motors (sabertooth) -->
+  <include file="$(find sheldon)/launch/include/base.launch"/>
+
+
+  <!-- Robot Description (URDF) -->
+  <include file="$(find sheldon_description)/launch/description.launch"/>
+
+  <!-- This launch script starts the Lidar.  DISABLED 
+  <include file="$(find sheldon)/launch/include/lidar.launch"/> 
+  -->
+
+  <!-- Safety Controller  DISABLED
+  <include file="$(find sheldon)/launch/include/safety_control.launch"/>
+  -->
+
+  <!-- This launch script starts navigation capabilities   DISABLED
+  <include file="$(find sheldon_navigation)/launch/include/navigation.launch" />
+  -->
+
+</launch>
