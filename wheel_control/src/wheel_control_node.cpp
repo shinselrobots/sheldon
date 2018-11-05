@@ -20,6 +20,7 @@
 // as the child frame rotates counter-clockwise, 
 // and for geographic poses, yaw is zero when pointing east."          
 
+#define DEBUG_MESSAGES 1
 
 class WheelControl
 {
@@ -58,10 +59,11 @@ private:
   tf::TransformBroadcaster odom_broadcaster_;
   ros::Publisher odom_pub_;
   ros::Publisher vel_pub_; // send Motor commands to Sabertooth
+  #if DEBUG_MESSAGES == 1
   ros::Publisher wheel_speed_left_pub_;
   ros::Publisher wheel_speed_right_pub_;
   ros::Publisher wheel_speed_total_pub_;
-
+  #endif
   //ros::Timer ramp_timer_;
 
   // calculated position of robot by odometry in meters
@@ -91,6 +93,10 @@ private:
   // CONSTANTS
   const bool ROBOT_HAS_COMPASS  = false;// DAVESDAVES TODO!
   const bool ROBOT_HAS_IMU  = false; // DAVES TODO!
+
+  const double SPEED_CONTROL_THRESHOLD = 0.25; // do speed/turn control if robot *CURRENTLY MOVING*  
+  const double TURN_CONTROL_THRESHOLD = 0.25;  // slower than these values.  Prevents stalls, etc.
+
   const double WHEEL_BASE_METERS = 330.0/1000.0; // mm -> Meters - Tune this value as needed
   const double TICKS_PER_METER =  833.33; // 398.0; // 
   const double BASE_CIRMUMFERENCE = M_PI*WHEEL_BASE_METERS;
@@ -137,11 +143,13 @@ WheelControl::WheelControl() //:
   odom_pub_ = nh_.advertise<nav_msgs::Odometry>("odom", 10, true); // latch last one sent
   vel_pub_ = nh_.advertise<geometry_msgs::Twist>("/wheel_motors_cmd_vel", 2, true);
 
-  // For DEBUG:
+  // For DEBUG, publish motor feedback (input), so it can be graphed along with the output
+#if DEBUG_MESSAGES == 1
   wheel_speed_left_pub_ = nh_.advertise<std_msgs::Float32>("/wheel_speed_left", 1, false); // don't latch last one sent
   wheel_speed_right_pub_ = nh_.advertise<std_msgs::Float32>("/wheel_speed_right", 1, false); // don't latch last one sent
 
   wheel_speed_total_pub_ = nh_.advertise<std_msgs::Float32>("/wheel_speed_total", 1, false); // don't latch last one sent
+#endif
 
 
 	ROS_INFO("WheelControl: publishing topics: odom, /wheel_motors_cmd_vel");
@@ -339,6 +347,7 @@ void WheelControl::controlMotors(int32_t speed_ticks_right, int32_t speed_ticks_
 
   // publish feedback from odom so it can be graphed to debug speed control
   // should range up to 1.0 at full speed
+  #if DEBUG_MESSAGES == 1
   std_msgs::Float32 msgSpeedLeft;
   msgSpeedLeft.data = feedbackLeft;
   wheel_speed_left_pub_.publish( msgSpeedLeft );
@@ -350,28 +359,51 @@ void WheelControl::controlMotors(int32_t speed_ticks_right, int32_t speed_ticks_
   std_msgs::Float32 msgSpeedTotal;
   msgSpeedTotal.data = (feedbackRight + feedbackLeft) / 2.0;
   wheel_speed_total_pub_.publish( msgSpeedTotal );
-
+  #endif
 
   ///ROS_INFO_STREAM( std::setprecision(3) << std::fixed << "DEBUG: feedbackLeft= " << feedbackLeft 
 	///	<< " feedbackRight = " << feedbackRight  );
 
 
-  double speedFeedback = (feedbackRight + feedbackLeft) / 2.0;
-  double turnFeedback = (feedbackRight - feedbackLeft) / 2.0; 
+  double currentSpeed = (feedbackRight + feedbackLeft) / 2.0;
+  double currentTurn = (feedbackRight - feedbackLeft) / 2.0; 
 
-  double speedDelta = speedRequested_ - speedFeedback;
-  double turnDelta = turnRequested_ - turnFeedback;
+  double speedDelta = speedRequested_ - currentSpeed;
+  double turnDelta = turnRequested_ - currentTurn;
 
   if((0.0 != speedRequested_) || (0.0 != turnRequested_)) 
   {
-	 // ROS_INFO_STREAM( std::setprecision(3) << std::fixed << "WheelControl: speedFeedback = " << speedFeedback << " turnFeedback = " << turnFeedback << " speedDelta = " << speedDelta << " turnDelta = " << turnDelta);
+	 // ROS_INFO_STREAM( std::setprecision(3) << std::fixed << "WheelControl: currentSpeed = " << currentSpeed << " currentTurn = " << currentTurn << " speedDelta = " << speedDelta << " turnDelta = " << turnDelta);
+  }
+
+  /////////////////////////////////////////////////////////////////////////////////////////
+  // Speed and turn control only applies for low speed.  At higher speeds, motors perform
+  // linearly, and no correction is needed (in fact, it just messes things up)
+  if( (fabs(currentSpeed) > SPEED_CONTROL_THRESHOLD) || (fabs(currentTurn) > TURN_CONTROL_THRESHOLD) )
+  {
+    // No control needed; pass command through to Sabertooth motor controller
+    ROS_INFO_STREAM(" WheelControl: Above threshold, no speed control applied");
+    speedCmd = speedRequested_;
+    turnCmd = turnRequested_;
+    speedCorrection_ = 0;
+    turnCorrection_ = 0;
+
+    lastTurnRequested_ = turnRequested_;
+    lastSpeedRequested_ = speedRequested_;
+
+    geometry_msgs::Twist vel;
+    vel.linear.x = speedCmd;  // NOTE: Sabertooth value of +/- 1.0 is full speed!
+    vel.angular.z = turnCmd;  
+    vel_pub_.publish(vel); // Send update to the Sabertooth motor controller
+
+    return;
   }
 
 
-  // SPEED CONTROL
+  // LOW SPEED MOTOR CONTROL
   if( 0.0 == speedRequested_ ) 
   {
-    // Don't do any speed control at zero speed, it messes up when combined with turn
+    // Don't do any speed control if zero speed requested, it messes up when combined with turn
     speedCmd = speedRequested_;
   }
   else
@@ -379,22 +411,22 @@ void WheelControl::controlMotors(int32_t speed_ticks_right, int32_t speed_ticks_
     if( speedDelta > FAST_RAMP_HYSTERYSIS )
     {
     	speedCorrection_ += (RAMP_INCREMENT * 2.0);
-    	ROS_INFO_STREAM(" WheelControl: ++RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
+    	//ROS_INFO_STREAM(" WheelControl: ++RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
     }
     else if( speedDelta > HYSTERYSIS )
     {
     	speedCorrection_ += RAMP_INCREMENT;
-    	ROS_INFO_STREAM(" WheelControl: +RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
+    	//ROS_INFO_STREAM(" WheelControl: +RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
     }
     else if( speedDelta < (-FAST_RAMP_HYSTERYSIS) )
     {
     	speedCorrection_ -= (RAMP_INCREMENT * 2.0); 
-    	ROS_INFO_STREAM(" WheelControl: --RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
+    	//ROS_INFO_STREAM(" WheelControl: --RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
     }
     else if( speedDelta < (-HYSTERYSIS) )
     {
     	speedCorrection_ -= RAMP_INCREMENT; 
-    	ROS_INFO_STREAM(" WheelControl: -RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
+    	//ROS_INFO_STREAM(" WheelControl: -RAMP_INCREMENT, speedCorrection_=" << speedCorrection_);
     }
     else
     {
@@ -408,50 +440,52 @@ void WheelControl::controlMotors(int32_t speed_ticks_right, int32_t speed_ticks_
       if(speedCorrection_ > 0)
       {
         speedCorrection_ = MAX_RAMP;
-        ROS_INFO_STREAM(" WheelControl: Clamping to MAX_RAMP");
+        //ROS_INFO_STREAM(" WheelControl: Clamping to MAX_RAMP");
       }
       else if(speedCorrection_ < 0)
       {
         speedCorrection_ = -MAX_RAMP;
-        ROS_INFO_STREAM(" WheelControl: Clamping to Negative MAX_RAMP");
+        //ROS_INFO_STREAM(" WheelControl: Clamping to Negative MAX_RAMP");
       }
 
     }
     speedCmd = speedRequested_ + speedCorrection_;
   }
 
-  // DAVESDAVES DEBUG!!! TODO  ENABLE THIS TO OVERRIDE SPEED CONTROL!!!
+  // DEBUG: ENABLE THIS TO OVERRIDE SPEED CONTROL!!!
   //speedCmd = speedRequested_ ;
 
 
-  // TURN CONTROL
+  // LOW SPEED TURN CONTROL
 
+  /* TODO is this still needed with low speed limit?
   if( (turnRequested_ != lastTurnRequested_) || (speedRequested_ != lastSpeedRequested_) )
   {
     // New turn command
     turnCmd = turnRequested_; // immediately apply requested turn
   }
   else
+  */
   {
     if( turnDelta > FAST_TURN_HYSTERYSIS )
     {
       turnCorrection_ += (TURN_INCREMENT * 2.0);
-      ROS_INFO_STREAM(" WheelControl: ++TURN_INCREMENT");
+      //ROS_INFO_STREAM(" WheelControl: ++TURN_INCREMENT");
     }
     else if( turnDelta > TURN_HYSTERYSIS )
     {
       turnCorrection_ += TURN_INCREMENT;
-      ROS_INFO_STREAM(" WheelControl: +TURN_INCREMENT");
+      //ROS_INFO_STREAM(" WheelControl: +TURN_INCREMENT");
     }
     else if( turnDelta < -FAST_TURN_HYSTERYSIS )
     {
       turnCorrection_ -= (TURN_INCREMENT * 2.0); 
-      ROS_INFO_STREAM(" WheelControl: --TURN_INCREMENT");
+      //ROS_INFO_STREAM(" WheelControl: --TURN_INCREMENT");
     }
     else if( turnDelta < -TURN_HYSTERYSIS )
     {
       turnCorrection_ -= TURN_INCREMENT; 
-      ROS_INFO_STREAM(" WheelControl: -TURN_INCREMENT");
+      //ROS_INFO_STREAM(" WheelControl: -TURN_INCREMENT");
     }
     else
     {
@@ -465,47 +499,45 @@ void WheelControl::controlMotors(int32_t speed_ticks_right, int32_t speed_ticks_
     	}
     }
 
-
-
     // clamp max turnCorrection_
     if(fabs(turnCorrection_) >= MAX_TURN_COMPENSATION)
     {
       if(turnCorrection_ > 0)
       {
         turnCorrection_ = MAX_TURN_COMPENSATION;
-        ROS_INFO_STREAM(" WheelControl: Clamping TURN to MAX_TURN_COMPENSATION");
+        //ROS_INFO_STREAM(" WheelControl: Clamping TURN to MAX_TURN_COMPENSATION");
       }
       else if(turnCorrection_ < 0)
       {
         turnCorrection_ = -MAX_TURN_COMPENSATION;
-        ROS_INFO_STREAM(" WheelControl: Clamping TURN to Negative MAX_TURN_COMPENSATION");
+        //ROS_INFO_STREAM(" WheelControl: Clamping TURN to Negative MAX_TURN_COMPENSATION");
       }
 
     }
     turnCmd = turnRequested_ + turnCorrection_;
 
-
   }
 
-  // DAVESDAVES DEBUG!!! TODO  REMOVE THIS!!!
+  // DEBUG: ENABLE THIS TO OVERRIDE TURN CONTROL!!!
   //turnCmd = turnRequested_ ;
 
  
-  if((0.0 != speedRequested_) || (0.0 != speedFeedback) || (0.0 != speedDelta) || (0.0 != speedCmd) ||
-     (0.0 != turnRequested_)  || (0.0 != turnFeedback)  || (0.0 != turnDelta) || (0.0 != turnCmd))
+  #if DEBUG_MESSAGES == 1
+  if((0.0 != speedRequested_) || (0.0 != currentSpeed) || (0.0 != speedDelta) || (0.0 != speedCmd) ||
+     (0.0 != turnRequested_)  || (0.0 != currentTurn)  || (0.0 != turnDelta) || (0.0 != turnCmd))
   {
-  	/* / DBG-DAVES
     ROS_INFO_STREAM( std::setprecision(3) << std::fixed << 
-      "WheelControl: SPEED: Target=" << speedRequested_ << " Feedback=" << speedFeedback <<
+      "WheelControl: SPEED: Target=" << speedRequested_ << " currentSpeed=" << currentSpeed <<
       " Delta=" << speedDelta << " Bias=" << speedCorrection_ << " Cmd=" << speedCmd );
 
     ROS_INFO_STREAM( std::setprecision(3) << std::fixed << 
-      "WheelControl: TURN:  Target=" << turnRequested_ << " Feedback=" << turnFeedback <<
+      "WheelControl: TURN:  Target=" << turnRequested_ << " currentTurn=" << currentTurn <<
       " Delta=" << turnDelta << " Bias=" << turnCorrection_ <<" Cmd=" << turnCmd );
-    */
+
+  }
+  #endif
 
     // NOTE!  If motor does not run, check that voltage to Sabertooth is not too high (plugged into charger)
-  }
 
   lastTurnRequested_ = turnRequested_;
   lastSpeedRequested_ = speedRequested_;
