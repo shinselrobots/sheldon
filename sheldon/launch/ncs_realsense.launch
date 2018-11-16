@@ -1,8 +1,6 @@
 <launch> 
   <!-- 
-    launch camera, then tensorflow people and object detection.
-    For each detector, launch a script to optionally sleep "n" seconds, 
-    activate the python virtual environment, and then launch the detector 
+    launch camera, then ncs people detection.
   -->
 
   <!-- launch cv capture  DISABLED (use this with generic camera)
@@ -11,8 +9,9 @@
   </node>
   -->
 
-  <!-- launch realsense camera -->
-  <include file="$(find realsense2_camera)/launch/rs_aligned_depth.launch"/>
+  <!-- launch realsense camera    *** DISABLED for DEBUG
+  <include file="$(find sheldon)/launch/include/rs_aligned_depth.launch"/>
+  -->
 
   <!-- Debug: launch image viewer to show raw camera feed   DISABLED
   <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen"> 
@@ -41,15 +40,15 @@
   </node>
   -->
 
-  <!-- launch tensorflow Face Recognizer  -->
+  <!-- launch tensorflow Face Recognizer  DISABLED not installed yet
   <node pkg="sheldon" type="activated_tensorflow.sh"
     name="activated_cob_face_recognizer" 
     args="1 sheldon cob_face_recognizer.launch"
     output="screen">
   </node>
- 
+ -->
 
-  <!-- launch people and object Tracker 
+  <!-- launch people and object Tracker  DISABLED not installed yet
   <node pkg="sheldon" type="activated_tensorflow.sh"
     name="activated_cob_people_object_tracker" 
     args="1 sheldon cob_people_object_tracker.launch"
@@ -57,7 +56,8 @@
   </node>
  -->
 
-  <!-- launch rviz to view the tensorflow images -->
+  <!-- launch rviz to view the tensorflow images  DISABLED not installed yet
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find sheldon)/launch/include/tensorflow/rviz/view_tensorflow_image.rviz" />
+-->
 
 </launch>
