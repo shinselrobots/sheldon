@@ -30,13 +30,13 @@
     output="screen">
   </node>
 
-  <!-- launch tensorflow Face Recognizer 
+  <!-- launch tensorflow Face Recognizer   -->
   <node pkg="sheldon" type="activated_tensorflow.sh"
     name="activated_cob_face_recognizer" 
     args="1 sheldon cob_face_recognizer.launch"
     output="screen">
   </node>
-  --> 
+ 
 
   <!-- launch people and object Tracker 
   <node pkg="sheldon" type="activated_tensorflow.sh"

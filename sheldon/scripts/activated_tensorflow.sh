@@ -9,7 +9,7 @@ echo "start wait for $1 seconds..."
 sleep $1
 echo "end wait for $1 seconds"
 echo "Activating environment for tensorflow..."
-source ~/tensorflow/bin/activate
+source ~/sdk/tensorflow/bin/activate
 
 # Get other arguments
 shift
