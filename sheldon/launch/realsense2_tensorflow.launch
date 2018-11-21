@@ -13,8 +13,8 @@
   </node>
   -->
 
-  <!-- launch realsense camera -->
-  <include file="$(find realsense2_camera)/launch/rs_aligned_depth.launch"/>
+  <!-- launch realsense camera - NOTE, launching KLUDGE TO avoid version mismatch --> 
+  <include file="$(find sheldon)/launch/include/rs2_aligned_depth.launch"/>
 
   <!-- Debug: launch image viewer to show raw camera feed   DISABLED
   <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen"> 
