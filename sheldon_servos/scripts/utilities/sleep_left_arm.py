@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
 import roslib
-roslib.load_manifest('sheldon_servos')
+#roslib.load_manifest('sheldon_servos')
 import rospy, time
 from dynamixel_controllers.srv import TorqueEnable, SetTorqueLimit, SetSpeed
-from servo_joint_list import all_joints, head_joints, right_arm_joints
+from servo_joint_list import *
+#all_joints, head_joints, right_arm_joints, left_arm_joints
+
 from standard_servo_positions import *
 
 class SleepPosition():
@@ -17,7 +19,7 @@ class SleepPosition():
 
         print 'loop through servo services...'
             
-        for controller in sorted(all_joints):            
+        for controller in sorted(left_arm_joints):            
             torque_service = '/' + controller + '/torque_enable'
             print('  waiting for service: ' + torque_service)
 
@@ -52,7 +54,7 @@ class SleepPosition():
                 pass
 
         print 'moving to sleep position...'
-        all_down()
+        left_arm_sleep()
         time.sleep(3.0)  # allow time for servos to move to position
 
         # Relax all servos to give them a rest.

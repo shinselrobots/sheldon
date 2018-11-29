@@ -36,7 +36,6 @@
 
   <!-- Dynamixel Servo Controllers, using modified sheldon_dynamixel_motor module -->
   <include file="$(find sheldon_servos)/launch/servos.launch"/>
-  
 
   <!-- Text to speech (robot voice) and sound effects services -->
   <rosparam file="$(find sheldon)/config/jokes.yaml" command="load"/>

@@ -119,7 +119,7 @@ class PoseButtons():
     def arm_button_right_cb(self, msg):
         button_pressed = msg.data
 
-        rospy.loginfo("DEBUG got right arm button event.")
+        #rospy.loginfo("DEBUG got right arm button event.")
         if button_pressed:
             rospy.loginfo("right arm button down event. Removing arm torque.")
             SetServoTorque(0.0, right_arm_joints) # remove torque
@@ -135,7 +135,7 @@ class PoseButtons():
     def arm_button_left_cb(self, msg):
         button_pressed = msg.data
 
-        rospy.loginfo("DEBUG got left arm button event.")
+        #rospy.loginfo("DEBUG got left arm button event.")
         if button_pressed:
             rospy.loginfo("left arm button down event. Removing arm torque.")
             SetServoTorque(0.0, left_arm_joints) # remove torque
@@ -149,11 +149,12 @@ class PoseButtons():
             self.print_arm_servos_left()
 
     def joint_state_cb(self, msg):
-        # rospy.loginfo("joint_state_cb called")
+        #rospy.loginfo("joint_state_cb called")
 
         try:
             test = msg.name.index(self.head_pan_joint)
             self.joint_state = msg
+            #rospy.loginfo("POSE BUTTONS: Got servo message!") 
         except:
             #rospy.loginfo("POSE BUTTONS: Not a servo message, skipping...") 
             return

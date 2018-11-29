@@ -64,10 +64,10 @@ class RecordServoPositions():
         fieldnames = ['comment', 'step', 'time', 'type', 'head_pan', 'head_tilt', 'head_sidetilt', 
             'r_arm', 'right_arm_shoulder_rotate', 'right_arm_shoulder_lift', 
             'right_arm_elbow_rotate', 'right_arm_elbow_bend', 'right_arm_wrist_bend',
-            'right_arm_wrist_rotate', 'right_arm_gripper',
+            'right_arm_wrist_rotate', 'right_arm_gripper_finger',
             'l_arm', 'left_arm_shoulder_rotate', 'left_arm_shoulder_lift', 
             'left_arm_elbow_rotate', 'left_arm_elbow_bend', 'left_arm_wrist_bend',
-            'left_arm_wrist_rotate', 'left_arm_gripper', 'param1', 'param2']
+            'left_arm_wrist_rotate', 'left_arm_gripper_finger', 'param1', 'param2']
 
         self.csv_writer = csv.DictWriter(self.csv_file, fieldnames=fieldnames)
         self.csv_writer.writeheader()
@@ -234,8 +234,10 @@ class RecordServoPositions():
         try:
             test = msg.name.index(self.head_pan_joint)
             self.joint_state = msg
+            rospy.loginfo("DBG: SERVO_RECORDER: Got head_pan_joint servo message!") 
+
         except:
-            #rospy.loginfo("SERVO_RECORDER: Not a servo message, skipping...") 
+            rospy.loginfo("SERVO_RECORDER: Not a servo message, skipping...") 
             return
 
        # Get the servo positions
@@ -290,11 +292,11 @@ class RecordServoPositions():
             rospy.loginfo("RIGHT ARM: ShoulderRotate = %f, ShoulderLift = %f, ElbowRotate = %f, ElbowBend = %f, WristRotate = %f, Gripper = %f", 
                 self.right_arm_shoulder_rotate, self.right_arm_shoulder_lift, 
                 self.right_arm_elbow_rotate, self.right_arm_elbow_bend, self.right_arm_wrist_bend, 
-                self.right_arm_wrist_rotate, self.right_arm_gripper)
+                self.right_arm_wrist_rotate, self.right_arm_gripper_finger)
             rospy.loginfo("LEFT ARM: ShoulderRotate = %f, ShoulderLift = %f, ElbowRotate = %f, ElbowBend = %f, WristRotate = %f, Gripper = %f", 
                 self.left_arm_shoulder_rotate, self.left_arm_shoulder_lift, 
                 self.left_arm_elbow_rotate, self.left_arm_elbow_bend,  self.left_arm_wrist_bend,
-                self.left_arm_wrist_rotate, self.left_arm_gripper)
+                self.left_arm_wrist_rotate, self.left_arm_gripper_finger)
 
 
         # Head
@@ -343,15 +345,15 @@ class RecordServoPositions():
             if self.threshold(self.right_arm_wrist_rotate, self.last_right_arm_wrist_rotate):
                     right_arm_wrist_rotate = self.right_arm_wrist_rotate
                     self.last_right_arm_wrist_rotate = self.right_arm_wrist_rotate
-            if self.threshold(self.right_arm_gripper, self.last_right_arm_gripper):
-                    right_arm_gripper_finger = self.right_arm_gripper
-                    self.last_right_arm_gripper_finger = self.right_arm_gripper
+            if self.threshold(self.right_arm_gripper_finger, self.last_right_arm_gripper_finger):
+                    right_arm_gripper_finger = self.right_arm_gripper_finger
+                    self.last_right_arm_gripper_finger = self.right_arm_gripper_finger
 
         right_arm_movement = ( 
             not math.isnan(right_arm_shoulder_rotate) or not math.isnan(right_arm_shoulder_lift) or 
             not math.isnan(right_arm_elbow_rotate) or not math.isnan(right_arm_elbow_bend) or 
             not math.isnan(right_arm_wrist_bend) or not math.isnan(right_arm_wrist_rotate) or 
-            not math.isnan(right_arm_gripper) )
+            not math.isnan(right_arm_gripper_finger) )
 
 
         # Left Arm
@@ -381,15 +383,15 @@ class RecordServoPositions():
             if self.threshold(self.left_arm_wrist_rotate, self.last_left_arm_wrist_rotate):
                     left_arm_wrist_rotate = self.left_arm_wrist_rotate
                     self.last_left_arm_wrist_rotate = self.left_arm_wrist_rotate
-            if self.threshold(self.left_arm_gripper, self.last_left_arm_gripper):
-                    left_arm_gripper_finger = self.left_arm_gripper
-                    self.last_left_arm_gripper_finger = self.left_arm_gripper
+            if self.threshold(self.left_arm_gripper_finger, self.last_left_arm_gripper_finger):
+                    left_arm_gripper_finger = self.left_arm_gripper_finger
+                    self.last_left_arm_gripper_finger = self.left_arm_gripper_finger
 
         left_arm_movement = ( 
             not math.isnan(left_arm_shoulder_rotate) or not math.isnan(left_arm_shoulder_lift) or
             not math.isnan(left_arm_elbow_rotate) or not math.isnan(left_arm_elbow_bend) or 
             not math.isnan(left_arm_wrist_bend) or not math.isnan(left_arm_wrist_rotate) or 
-            not math.isnan(left_arm_gripper) )
+            not math.isnan(left_arm_gripper_finger) )
 
 
         # row types:  move, speed (to set servo speeds), speak, lights, etc.
@@ -426,7 +428,7 @@ class RecordServoPositions():
                 'right_arm_elbow_bend': '{:1.4f}'.format(right_arm_elbow_bend), 
                 'right_arm_wrist_bend': '{:1.4f}'.format(right_arm_wrist_bend), 
                 'right_arm_wrist_rotate': '{:1.4f}'.format(right_arm_wrist_rotate), 
-                'right_arm_gripper': '{:1.4f}'.format(right_arm_gripper), 
+                'right_arm_gripper_finger': '{:1.4f}'.format(right_arm_gripper_finger), 
 
                 'l_arm': 'L:',      # make file easier for humans to read
                 'left_arm_shoulder_rotate': '{:1.4f}'.format(left_arm_shoulder_rotate), 
@@ -435,7 +437,7 @@ class RecordServoPositions():
                 'left_arm_elbow_bend': '{:1.4f}'.format(left_arm_elbow_bend), 
                 'left_arm_wrist_bend': '{:1.4f}'.format(left_arm_wrist_bend), 
                 'left_arm_wrist_rotate': '{:1.4f}'.format(left_arm_wrist_rotate), 
-                'left_arm_gripper': '{:1.4f}'.format(left_arm_gripper), 
+                'left_arm_gripper_finger': '{:1.4f}'.format(left_arm_gripper_finger), 
 
                 # user will edit CSV to add parameters for things like text to speak, light state, etc.
                 'param1': "",  
@@ -451,7 +453,7 @@ class RecordServoPositions():
                 rospy.loginfo("right_arm_elbow_bend      = %1.4f", right_arm_elbow_bend)
                 rospy.loginfo("right_arm_wrist_bend      = %1.4f", right_arm_wrist_bend)
                 rospy.loginfo("right_arm_wrist_rotate    = %1.4f", right_arm_wrist_rotate)
-                rospy.loginfo("right_arm_gripper            = %1.4f", right_arm_gripper)
+                rospy.loginfo("right_arm_gripper_finger  = %1.4f", right_arm_gripper_finger)
                 rospy.loginfo("-----------------------------------")
 
                 rospy.loginfo("left_arm_shoulder_rotate = %1.4f", left_arm_shoulder_rotate)
@@ -460,7 +462,7 @@ class RecordServoPositions():
                 rospy.loginfo("left_arm_elbow_bend      = %1.4f", left_arm_elbow_bend)
                 rospy.loginfo("left_arm_wrist_bend      = %1.4f", left_arm_wrist_bend)
                 rospy.loginfo("left_arm_wrist_rotate    = %1.4f", left_arm_wrist_rotate)
-                rospy.loginfo("left_arm_gripper            = %1.4f", left_arm_gripper)
+                rospy.loginfo("left_arm_gripper_finger  = %1.4f", left_arm_gripper_finger)
                 rospy.loginfo("-----------------------------------")
 
 

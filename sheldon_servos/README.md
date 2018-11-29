@@ -14,3 +14,8 @@ Set offset of both to 1024 (1/4 turn) to avoid bug where startup forgets where z
 
 NOTE:  If arms seem in the wrong positions (not homing to correct spot), check tightness
 of screws in shoulder gear!
+
+# This package is setup for python scripts per ROS standard.
+  - launchable python scripts are in ./scripts
+  - shared modules for export are in ./src/sheldon_servos
+  - see https://git-amd.tuebingen.mpg.de/aherzog/hinvdyn_example_workspace/blob/master/src/catkin/third_party/catkin/doc/howto/format2/installing_python.rst
