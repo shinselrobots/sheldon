@@ -549,7 +549,7 @@ void loop(void)
             break;
           case 11:
             behavior_cmd_msg.commandState = "RUN_SCRIPT"; 
-            behavior_cmd_msg.param1 = "believer"; // run "believer.csv"
+            behavior_cmd_msg.param1 = "believer_short"; // run "believer.csv"
             break;
           case 12:
             behavior_cmd_msg.commandState = "INTRO";
