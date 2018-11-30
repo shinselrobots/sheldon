@@ -1,5 +1,13 @@
+# Arduino for Sheldon Base
 
-1. Make sure you configure Arduio as follows:
+## This Arduino does the following:
+- reads/publishes ODOM from wheel encoders
+- reads/publishes waist position from waist position encoder
+- gets user commands for the robot from Android phone via bluetooth, and publishes to ROS
+see the "BotControl" project to build the Android phone part of the solution.
+
+
+1. Make sure you configure Arduino as follows:
 
 File-> Preferences -> Sketchbook location: C:\Dev\Arduino
 
@@ -13,7 +21,7 @@ File-> Preferences -> Sketchbook location: C:\Dev\Arduino
     Hint: If you see "Firefly ABCD" the <ABCD> is the last two digits of
     the device; eg. 00:06:66:1F:AB:CD
 
-TO SETUP A NEW DEVICE:
+## TO SETUP A NEW DEVICE:
 1.  On the Android phone, install Amarino!  
     From command line:  "adb install Amarino_2_xxx.apk"
 2.  Run Amarino and add BT devices!

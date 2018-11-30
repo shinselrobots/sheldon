@@ -32,6 +32,7 @@
 #define PIXELS_PER_RING 24
 #define DEFAULT_EYE_BRIGHTNESS 127 // med brightness
 #define DEFAULT_EAR_BRIGHTNESS 127 // med brightness
+#define FADE_MODE_EAR_BRIGHTNESS 127 // med brightness
 const uint32_t BLACK = 0;
 const int BRIGHTNESS =  30;
 const int WHITE_LEVEL = BRIGHTNESS;
@@ -60,7 +61,7 @@ enum EYE_CMD_STATE_T {
 // Global Variables
 
 EYE_CMD_STATE_T EyeCmdState = EYES_OFF;
-uint8_t EarCmdMode = 1; // TODO - DAVES
+uint8_t EarCmdMode = 0;
 bool HeartBeatLedState = false;
 bool FadeOnState = false;
 
@@ -189,8 +190,8 @@ void setup() {
     delay(300);
   }
   
-  EyeCmdState = EYES_AUTO_BLINK;          // DAVES TODO: EYES_OFF;  // Off by default, until ROS turns them on
-  EyesOn(eyesStrip.Color(eyeColor.r, eyeColor.g, eyeColor.b) ); // DAVES TODO: comment this line out
+  EyeCmdState = EYES_OFF;  // Off by default, until ROS turns them on
+  // EyesOn(eyesStrip.Color(eyeColor.r, eyeColor.g, eyeColor.b) ); // DAVES TODO: comment this line out
   
   nh.loginfo("Head Arduino started");
 }
@@ -241,14 +242,15 @@ void updateEar() { // This function needs to take close to 1 second
     }
   }
   else if(1 == EarCmdMode) {
-    // Slow fade on/off
-
+    // Slow fade on/off.  Adjust max_brightness and step_delay for desired effect
+    uint8_t max_brightness = 64; 
+    uint8_t step_delay = 40;
     // color, min_brightness, max_brightness,  wait
     if(FadeOnState) {
-      RampDown(earColor.r, earColor.g, earColor.b, 20, 127, 20); // 1 second fade to off
+      RampDown(earColor.r, earColor.g, earColor.b, 20, max_brightness, step_delay); // fade to off
     }
     else {
-      RampUp(earColor.r, earColor.g, earColor.b, 20, 127, 20);  // 1 second fade to on
+      RampUp(earColor.r, earColor.g, earColor.b, 20, max_brightness, step_delay);  // fade to on
     }
     FadeOnState = !FadeOnState;
     

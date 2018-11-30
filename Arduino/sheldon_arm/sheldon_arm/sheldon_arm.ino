@@ -1,25 +1,52 @@
-// Arm-mounted Arduino.  Controls arm lights and reads button on arm (and later sensors)
+// Arm-mounted Arduino.  Reads Sensors, controls arm lights and reads button on arm
+// Sheldon IR Sensors values (for reference)
+/*
+ * ~ 280mm - Arm hanging down, pointing at floor (ignore!)
+ * < 400mm - potential person or object ahead 
+ * < 110mm - Finger Tip 
+ * <  90mm - something in hand
+ * <  70mm - Ball
+ * <  50mm - bigger object (like elephant)
+*/
+
 // If not using a Feather, you might need to comment one or both of these lines:
 #define FEATHER_M4_EXPRESS     // if using the M4 Express board
 #define USE_USBCON  // NEEDED FOR CPU with Built-in USB.  ATmega32u4 - Feather 32u4, Feather M4, LEONARDO...
+
+// For ROS
 #include <ros.h>
 #include <std_msgs/Empty.h>
 #include <std_msgs/String.h>
 #include <std_msgs/UInt16.h>
 #include <std_msgs/Bool.h>
 
+// For Sharp IR sensors
+#include <MedianFilter.h>
+#include <SharpDistSensor.h>
+
+// For NeoPixel LEDs
 #include <Adafruit_NeoPixel.h>
 #ifdef __AVR__
 #include <avr/power.h>
 #endif
 
-// -------- CHANGE THESE FOR RIGHT OR LEFT ARM ---------
-#define ARM_MSG_PREFIX "RIGHT ARM ARDUINO: "
-#define ARM_BUTTON_MSG "arm_button_right"
+// -------- SET PARAMS FOR RIGHT OR LEFT ARM ---------
+#define LEFT_ARM
+#ifdef LEFT_ARM
+  #define ARM_MSG_PREFIX "LEFT ARM ARDUINO: "
+  #define ARM_BUTTON_MSG "arm_button_left"
+  #define ARM_HAND_SENSOR_MSG "arm_hand_sensor_left"
+#else
+  #define ARM_MSG_PREFIX "RIGHT ARM ARDUINO: "
+  #define ARM_BUTTON_MSG "arm_button_right"
+  #define ARM_HAND_SENSOR_MSG "arm_hand_sensor_right"
+#endif
 //------------------------------------------------------
 
-#define PUSH_BUTTON_PIN  11
-#define NEOPIXEL_STRIP_PIN 6
+#define PUSH_BUTTON_PIN          11
+#define IR_SENSOR_PIN0           A0
+#define IR_SENSOR_PIN1           A1
+#define NEOPIXEL_STRIP_PIN        6
 #define NUMBER_OF_LEDS_IN_STRIP  67
 
 #define LEDS_IN_UPPER_ARM  38
@@ -37,14 +64,33 @@ const int DEBUG_STRING_LEN    = 39;
 // GLOBALS
 ros::NodeHandle nh;
 long            randNumber;
-int             colorMode;
-int             lastColorMode;
 String          debugString;
 char            debugStringChar[40];
+
+// NeoPixels
+int             colorMode;
+int             lastColorMode;
 uint32_t        onboardNeoPixelColor = 0;
 const uint8_t   onboardNeoPixelIntensity = 32; // 0 - 255
+
+// Input Button
 int             button_state = LOW;
 int             last_button_state = LOW;
+
+// Sharp Short Range IR Sensors.  We use a library to smooth noise and scale from raw values to mm.
+const byte medianFilterWindowSize = 5; // Window size of the median filter (odd number, 1 = no filtering)
+// Create an object instance of the SharpDistSensor class
+SharpDistSensor sensor0(IR_SENSOR_PIN0, medianFilterWindowSize);
+SharpDistSensor sensor1(IR_SENSOR_PIN1, medianFilterWindowSize);
+
+/* Set the power fit curve coefficients and range (calculated in Excel)
+ * C and P: Coefficients in Distance = C*A^P relation
+ * where A is the analog value read from the sensor.
+ */
+const float C = 100608;
+const float P = -1.334;
+const unsigned int minVal = 50; // ~150 mm
+const unsigned int maxVal = 700; // ~20 mm
 
 
 
@@ -70,7 +116,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMBER_OF_LEDS_IN_STRIP, NEOPIXEL_ST
 // and minimize distance between Arduino and first pixel.  Avoid connecting
 // on a live circuit...if you must, connect GND first.
 
-
+// SUBSCRIBERS
 void arm_led_mode_cb(const std_msgs::UInt16& cmd_msg){
 
   colorMode = cmd_msg.data;
@@ -81,9 +127,19 @@ void arm_led_mode_cb(const std_msgs::UInt16& cmd_msg){
 }
 ros::Subscriber<std_msgs::UInt16> sub("arm_led_mode", &arm_led_mode_cb);
 
+
+// PUBLISHERS
 std_msgs::Bool arm_button_msg;
 ros::Publisher arm_button_pub(ARM_BUTTON_MSG, &arm_button_msg);
 
+std_msgs::UInt16 arm_hand_sensor_msg;
+ros::Publisher arm_hand_sensor_pub(ARM_HAND_SENSOR_MSG, &arm_hand_sensor_msg);
+
+
+void check_sensors() {
+  check_button_state();
+  check_ir_range();
+}
 void check_button_state() {
   button_state = digitalRead(PUSH_BUTTON_PIN);
   if (button_state != last_button_state) {
@@ -91,9 +147,35 @@ void check_button_state() {
     arm_button_msg.data = button_state;
     arm_button_pub.publish(&arm_button_msg);
     nh.loginfo("ARM ARDUINO: Button State Changed");
+
   }
+ 
+}
+void check_ir_range() {
+
+  // Find and publish the distance to the closest object
+  unsigned int distance0 = sensor0.getDist()+12; // Top sensor is offset back compared to bottom one
+  unsigned int distance1 = sensor1.getDist();
+
+  // for debug
+  /*
+  debugString = String(ARM_MSG_PREFIX) + String("IR Range0: ") + String(distance0);
+  debugString.toCharArray(debugStringChar, DEBUG_STRING_LEN );
+  nh.loginfo(debugStringChar);
+  debugString = String(ARM_MSG_PREFIX) + String("IR Range1: ") + String(distance1);
+  debugString.toCharArray(debugStringChar, DEBUG_STRING_LEN );
+  nh.loginfo(debugStringChar);
+  */
+
+  unsigned int closestObject = min(distance0, distance1);
+    //if (closestObject > xx) {
+    arm_hand_sensor_msg.data = closestObject;
+    arm_hand_sensor_pub.publish(&arm_hand_sensor_msg);
+  
   
 }
+
+
 
 void setup() {
   // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
@@ -108,12 +190,17 @@ void setup() {
   nh.initNode();
   nh.subscribe(sub);
   nh.advertise(arm_button_pub);
-
+  nh.advertise(arm_hand_sensor_pub);
+  
   // Set globals
   colorMode = 0;
   lastColorMode = colorMode;
   button_state = digitalRead(PUSH_BUTTON_PIN);
   last_button_state = button_state;
+
+  // Set Sharp IR sensors custom power fit curve coefficients and range
+  sensor0.setPowerFitCoeffs(C, P, minVal, maxVal);
+  sensor1.setPowerFitCoeffs(C, P, minVal, maxVal);
 
 
   // blink LED on the board at startup
@@ -155,7 +242,7 @@ void loop() {
 
   digitalWrite(LED_BUILTIN, HIGH);
 
-  check_button_state();
+  check_sensors();
 
 // button test
 //  arm_button_msg.data = true; // TODO FIX THIS TEST
@@ -281,7 +368,7 @@ void loop() {
 
   for (int i=0; i<randNumber; i++) {
     nh.spinOnce();
-    check_button_state();
+    check_sensors();
     if( colorMode != lastColorMode) {
       lastColorMode = colorMode;
       break; // handle new command immediately
@@ -312,6 +399,9 @@ void loop() {
   ***/
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+// NEOPIXEL UTILITIES
+////////////////////////////////////////////////////////////////////////////////////
 
 void setArmPixelColor(uint8_t armPosition, uint8_t r, uint8_t g, uint8_t b) {
   // convert pixel locations to match arm layout

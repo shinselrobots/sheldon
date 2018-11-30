@@ -18,7 +18,7 @@
 
 
 const long ODOM_SAMPLE_TIME_INTERVAL = 50L; // 50ms - need to be fast to get frequent odom published
-const int SPEED_SAMPLE_DIVIDER = 5; // 5x the Odom sample time - too short and it wont work for slow motor speeds
+//const int SPEED_SAMPLE_DIVIDER = 2L; // 2x the Odom sample time - too short and it wont work for slow motor speeds
 
 // Change these pin numbers to the pins connected to your encoder.
 //   Best Performance: both pins have interrupt capability
@@ -67,7 +67,7 @@ long SpeedSampleDuration = 0L;
 unsigned long loopEndTime = 0L;
 boolean led_is_on = false;
 
-long speedLoopCount = 0L;
+///long speedLoopCount = 0L;
 
 
 // For Speed Control (future feature)
@@ -127,8 +127,8 @@ if(!nh.connected() ) {
   wheelCountRight = wheelEncoderRight.read();
 
   // calculate speed every so often (can't do too fast!)
-  if (speedLoopCount++ >= (SPEED_SAMPLE_DIVIDER-1)) {
-    speedLoopCount = 0;
+  ///if (speedLoopCount++ >= (SPEED_SAMPLE_DIVIDER-1)) {
+    ///speedLoopCount = 0;
     speedTime = millis();
     SpeedSampleDuration = speedTime - lastSpeedTime; // see exact time that passed for speed calculation
     lastSpeedTime = speedTime;
@@ -155,7 +155,7 @@ if(!nh.connected() ) {
     }
     //nh.spinOnce();
 
-  }
+  ///}
 
   // Publish Odometry in ticks
   odom_msg.odom_ticks_right = wheelCountRight;
