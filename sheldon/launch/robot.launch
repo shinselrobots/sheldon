@@ -42,12 +42,12 @@
   <include file="$(find robot_sounds)/launch/robot_sounds.launch"/>
 
 
-  <!-- Behavior plugin loader, which will scan the system for all available      -->
-       behavior plugins (both C++ and Python)    
+  <!-- Behavior plugin loader   --> 
   <node pkg="behavior_common" type="behavior_loader" name="behavior_common_node" output="screen">
     <param name="robot_startup_behavior" value="/wakeup_behavior"/>
   </node>
    
+
 
   <!-- Joystick buttons to control some hard coded behaviors. -->
   <node pkg="sheldon_joybuttons" type="joy_buttons.py" name="joy_buttons"/>
