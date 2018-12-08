@@ -1,0 +1,16 @@
+<launch>
+
+  <!-- Body Tracker  -->
+  <include file="$(find sheldon)/launch/include/nuitrack_body_tracker.launch"/>
+
+  <!-- Face Recognizer Filter (body tracker in, body tracker message with face out)  
+   launch in an activated python shell (to get the right OpenCV stuff)  -->
+  <node pkg="sheldon" type="activated_tensorflow.sh"
+    name="face_recognizer" 
+    args="1 sheldon face_recognizer.launch"
+    output="screen">
+  </node>
+  
+
+
+</launch>

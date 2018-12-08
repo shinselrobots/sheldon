@@ -48,7 +48,6 @@
   </node>
    
 
-
   <!-- Joystick buttons to control some hard coded behaviors. -->
   <node pkg="sheldon_joybuttons" type="joy_buttons.py" name="joy_buttons"/>
 
@@ -57,7 +56,7 @@
   <node pkg="sheldon_pose_buttons" type="pose_buttons.py" name="pose_buttons" output="screen"/>
 
 
-  <!-- This launch script starts the RealSense camera and optional middleware nodes. DISABLED
+  <!-- RealSense ZR300 cameras and optional middleware nodes. DISABLED
   <include file="$(find sheldon)/launch/include/realsense.launch"/>
   -->
 
@@ -73,9 +72,16 @@
   <include file="$(find sheldon)/launch/include/safety_control.launch"/>
   -->
 
-  <!-- Body Tracker  DISABLED
+  <!-- Body Tracker  -->
   <include file="$(find sheldon)/launch/include/nuitrack_body_tracker.launch"/>
-  -->
+
+  <!-- Face Recognizer Filter (body tracker in, body tracker message with face out)  
+   launch in an activated python shell (to get the right OpenCV stuff)  -->
+  <node pkg="sheldon" type="activated_tensorflow.sh"
+    name="face_recognizer" 
+    args="1 sheldon face_recognizer.launch"
+    output="screen">
+  </node>
   
 
   <!-- This launch script starts navigation capabilities   DISABLED
