@@ -42,11 +42,11 @@
   <include file="$(find robot_sounds)/launch/robot_sounds.launch"/>
 
 
-  <!-- Behavior plugin loader   --> 
+  <!-- Behavior plugin loader   -->  
   <node pkg="behavior_common" type="behavior_loader" name="behavior_common_node" output="screen">
     <param name="robot_startup_behavior" value="/wakeup_behavior"/>
   </node>
-   
+
 
   <!-- Joystick buttons to control some hard coded behaviors. -->
   <node pkg="sheldon_joybuttons" type="joy_buttons.py" name="joy_buttons"/>
@@ -72,8 +72,9 @@
   <include file="$(find sheldon)/launch/include/safety_control.launch"/>
   -->
 
-  <!-- Body Tracker  -->
+  <!-- Nuitrack Body Tracker  -->
   <include file="$(find sheldon)/launch/include/nuitrack_body_tracker.launch"/>
+
 
   <!-- Face Recognizer Filter (body tracker in, body tracker message with face out)  
    launch in an activated python shell (to get the right OpenCV stuff)  -->

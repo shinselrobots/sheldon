@@ -32,7 +32,7 @@ from sheldon_servos.set_servo_torque import *
 # from tb2s_pantilt.set_servo_speed import *
 # from sheldon_servos.set_servo_torque import *
 
-from body_tracker_msgs.msg import BodyTracker
+from body_tracker_msgs.msg import BodyTracker, BodyTrackerArray
 from geometry_msgs.msg import PointStamped, Point, PoseStamped, Pose, Pose2D
 #import geometry_msgs.msg
 
@@ -151,167 +151,107 @@ class BehaviorAction(object):
         self.id_to_track = person_id
         self.last_target_time = rospy.Time.now() # reset timer
 
-
-    #====================================================================
-    # 3D Pose Tracking:  Message contains xyz of person 
-    #                    position is relative to the robot  
-    def body_pose_cb(self, msg):
-
-        rospy.loginfo('%s: ERROR!  ERROR!  got body_pose message' % (self._action_name))
-        return # THIS CB IS DISABLED
-
-        # position component of the target pose stored as a PointStamped() message.
-
-        # create a PointStamped structure to transform via transformPoint
-        target = PointStamped()
-        target.header.frame_id = msg.header.frame_id
-        target.point = msg.pose.position
-
-        if target.point.z == 0.0:
-            rospy.loginfo('%s: skipping blank message' % (self._action_name))
-            return
-        # frame should be "camera_depth_frame"
-        #target = self.tf.transformPoint(self.camera_link, raw_target)           
-
-        rospy.loginfo("%s: Body Tracker: Tracking person at %f, %f, %f", self._action_name,
-            target.point.x, target.point.y, target.point.z)
-
-        # convert from xyz to pan tilt angles
-        # TODO: 1) Handle Children - currently assumes everyone is 6 foot tall!
-        #       2) What happens if robot bows? 
-        if target.point.x < 0.2:     # min range of most depth cameras
-            #rospy.loginfo("%s: Body Tracker: Bad Distance (x) value! %f", 
-            #  self._action_name, target.point.x)
-            return
-
-        # math shortcut for approx radians
-        pan_angle =  target.point.y / target.point.x
-
-        # OPTION 1: Track actual target height 
-        #person_head_offset_radians = 0.52   # TB2S value - TODO Tune this 
-        #tilt_angle = (target.point.z / target.point.x) + person_head_offset_radians 
-
-        # OPTION 2: Guess height, based upon distance to person
-        # FUTURE: combine the two, use "guess" when person is too close?
-        tilt_angle = 0.4 / target.point.x # SHELDON, CHEST MOUNTED camera
-
-        rospy.loginfo("%s: Body Tracker: Pan = %f (%f), Tilt = %f (%f)", self._action_name, 
-            pan_angle, degrees(pan_angle), tilt_angle, degrees(tilt_angle))
-
-        # Send servo commands
-        if abs(pan_angle) > self.MAX_PAN:    # just over 45 degrees - TODO put in actual limits here!
-            rospy.loginfo("%s: Body Tracker: Pan %f exceeds MAX", self._action_name, pan_angle)
-            return
-        if abs(tilt_angle) > self.MAX_TILT:    # Limit vertical to assure good tracking
-            rospy.loginfo("%s: Body Tracker: Tilt %f exceeds MAX", self._action_name, tilt_angle)
-            return
-
-        pub_head_pan.publish(pan_angle)
-        pub_head_tilt.publish(-tilt_angle)
-
-        # SHELDON ONLY
-        #sidetiltAmt = 0.0
-        #pub_head_sidetilt.publish(sidetiltAmt)
-
-        self.tracking = True # don't do idle movements
-
-
     #====================================================================
     # 2D Tracking:  Message contains person horizontal (x) and vertical (y)
     #               position is relative to the depth image.  
     def position_cb(self, msg):
         #rospy.loginfo('%s: got position_cb message' % (self._action_name))
+
+        # determine highest priority person to track
+        # Message contains an array of people being tracked 
+        # Note: tracking while stationary / idle is different from when person-following
+  
+        person_to_track = 0    
+        person_to_track_index = 0    
+
+        # Priority 1:  someone making a gesture         
+        for i, person in enumerate(msg.detected_list):
+            if person.gesture > -1:
+                person_to_track = person.body_id
+                person_to_track_index = i
+                rospy.loginfo("DBG: GOT A GESTURE ") 
+                break
+ 
+        # Priority 2: Track the closest person 
+        # this allows robot to change focus to different people, 
+        # whoever is closest he will talk to.               
+        if person_to_track == 0:
+            closest_person_distance = 100000
+            closest_person_index = 0
+            for i, person in enumerate(msg.detected_list):
+                if person.position2d.z < closest_person_distance:
+                    closest_person_distance = person.position2d.z
+                    person_to_track = person.body_id
+                    person_to_track_index = i
+
+
+            #TODO if person.face_found:
+                #rospy.loginfo("DBG face found")
          
-        delta_angle_x = msg.position2d.x # position in radians from center of camera lens
-        delta_angle_y = msg.position2d.y  
-        person_id = msg.body_id 
-        gesture = msg.gesture
+        if person_to_track != 0:
+            rospy.loginfo("%s: DBG: Tracking Person Index = %d, ID = %d", \
+                self._action_name, person_to_track_index, person_to_track ) 
 
+            person_info = msg.detected_list[person_to_track_index]
+        
+            delta_angle_x = person_info.position2d.x # position in radians from center of camera lens
+            delta_angle_y = person_info.position2d.y  
+            #person_id = person_info.body_id 
+            #gesture = person_info.gesture
+            #face_found = person_info.face_found
 
-        if self.id_to_track == 0:
-            self.id_to_track = person_id # no id assigned yet, so use this one
-            rospy.loginfo("%s: Tracking Person_ID %d", self._action_name, person_id)
+            # Calculate amount to move
+            #rospy.loginfo("%s: Person %d 2D Delta:  x = %f,  y = %f", 
+            #   self._action_name, person_to_track, delta_angle_x, delta_angle_y )
 
-        elif gesture > -1:
-            self.id_to_track = person_id # got a gesture, so use this ID
-            #playsound(self.ding_path) # indicate gesture recognized with a sound
-            rospy.loginfo("%s: ---------------------> Person_ID %d Gesture detected: %d", 
-                self._action_name, person_id, gesture)
-            rospy.loginfo("%s: Tracking Person_ID %d", self._action_name, person_id)
-
-        elif person_id != self.id_to_track:
-            # not the right person, see if the old one timed out
-
-            time_since_last_target = rospy.Time.now() - self.last_target_time
-            if time_since_last_target > rospy.Duration.from_sec(3.0): 
-                # target timed out, use this one  TODO - see which target is closest?
-                rospy.loginfo("%s: Body Tracker: ID %d Timed out, changing to ID %d", 
-                    self._action_name, self.id_to_track, person_id )
-                self.id_to_track = person_id
-            else:            
-                #rospy.loginfo("%s: Body Tracker: Tracking ID %d, so skipping pose2D for ID %d", 
-                #    self._action_name, self.id_to_track, person_id )
+            # Get the current servo pan and tilt position
+            try:
+                current_pan = self.joint_state.position[
+                    self.joint_state.name.index(self.head_pan_joint)]
+                current_tilt = self.joint_state.position[
+                    self.joint_state.name.index(self.head_tilt_joint)] * -1.0
+            except:
                 return
 
-        self.last_target_time = rospy.Time.now() # reset timer
+            #rospy.loginfo("%s: Body Tracker: Current Servo:  Pan = %f,  Tilt = %f", 
+            #  self._action_name, current_pan, current_tilt)
+
+            # add target position to current servo position
+            pan_angle  = current_pan  + (delta_angle_x * 0.95) #shoot for less
+            tilt_angle = current_tilt + (delta_angle_y * 0.95)
+            # rospy.loginfo("%s: Body Tracker: Servo Command:  Pan = %f,  Tilt = %f", 
+            #    self._action_name, pan_angle, tilt_angle)
+
+            # command servos to move to target, if not in deadband
+            pan_on_target = True
+            tilt_on_target = True
+
+            if abs(delta_angle_x) > self.DEADBAND_ANGLE:
+                if abs(pan_angle) < self.MAX_PAN:  
+                    pub_head_pan.publish(pan_angle)        # Send servo command 
+                pan_on_target = False
+
+            if abs(delta_angle_y) > self.DEADBAND_ANGLE:
+                if abs(pan_angle) < self.MAX_TILT:    
+                    pub_head_tilt.publish(-tilt_angle)     # Send servo command
+                tilt_on_target = False
+
+            #if pan_on_target and tilt_on_target:
+            #   rospy.loginfo("%s: On target ID %d", self._action_name, person_id)
+            #else: 
+            #   rospy.loginfo("%s: ID %d: Pan delta = %f, Tilt Delta = %f", 
+            #     self._action_name, person_id, delta_angle_x, delta_angle_y) 
+
+            # Max pan/tilt is constrained by system.  Add additional constraints if needed
+
+            self.tracking = True # don't do idle movements
+
+            # SHELDON ONLY
+            #side_tilt_angle = 0.0
+            #pub_head_sidetilt.publish(side_tilt_angle)
 
 
-        # Calculate amount to move
-        #rospy.loginfo("%s: Person %d 2D Delta:  x = %f,  y = %f", 
-        #   self._action_name, person_id, delta_angle_x, delta_angle_y )
-
-        # Get the current servo pan and tilt position
-        try:
-            current_pan = self.joint_state.position[
-                self.joint_state.name.index(self.head_pan_joint)]
-            current_tilt = self.joint_state.position[
-                self.joint_state.name.index(self.head_tilt_joint)] * -1.0
-        except:
-            return
-
-        #rospy.loginfo("%s: Body Tracker: Current Servo:  Pan = %f,  Tilt = %f", 
-        #  self._action_name, current_pan, current_tilt)
-
-        # add target position to current servo position
-        pan_angle  = current_pan  + (delta_angle_x * 0.95) #shoot for less
-        tilt_angle = current_tilt + (delta_angle_y * 0.95)
-        # rospy.loginfo("%s: Body Tracker: Servo Command:  Pan = %f,  Tilt = %f", 
-        #    self._action_name, pan_angle, tilt_angle)
-
-        # command servos to move to target, if not in deadband
-        pan_on_target = True
-        tilt_on_target = True
-
-        if abs(delta_angle_x) > self.DEADBAND_ANGLE:
-            if abs(pan_angle) < self.MAX_PAN:  
-                pub_head_pan.publish(pan_angle)
-            pan_on_target = False
-
-        if abs(delta_angle_y) > self.DEADBAND_ANGLE:
-            if abs(pan_angle) < self.MAX_TILT:    
-                pub_head_tilt.publish(-tilt_angle)
-            tilt_on_target = False
-
-        #if pan_on_target and tilt_on_target:
-        #   rospy.loginfo("%s: On target ID %d", self._action_name, person_id)
-        #else: 
-        #   rospy.loginfo("%s: ID %d: Pan delta = %f, Tilt Delta = %f", 
-        #     self._action_name, person_id, delta_angle_x, delta_angle_y) 
-
-
-        # SHELDON ONLY
-        #side_tilt_angle = 0.0
-        #pub_head_sidetilt.publish(side_tilt_angle)
-
-        self.tracking = True # don't do idle movements
-
-        # Send servo commands
-        if abs(pan_angle) > 1.0:    # just over 45 degrees - TODO put in actual limits here!
-            rospy.loginfo("%s: Body Tracker: Pan %f exceeds MAX", self._action_name, pan_angle)
-            return
-        if abs(tilt_angle) > 1.0:  # just over 45 degrees
-            rospy.loginfo("%s: Body Tracker: Tilt %f exceeds MAX", self._action_name, tilt_angle)
-            return
+        #self.last_target_time = rospy.Time.now() # reset timer
 
 
     #====================================================================
@@ -344,11 +284,13 @@ class BehaviorAction(object):
 
         if self.enable_body_tracking:
             # Enable Subscribers
-            #rospy.Subscriber("/body_tracker/pose", PoseStamped, self.body_pose_cb, queue_size=1)
-            position_sub = rospy.Subscriber("/body_tracker/position", BodyTracker, self.position_cb, queue_size=1)
+            #position_sub = rospy.Subscriber("/body_tracker/position", \
+            #   BodyTracker, self.position_cb, queue_size=1)
+            position_sub = rospy.Subscriber("/body_tracker_array/position", \
+                BodyTrackerArray, self.position_cb, queue_size=1)
+            
             # pose2d_sub = rospy.Subscriber("/body_tracker/pose2d", Pose2D, self.pose_2d_cb, queue_size=1)
             servo_sub = rospy.Subscriber('/joint_states', JointState, self.joint_state_cb) # servos
-            #gesture_sub = rospy.Subscriber('/body_tracker/gesture', Pose2D, self.gesture_cb)
 
         while True:
 
@@ -362,13 +304,13 @@ class BehaviorAction(object):
                 pub_head_tilt.publish(tiltAmt)
 
 
-                # rospy.loginfo('%s: Doing Random Movement' % (self._action_name))
+                rospy.loginfo('%s: Doing Random Movement' % (self._action_name))
                 panAmt = random.uniform(-0.5, 0.5)
                 pub_head_pan.publish(panAmt)
 
                 # SHELDON ONLY
-                #sidetiltAmt = 0.0   # TODO random.uniform(-0.05, 0.05)
-                #pub_head_sidetilt.publish(sidetiltAmt)
+                sidetiltAmt = random.uniform(-0.05, 0.05)
+                pub_head_sidetilt.publish(sidetiltAmt)
 
 
             self.tracking = False  # do Idle if tracking gets lost
@@ -384,9 +326,7 @@ class BehaviorAction(object):
         # Behavior Exit / Cleanup
         if self.enable_body_tracking:
             position_sub.unregister()
-            #pose2d_sub.unregister()
             servo_sub.unregister()
-            #gesture_sub.unregister()
 
         # Idle always runs until preempted
         rospy.loginfo('%s: Behavior preempted' % self._action_name)
