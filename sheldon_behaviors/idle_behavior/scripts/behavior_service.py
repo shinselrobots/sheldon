@@ -11,6 +11,7 @@ import rospkg
 import rosparam
 
 from std_msgs.msg import Float64
+from std_msgs.msg import String
 from sensor_msgs.msg import JointState
 import random
 
@@ -58,7 +59,8 @@ class BehaviorAction(object):
         self.MAX_TILT = 0.60  #  Limit vertical to assure good tracking
         self.DEADBAND_ANGLE = 0.0872665 # 5 deg deadband in middle to prevent osc
         self.DEFAULT_TILT_ANGLE = 0.00 # TB2S: tilt head up slightly to find people more easily
-
+        self.PERSON_NAME_TIMEOUT_SECONDS = 8.0
+        
         #====================================================================
         # Behavior Settings
 
@@ -104,9 +106,16 @@ class BehaviorAction(object):
         self.joint_state = JointState() # for reading servo positions
         #self.astra_target = list()
 
-        # Remember which person to track (so the camera does not oscilate)
-        self.id_to_track = 0  # 0 = not tracking anyone
-        self.last_target_time = rospy.Time.now() # start timer
+        # Remember which person we are tracking
+        #self.current_person_id = 0  # 0 = not tracking anyone
+        #self.current_person_id_time = rospy.Time.now() # start timer
+        self.named_person = ""
+        self.named_person_id = 0
+        self.named_person_time = rospy.Time.now() # start timer
+
+        # Publish current person by name, if recognized
+        self.pub_current_user_name = rospy.Publisher('/person/name', String, queue_size=2)        
+
 
         # Initialize tf listener
         #self.tf = tf.TransformListener()
@@ -161,7 +170,8 @@ class BehaviorAction(object):
  
         # Priority 2: Track the closest person 
         # this allows robot to change focus to different people, 
-        # whoever is closest he will talk to.               
+        # whoever is closest he will talk to. 
+        # TODO? Track closest person that has face detected to reject tracking objects?              
         if person_to_track_id == 0:
             closest_person_distance = 100000
             closest_person_index = 0
@@ -173,21 +183,53 @@ class BehaviorAction(object):
 
         if person_to_track_id != 0:
 
+            # found someone to track
             person_info = msg.detected_list[person_to_track_index]
+            if person_info.face_found == True:
+                rospy.loginfo("%s: Face Found.  Name = " + person_info.name, self._action_name)
+
+            if person_info.name != "":
+                # We recognized this person!
+                rospy.loginfo("%s: Tracking Name " + person_info.name, self._action_name)
+                self.named_person = person_info.name
+                self.named_person_id = person_to_track_id # associate ID with the name
+                self.named_person_time = rospy.Time.now()
+                self.pub_current_user_name.publish(self.named_person)
+                
+            else:
+            
+                if self.named_person != "":
+                    # We are tracking a specific person by name, but did not get a name this frame
+                    if person_to_track_id != self.named_person_id:
+                        # different user, clear the name
+                        rospy.loginfo("%s: Lost user %s", self._action_name, self.named_person)
+                        self.named_person = "" 
+                        self.named_person_id = 0 
+                        self.pub_current_user_name.publish(self.named_person)
+                    else:
+                        # still the same ID, but sometimes ID's don't get changed
+                        time_since_last_name = rospy.Time.now() - self.named_person_time 
+                        rospy.loginfo("%s: DEBUG time_since_last_name = %f", \
+                            self._action_name, time_since_last_name.to_sec())
+                        if time_since_last_name > rospy.Duration.from_sec(self.PERSON_NAME_TIMEOUT_SECONDS):
+                            rospy.loginfo("%s: User Name %s Timed out", self._action_name, self.named_person)
+                            self.named_person = "" 
+                            self.named_person_id = 0 
+                            self.pub_current_user_name.publish(self.named_person)
+                    
+               
+            #self.current_person_id = person_to_track_id
+            #self.current_person_id_time = rospy.Time.now()
+
         
-            delta_angle_x = person_info.position2d.x # position in radians from center of camera lens
+            # Track person
+            # position in radians from center of camera lens
+            delta_angle_x = person_info.position2d.x 
             delta_angle_y = person_info.position2d.y  
-            #person_id = person_info.body_id 
-            #gesture = person_info.gesture
-            #face_found = person_info.face_found
 
             rospy.loginfo("%s: Tracking Person Index: %d, ID: %d x: %f y: %f", \
                 self._action_name, person_to_track_index, person_to_track_id, delta_angle_x, delta_angle_y ) 
-
-            if person_info.face_found == True:
-                        rospy.loginfo("%s: Face Found.  Name = " + person_info.name, self._action_name)
-
-            # Calculate amount to move
+                
             # Get the current servo pan and tilt position
             try:
                 current_pan = self.joint_state.position[
