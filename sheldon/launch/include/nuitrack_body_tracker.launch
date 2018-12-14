@@ -3,6 +3,7 @@
 
   <!-- Note: no (output="screen") to avoid spamming console 
        for debug info, launch directly:  roslaunch nuitrack_body_tracker nuitrack_body_tracker.launch -->
+       
   <node pkg="nuitrack_body_tracker" type="nuitrack_body_tracker_node" name="nuitrack_body_tracker_node" output="screen" >
   </node>
 

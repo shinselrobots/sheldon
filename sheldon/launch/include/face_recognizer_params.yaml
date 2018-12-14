@@ -9,7 +9,7 @@ detection_topic: "/body_tracker_array/position"
 camera_topic: "/camera/color/image"
 
 # Set your output topic here
-output_topic: "/face_recognizer/faces"
+output_topic: "/body_tracker_array/people"
 
 # Set your output topic for RGB Image here
 output_topic_rgb: "/face_recognizer/faces/image"

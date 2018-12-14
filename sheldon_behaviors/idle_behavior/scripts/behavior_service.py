@@ -138,19 +138,6 @@ class BehaviorAction(object):
         #  self._action_name, current_pan, current_tilt)
 
 
-    def gesture_cb(self, msg):
-        rospy.loginfo('%s: ERROR ERROR got gesture_cb message' % (self._action_name))
-        return
-
-        gesture = msg.x # position in radians from center of camera lens
-        # msg.y not used
-        person_id = int(msg.theta)
-
-        # whenever we get a gesture, force this to be the current user
-        # TODO decode the gestures to what kind they are...
-        self.id_to_track = person_id
-        self.last_target_time = rospy.Time.now() # reset timer
-
     #====================================================================
     # 2D Tracking:  Message contains person horizontal (x) and vertical (y)
     #               position is relative to the depth image.  
@@ -161,13 +148,13 @@ class BehaviorAction(object):
         # Message contains an array of people being tracked 
         # Note: tracking while stationary / idle is different from when person-following
   
-        person_to_track = 0    
+        person_to_track_id = 0    
         person_to_track_index = 0    
 
         # Priority 1:  someone making a gesture         
         for i, person in enumerate(msg.detected_list):
             if person.gesture > -1:
-                person_to_track = person.body_id
+                person_to_track_id = person.body_id
                 person_to_track_index = i
                 rospy.loginfo("DBG: GOT A GESTURE ") 
                 break
@@ -175,22 +162,16 @@ class BehaviorAction(object):
         # Priority 2: Track the closest person 
         # this allows robot to change focus to different people, 
         # whoever is closest he will talk to.               
-        if person_to_track == 0:
+        if person_to_track_id == 0:
             closest_person_distance = 100000
             closest_person_index = 0
             for i, person in enumerate(msg.detected_list):
                 if person.position2d.z < closest_person_distance:
                     closest_person_distance = person.position2d.z
-                    person_to_track = person.body_id
+                    person_to_track_id = person.body_id
                     person_to_track_index = i
 
-
-            #TODO if person.face_found:
-                #rospy.loginfo("DBG face found")
-         
-        if person_to_track != 0:
-            rospy.loginfo("%s: DBG: Tracking Person Index = %d, ID = %d", \
-                self._action_name, person_to_track_index, person_to_track ) 
+        if person_to_track_id != 0:
 
             person_info = msg.detected_list[person_to_track_index]
         
@@ -200,10 +181,13 @@ class BehaviorAction(object):
             #gesture = person_info.gesture
             #face_found = person_info.face_found
 
-            # Calculate amount to move
-            #rospy.loginfo("%s: Person %d 2D Delta:  x = %f,  y = %f", 
-            #   self._action_name, person_to_track, delta_angle_x, delta_angle_y )
+            rospy.loginfo("%s: Tracking Person Index: %d, ID: %d x: %f y: %f", \
+                self._action_name, person_to_track_index, person_to_track_id, delta_angle_x, delta_angle_y ) 
 
+            if person_info.face_found == True:
+                        rospy.loginfo("%s: Face Found.  Name = " + person_info.name, self._action_name)
+
+            # Calculate amount to move
             # Get the current servo pan and tilt position
             try:
                 current_pan = self.joint_state.position[
@@ -286,7 +270,7 @@ class BehaviorAction(object):
             # Enable Subscribers
             #position_sub = rospy.Subscriber("/body_tracker/position", \
             #   BodyTracker, self.position_cb, queue_size=1)
-            position_sub = rospy.Subscriber("/body_tracker_array/position", \
+            position_sub = rospy.Subscriber("/body_tracker_array/people", \
                 BodyTrackerArray, self.position_cb, queue_size=1)
             
             # pose2d_sub = rospy.Subscriber("/body_tracker/pose2d", Pose2D, self.pose_2d_cb, queue_size=1)
