@@ -83,7 +83,8 @@ class BehaviorAction(object):
 
         # initialization
         rospy.loginfo("Waiting for speech server (press ctrl-c to cancel at anytime)")
-        client = actionlib.SimpleActionClient("/speech_service", audio_and_speech_common.msg.speechAction)
+        client = actionlib.SimpleActionClient("/speech_service", \
+            audio_and_speech_common.msg.speechAction)
         client.wait_for_server()
 
         SetServoTorque(0.5, right_arm_joints)

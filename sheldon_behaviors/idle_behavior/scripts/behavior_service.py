@@ -20,6 +20,11 @@ import tf
 import os, thread
 from playsound import playsound
 
+# for talking
+import actionlib
+import actionlib.action_client
+import audio_and_speech_common.msg
+
 # SHELDON Only
 # from dynamixel_controllers.srv import TorqueEnable, SetServoTorqueLimit, SetSpeed
 from sheldon_servos.servo_joint_list import head_joints
@@ -59,7 +64,8 @@ class BehaviorAction(object):
         self.MAX_TILT = 0.60  #  Limit vertical to assure good tracking
         self.DEADBAND_ANGLE = 0.0872665 # 5 deg deadband in middle to prevent osc
         self.DEFAULT_TILT_ANGLE = 0.00 # TB2S: tilt head up slightly to find people more easily
-        self.PERSON_NAME_TIMEOUT_SECONDS = 8.0
+        self.NAME_TIMEOUT_SECS = 8.0
+        self.HELLO_TIMEOUT_SECS = (10.0 * 60.0)
         
         #====================================================================
         # Behavior Settings
@@ -112,12 +118,22 @@ class BehaviorAction(object):
         self.named_person = ""
         self.named_person_id = 0
         self.named_person_time = rospy.Time.now() # start timer
+        self.named_people_seen_today = {}
 
         # Publish current person by name, if recognized
         self.pub_current_user_name = rospy.Publisher('/person/name', String, queue_size=2)        
 
+        rospy.loginfo("Waiting for speech server (press ctrl-c to cancel at anytime)")
+        self.speech_client = actionlib.SimpleActionClient("/speech_service", \
+            audio_and_speech_common.msg.speechAction)
+        self.speech_client.wait_for_server()
 
-        # Initialize tf listener
+        rospy.sleep(2)
+        rospy.loginfo("testing speech")
+        goal = audio_and_speech_common.msg.speechGoal(text_to_speak="testing speech system")
+        self.speech_client.send_goal(goal)
+
+       # Initialize tf listener
         #self.tf = tf.TransformListener()
 
         # Allow tf to catch up        
@@ -196,6 +212,28 @@ class BehaviorAction(object):
                 self.named_person_time = rospy.Time.now()
                 self.pub_current_user_name.publish(self.named_person)
                 
+                # Say hello the first time we see someone in a while
+                if self.named_person not in self.named_people_seen_today:
+                    #current_time = rospy.get_rostime()
+                    self.named_people_seen_today[self.named_person] = rospy.get_rostime() 
+                    rospy.loginfo("=========== Saying Hello ===========")
+                    goal = audio_and_speech_common.msg.speechGoal( \
+                        text_to_speak = "hello " + self.named_person)
+                    self.speech_client.send_goal(goal)
+
+                else:
+                    # we've said hello to this person, but lets see how long ago it was
+                    time_since_hello = rospy.get_rostime() - self.named_people_seen_today[self.named_person]
+                    rospy.loginfo("%s: DEBUG time_since_hello = %f", \
+                        self._action_name, time_since_hello.to_sec())
+
+                    if time_since_hello > rospy.Duration.from_sec(self.HELLO_TIMEOUT_SECS):
+                        self.named_people_seen_today[self.named_person] = rospy.get_rostime() 
+                        rospy.loginfo("=========== Saying Hello Again ===========")
+                        goal = audio_and_speech_common.msg.speechGoal( \
+                            text_to_speak = "hello again " + self.named_person)
+                        self.speech_client.send_goal(goal)
+                
             else:
             
                 if self.named_person != "":
@@ -211,7 +249,8 @@ class BehaviorAction(object):
                         time_since_last_name = rospy.Time.now() - self.named_person_time 
                         rospy.loginfo("%s: DEBUG time_since_last_name = %f", \
                             self._action_name, time_since_last_name.to_sec())
-                        if time_since_last_name > rospy.Duration.from_sec(self.PERSON_NAME_TIMEOUT_SECONDS):
+
+                        if time_since_last_name > rospy.Duration.from_sec(self.NAME_TIMEOUT_SECS):
                             rospy.loginfo("%s: User Name %s Timed out", self._action_name, self.named_person)
                             self.named_person = "" 
                             self.named_person_id = 0 
@@ -227,8 +266,9 @@ class BehaviorAction(object):
             delta_angle_x = person_info.position2d.x 
             delta_angle_y = person_info.position2d.y  
 
-            rospy.loginfo("%s: Tracking Person Index: %d, ID: %d x: %f y: %f", \
-                self._action_name, person_to_track_index, person_to_track_id, delta_angle_x, delta_angle_y ) 
+            # Uncomment this to debug
+            # rospy.loginfo("%s: Tracking Person Index: %d, ID: %d x: %f y: %f", \
+            #    self._action_name, person_to_track_index, person_to_track_id, delta_angle_x, delta_angle_y ) 
                 
             # Get the current servo pan and tilt position
             try:
