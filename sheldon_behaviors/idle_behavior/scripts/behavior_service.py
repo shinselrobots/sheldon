@@ -224,8 +224,8 @@ class BehaviorAction(object):
                 else:
                     # we've said hello to this person, but lets see how long ago it was
                     time_since_hello = rospy.get_rostime() - self.named_people_seen_today[self.named_person]
-                    rospy.loginfo("%s: DEBUG time_since_hello = %f", \
-                        self._action_name, time_since_hello.to_sec())
+                    #rospy.loginfo("%s: DEBUG time_since_hello = %f", \
+                    #    self._action_name, time_since_hello.to_sec())
 
                     if time_since_hello > rospy.Duration.from_sec(self.HELLO_TIMEOUT_SECS):
                         self.named_people_seen_today[self.named_person] = rospy.get_rostime() 
@@ -247,8 +247,8 @@ class BehaviorAction(object):
                     else:
                         # still the same ID, but sometimes ID's don't get changed
                         time_since_last_name = rospy.Time.now() - self.named_person_time 
-                        rospy.loginfo("%s: DEBUG time_since_last_name = %f", \
-                            self._action_name, time_since_last_name.to_sec())
+                        #rospy.loginfo("%s: DEBUG time_since_last_name = %f", \
+                        #    self._action_name, time_since_last_name.to_sec())
 
                         if time_since_last_name > rospy.Duration.from_sec(self.NAME_TIMEOUT_SECS):
                             rospy.loginfo("%s: User Name %s Timed out", self._action_name, self.named_person)

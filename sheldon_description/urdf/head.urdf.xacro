@@ -11,7 +11,7 @@
    <xacro:property name="head_depth_camera_offset_x" value="0.050" /> 
    <xacro:property name="head_depth_camera_offset_y" value="0.000" />  
    <xacro:property name="head_depth_camera_offset_z" value="0.025" /> <!-- 350 from bottom of torso? -->
-   <xacro:property name="head_depth_camera_rotation" value="0.0" /> <!-- rotation  -->
+   <xacro:property name="head_depth_camera_tilt" value="0.16" /> <!-- rotation  -->
 
 
   <xacro:macro name="head" params="name parent color *origin"> 
@@ -81,7 +81,7 @@
    <!-- Attach d435 camera -->
   <realsense_d435_camera name = "nuitrack_camera" parent = "head" color="Green">
      <origin xyz="${head_depth_camera_offset_x} ${head_depth_camera_offset_y} ${head_depth_camera_offset_z}" 
-             rpy="0 ${head_depth_camera_rotation} 0" /> 
+             rpy="0 ${head_depth_camera_tilt} 0" /> 
   </realsense_d435_camera>
     
 
