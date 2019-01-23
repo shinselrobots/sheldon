@@ -70,7 +70,7 @@
         <material name="${color}" />
       </visual>
       <collision>
-        <origin xyz="${head_collision_offset_x} ${-head_collision_offset_y} 0" rpy="0 0 -0.15" />
+        <origin xyz="${head_collision_offset_x} ${-head_collision_offset_y} 0" rpy="0 0 0" />
         <geometry>
           <box size="${head_size_x} ${head_size_y} ${head_size_z}" />
         </geometry>

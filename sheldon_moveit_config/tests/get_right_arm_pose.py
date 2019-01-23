@@ -9,6 +9,7 @@ Display the current joint positions of the arm in kinematic order of the links
 import rospy, sys
 import moveit_commander
 from moveit_commander import MoveGroupCommander
+from tf.transformations import euler_from_quaternion, quaternion_from_euler
 
 class GetJointStates:
     def __init__(self):
@@ -23,6 +24,10 @@ class GetJointStates:
         
         # Get the end-effector link
         end_effector_link = arm.get_end_effector_link()
+        rospy.loginfo("End effector: %s" % end_effector_link) 
+ 
+        planning_frame = arm.get_planning_frame()
+
         
         # Joints are stored in the order they appear in the kinematic chain
         joint_names = arm.get_active_joints()
@@ -34,7 +39,7 @@ class GetJointStates:
 
 
         # Display the joint names
-        rospy.loginfo("Joint names:\n"  + str(joint_names) + "\n")
+        #rospy.loginfo("Joint names:\n"  + str(joint_names) + "\n")
         
         # Get the current joint angles
         joint_values = arm.get_current_joint_values()
@@ -44,9 +49,19 @@ class GetJointStates:
         
         # Get the end-effector pose
         ee_pose = arm.get_current_pose(end_effector_link)
+
+        orientation = ee_pose.pose.orientation
+        ox = orientation.x
+        oy = orientation.y
+        oz = orientation.z
+        ow = orientation.w
+                       
+        euler_pose = euler_from_quaternion([ow, ox, oy, oz])
+        #euler_pose = euler_from_quaternion([0.0, 0.0, 0.0, 1.0])
         
         # Display the end-effector pose
         rospy.loginfo("End effector pose:\n" + str(ee_pose))
+        rospy.loginfo("RPY?:\n" + str(euler_pose))
         
         moveit_commander.roscpp_shutdown()
         moveit_commander.os._exit(0)

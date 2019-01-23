@@ -1,12 +1,13 @@
 # sheldon_servos
 
-Dynamixel setup:
+## Dynamixel setup:
 Download Robotis RoboPlus (windows app) from Robotis website
 In the RoboPlus Dynamixel Wizard, set:
 
 SHOULDER SERVOS:
-All 4 MX106 servos are configured for multiple turn, 2x
-Right Arm:  set "drive mode" of servo #18 to master, #20 to slave, both *REVERSED*
+All 4 MX106 Shoulder Servos are configured for multiple turn, 2x
+Right Arm:  set "drive mode" of servo #18 to master, #20 to slave, 
+            both *REVERSED* in .../sheldon_servos/config/dynamixel_params.yaml
 Left Arm: set "drive mode" of servo #19 to master, #21 to slave (not reversed)
 Connect master and slave servos with special robotis slave cable
 Set offset of both to 1024 (1/4 turn) to avoid bug where startup forgets where zero is!

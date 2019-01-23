@@ -37,10 +37,10 @@
         <joint name="right_arm_wrist_rotate_joint" value="0" />
     </group_state>
     <group_state name="right_arm_home" group="right_arm">
-        <joint name="right_arm_elbow_bend_joint" value="2" />
+        <joint name="right_arm_elbow_bend_joint" value="2.2" />
         <joint name="right_arm_elbow_rotate_joint" value="0" />
         <joint name="right_arm_shoulder_lift_joint" value="0" />
-        <joint name="right_arm_shoulder_rotate_joint" value="-0.45" />
+        <joint name="right_arm_shoulder_rotate_joint" value="-0.5" />
         <joint name="right_arm_wrist_bend_joint" value="0" />
         <joint name="right_arm_wrist_rotate_joint" value="0" />
     </group_state>
@@ -69,10 +69,10 @@
         <joint name="left_arm_wrist_rotate_joint" value="0" />
     </group_state>
     <group_state name="left_arm_home" group="left_arm">
-        <joint name="left_arm_elbow_bend_joint" value="2" />
+        <joint name="left_arm_elbow_bend_joint" value="2.2" />
         <joint name="left_arm_elbow_rotate_joint" value="0" />
         <joint name="left_arm_shoulder_lift_joint" value="0" />
-        <joint name="left_arm_shoulder_rotate_joint" value="-0.45" />
+        <joint name="left_arm_shoulder_rotate_joint" value="-0.5" />
         <joint name="left_arm_wrist_bend_joint" value="0" />
         <joint name="left_arm_wrist_rotate_joint" value="0" />
     </group_state>
@@ -783,6 +783,7 @@
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link1" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
+
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_shoulder_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_shoulder_rotate_servo_link" reason="Never" />
@@ -807,6 +808,12 @@
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_wrist_rotate_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_finger_link2" link2="right_arm_wrist_rotate_servo_link" reason="Never" />
+
+    <!-- Manually added for normal finger collisions -->
+    <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_gripper_finger_link2" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_finger_link1" link2="left_arm_gripper_link" reason="Never" />
+    <disable_collisions link1="left_arm_gripper_finger_link2" link2="left_arm_gripper_link" reason="Never" />
+
     <disable_collisions link1="left_arm_gripper_link" link2="left_arm_lower_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="left_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="left_arm_gripper_link" link2="left_arm_shoulder_rotate_link" reason="Never" />
@@ -1186,6 +1193,13 @@
     <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_wrist_bend_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_wrist_bend_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_wrist_rotate_link" reason="Never" />
+    <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_wrist_rotate_link" reason="Never" />
+
+    <!-- Manually added for normal finger collisions -->
+    <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_gripper_finger_link2" reason="Never" />
+    <disable_collisions link1="right_arm_gripper_finger_link1" link2="right_arm_gripper_link" reason="Never" />
+    <disable_collisions link1="right_arm_gripper_finger_link2" link2="right_arm_gripper_link" reason="Never" />
+    
     <disable_collisions link1="right_arm_gripper_link" link2="right_arm_lower_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_link" link2="right_arm_shoulder_lift_servo_link" reason="Never" />
     <disable_collisions link1="right_arm_gripper_link" link2="right_arm_shoulder_rotate_link" reason="Never" />

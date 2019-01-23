@@ -1,5 +1,5 @@
-enable_body_tracking:           True
-enable_random_head_movement:    True
+enable_body_tracking:           False
+enable_random_head_movement:    False
 head_pan_joint:                 head_pan_joint
 head_tilt_joint:                head_tilt_joint
 #sound_effects_dir:              "../../resources/sounds/sound_effects"

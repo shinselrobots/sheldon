@@ -16,8 +16,8 @@
 
 
   <xacro:property name="finger_size_x" value="0.020" />
-  <xacro:property name="finger_size_y" value="0.035" />
-  <xacro:property name="finger_size_z" value="0.110" /> 
+  <xacro:property name="finger_size_y" value="0.020" />
+  <xacro:property name="finger_size_z" value="0.080" /> 
 
   <xacro:property name="finger_joint_offset_x" value="0.0" /> 
   <xacro:property name="finger_joint_offset_y" value="0.035" /> 
@@ -270,12 +270,19 @@
 
     <link name="${side}_gripper_finger_link1">
       <visual>
-        <origin rpy="0.0 0.0 0.0" xyz="0 -0.008 ${finger_size_z/2}"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0 -0.020 ${0.04+finger_size_z/2}"/>
         <geometry>
           <box size="${finger_size_x} ${finger_size_y} ${finger_size_z}" />
         </geometry>
         <material name="Mustard"/>
       </visual>
+      <collision>
+        <origin rpy="0.0 0.0 0.0" xyz="0 -0.020 ${0.04+finger_size_z/2}"/>
+        <geometry>
+          <box size="${finger_size_x} ${finger_size_y} ${finger_size_z}" />
+        </geometry>
+      </collision>
+
     </link>
 
     <joint name="${side}_gripper_finger_joint2" type="revolute">
@@ -289,12 +296,18 @@
 
     <link name="${side}_gripper_finger_link2">
       <visual>
-        <origin rpy="0.0 0.0 0.0" xyz="0 0.008 ${finger_size_z/2}"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0 0.020 ${0.04+finger_size_z/2}"/>
         <geometry>
           <box size="${finger_size_x} ${finger_size_y} ${finger_size_z}" />
         </geometry>
         <material name="Mustard"/>
       </visual>
+      <collision>
+        <origin rpy="0.0 0.0 0.0" xyz="0 0.020 ${0.04+finger_size_z/2}"/>
+        <geometry>
+          <box size="${finger_size_x} ${finger_size_y} ${finger_size_z}" />
+        </geometry>
+      </collision>
     </link>
 
 

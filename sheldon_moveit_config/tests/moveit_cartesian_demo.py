@@ -35,7 +35,8 @@ class MoveItDemo:
         # Initialize the ROS node
         rospy.init_node('moveit_demo', anonymous=True)
         
-        cartesian = rospy.get_param('~cartesian', True)
+        #cartesian = rospy.get_param('~cartesian', True)
+        cartesian = False
                         
         # Connect to the right_arm move group
         right_arm = MoveGroupCommander('right_arm')
@@ -54,7 +55,7 @@ class MoveItDemo:
         end_effector_link = right_arm.get_end_effector_link()
                                         
         # Start in the "straight_forward" configuration stored in the SRDF file
-        right_arm.set_named_target('right_arm_extend_full')
+        right_arm.set_named_target('right_arm_extend')
         
         # Plan and execute a trajectory to the goal configuration
         right_arm.go()

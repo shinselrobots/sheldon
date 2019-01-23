@@ -1,0 +1,23 @@
+    def say_hello(self, person_name, first_time):
+        rospy.loginfo("=========== Saying Hello ===========")
+        
+        custom_phrase = ""
+        
+        if first_time:
+            hello_phrase_start = "hello " + self.named_person + ", "
+        else:
+            hello_phrase_start = "hello again " + self.named_person + ", "
+
+        if self.named_person == 'dave':
+            custom_string_array = ['how are you today?', 'how may i serve you']
+        elif self.named_person == 'lin':
+            custom_string_array = ['you look nice today', 'fancy pants']
+ 
+        #if len(custom_string_array) > 0:
+        #    index = randint(0, len(custom_string_array-1)
+        #    custom_phrase = custom_string_array[index]     
+            
+        # text_to_speak = hello_phrase_start + custom_phrase
+        #goal = audio_and_speech_common.msg.speechGoal(text_to_speak)
+        #self.speech_client.send_goal(goal)
+

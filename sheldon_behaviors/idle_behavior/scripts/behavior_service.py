@@ -24,6 +24,8 @@ from playsound import playsound
 import actionlib
 import actionlib.action_client
 import audio_and_speech_common.msg
+from random import randint
+
 
 # SHELDON Only
 # from dynamixel_controllers.srv import TorqueEnable, SetServoTorqueLimit, SetSpeed
@@ -161,7 +163,6 @@ class BehaviorAction(object):
 
         #rospy.loginfo("%s: joint_state_cb: Current Pan = %f, Tilt = %f", 
         #  self._action_name, current_pan, current_tilt)
-
 
     #====================================================================
     # 2D Tracking:  Message contains person horizontal (x) and vertical (y)

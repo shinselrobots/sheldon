@@ -1,3 +1,7 @@
+# Parameters for Face Recognizer
+
+show_faces_at_launch: false
+
 # Set your detection topic here
 #detection_topic: "/object_detection/detections"
 detection_topic: "/body_tracker_array/position"
