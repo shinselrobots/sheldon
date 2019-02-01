@@ -2,7 +2,10 @@
 
 ## This Arduino does the following:
 - reads/publishes ODOM from wheel encoders
-- reads/publishes waist position from waist position encoder
+
+- reads/publishes waist position from knee position encoder and publishes /joint_states 
+  with calibrated knee and hip joint values.
+
 - gets user commands for the robot from Android phone via bluetooth, and publishes to ROS
 see the "BotControl" project to build the Android phone part of the solution.
 
@@ -11,7 +14,7 @@ see the "BotControl" project to build the Android phone part of the solution.
 
 File-> Preferences -> Sketchbook location: ~/catkin_robot/src/sheldon/Arduino
 
-2.  Set COM Port to port where Arduino is connected
+2.  Set COM Port to port where Arduino Base is connected!  (Not the one in the head!)
 
 3.  Pair Phone with BlueSmirf module.
 
@@ -28,11 +31,13 @@ File-> Preferences -> Sketchbook location: ~/catkin_robot/src/sheldon/Arduino
 (if you skip these steps, the App will never connect)
 
 
-
+If you get this error: "lost sync with device, restarting..."
+  - Verify you downloaded the base arduino code to the right Arduino!
+  - Verify that the IMU and Compass are connected (I think might hang the Arduino if not..?)
 
 If you get this error (or similar):
-	In file included from RobotArduino.ino:3:
-	RobotConstants.h:37: error: 'byte' does not name a type
-	RobotUtilities:216: error: 'struct ARDUINO_CMD_T' has no member named 'Param4'
+	"In file included from RobotArduino.ino:3:
+	 RobotConstants.h:37: error: 'byte' does not name a type
+	 RobotUtilities:216: error: 'struct ARDUINO_CMD_T' has no member named 'Param4' "
 
-You need to set the Sketchbook location above, exit and restart Arduino IDE! 
+   - You need to set the Sketchbook location above, exit and restart Arduino IDE! 
