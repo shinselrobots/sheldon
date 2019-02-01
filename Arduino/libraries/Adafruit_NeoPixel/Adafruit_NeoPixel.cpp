@@ -33,7 +33,7 @@
 
 #include "Adafruit_NeoPixel.h"
 
-#if defined(NRF52)
+#if defined(NRF52) || defined(NRF52_SERIES)
 #include "nrf.h"
 
 // Interrupt is only disabled if there is no PWM device available
@@ -43,7 +43,7 @@
 
 // Constructor when length, pin and type are known at compile-time:
 Adafruit_NeoPixel::Adafruit_NeoPixel(uint16_t n, uint8_t p, neoPixelType t) :
-  begun(false), brightness(0), pixels(NULL), endTime(0)  
+  begun(false), brightness(0), pixels(NULL), endTime(0)
 {
   updateType(t);
   updateLength(n);
@@ -110,7 +110,7 @@ void Adafruit_NeoPixel::updateType(neoPixelType t) {
   }
 }
 
-#if defined(ESP8266) 
+#if defined(ESP8266)
 // ESP8266 show() is external to enforce ICACHE_RAM_ATTR execution
 extern "C" void ICACHE_RAM_ATTR espShow(
   uint8_t pin, uint8_t *pixels, uint32_t numBytes, uint8_t type);
@@ -145,7 +145,7 @@ void Adafruit_NeoPixel::show(void) {
   // to the PORT register as needed.
 
   // NRF52 may use PWM + DMA (if available), may not need to disable interrupt
-#ifndef NRF52
+#if !( defined(NRF52) || defined(NRF52_SERIES) )
   noInterrupts(); // Need 100% focus on instruction timing
 #endif
 
@@ -1201,18 +1201,18 @@ void Adafruit_NeoPixel::show(void) {
 #error "Sorry, only 48 MHz is supported, please set Tools > CPU Speed to 48 MHz"
 #endif // F_CPU == 48000000
 
-// Begin of support for NRF52832 based boards  -------------------------
+// Begin of support for nRF52 based boards  -------------------------
 
-#elif defined(NRF52)
+#elif defined(NRF52) || defined(NRF52_SERIES)
 // [[[Begin of the Neopixel NRF52 EasyDMA implementation
 //                                    by the Hackerspace San Salvador]]]
 // This technique uses the PWM peripheral on the NRF52. The PWM uses the
-// EasyDMA feature included on the chip. This technique loads the duty 
-// cycle configuration for each cycle when the PWM is enabled. For this 
+// EasyDMA feature included on the chip. This technique loads the duty
+// cycle configuration for each cycle when the PWM is enabled. For this
 // to work we need to store a 16 bit configuration for each bit of the
 // RGB(W) values in the pixel buffer.
 // Comparator values for the PWM were hand picked and are guaranteed to
-// be 100% organic to preserve freshness and high accuracy. Current 
+// be 100% organic to preserve freshness and high accuracy. Current
 // parameters are:
 //   * PWM Clock: 16Mhz
 //   * Minimum step time: 62.5ns
@@ -1242,13 +1242,13 @@ void Adafruit_NeoPixel::show(void) {
 #define CTOPVAL_400KHz         40UL            // 2.5us
 
 // ---------- END Constants for the EasyDMA implementation -------------
-// 
+//
 // If there is no device available an alternative cycle-counter
 // implementation is tried.
-// The nRF52832 runs with a fixed clock of 64Mhz. The alternative
+// The nRF52 runs with a fixed clock of 64Mhz. The alternative
 // implementation is the same as the one used for the Teensy 3.0/1/2 but
 // with the Nordic SDK HAL & registers syntax.
-// The number of cycles was hand picked and is guaranteed to be 100% 
+// The number of cycles was hand picked and is guaranteed to be 100%
 // organic to preserve freshness and high accuracy.
 // ---------- BEGIN Constants for cycle counter implementation ---------
 #define CYCLES_800_T0H  18  // ~0.36 uS
@@ -1277,8 +1277,14 @@ void Adafruit_NeoPixel::show(void) {
 
   // Try to find a free PWM device, which is not enabled
   // and has no connected pins
-  NRF_PWM_Type* PWM[3] = {NRF_PWM0, NRF_PWM1, NRF_PWM2};
-  for(int device = 0; device<3; device++) {
+  NRF_PWM_Type* PWM[] = {
+    NRF_PWM0, NRF_PWM1, NRF_PWM2
+#ifdef NRF_PWM3
+    ,NRF_PWM3
+#endif
+  };
+
+  for(int device = 0; device < (sizeof(PWM)/sizeof(PWM[0])); device++) {
     if( (PWM[device]->ENABLE == 0)                            &&
         (PWM[device]->PSEL.OUT[0] & PWM_PSEL_OUT_CONNECT_Msk) &&
         (PWM[device]->PSEL.OUT[1] & PWM_PSEL_OUT_CONNECT_Msk) &&
@@ -1289,10 +1295,10 @@ void Adafruit_NeoPixel::show(void) {
       break;
     }
   }
-  
+
   // only malloc if there is PWM device available
   if ( pwm != NULL ) {
-    #ifdef ARDUINO_FEATHER52 // use thread-safe malloc
+    #ifdef ARDUINO_NRF52_ADAFRUIT // use thread-safe malloc
       pixels_pattern = (uint16_t *) rtos_malloc(pattern_size);
     #else
       pixels_pattern = (uint16_t *) malloc(pattern_size);
@@ -1307,7 +1313,7 @@ void Adafruit_NeoPixel::show(void) {
     for(uint16_t n=0; n<numBytes; n++) {
       uint8_t pix = pixels[n];
 
-      for(uint8_t mask=0x80, i=0; mask>0; mask >>= 1, i++) {
+      for(uint8_t mask=0x80; mask>0; mask >>= 1) {
         #ifdef NEO_KHZ400
         if( !is800KHz ) {
           pixels_pattern[pos] = (pix & mask) ? MAGIC_T1H_400KHz : MAGIC_T0H_400KHz;
@@ -1322,8 +1328,8 @@ void Adafruit_NeoPixel::show(void) {
     }
 
     // Zero padding to indicate the end of que sequence
-    pixels_pattern[++pos] = 0 | (0x8000); // Seq end
-    pixels_pattern[++pos] = 0 | (0x8000); // Seq end
+    pixels_pattern[pos++] = 0 | (0x8000); // Seq end
+    pixels_pattern[pos++] = 0 | (0x8000); // Seq end
 
     // Set the wave mode to count UP
     pwm->MODE = (PWM_MODE_UPDOWN_Up << PWM_MODE_UPDOWN_Pos);
@@ -1383,7 +1389,7 @@ void Adafruit_NeoPixel::show(void) {
     // But we have to wait for the flag to be set.
     while(!pwm->EVENTS_SEQEND[0])
     {
-      #ifdef ARDUINO_FEATHER52
+      #ifdef ARDUINO_NRF52_ADAFRUIT
       yield();
       #endif
     }
@@ -1399,7 +1405,7 @@ void Adafruit_NeoPixel::show(void) {
 
     pwm->PSEL.OUT[0] = 0xFFFFFFFFUL;
 
-    #ifdef ARDUINO_FEATHER52  // use thread-safe free
+    #ifdef ARDUINO_NRF52_ADAFRUIT  // use thread-safe free
       rtos_free(pixels_pattern);
     #else
       free(pixels_pattern);
@@ -1408,7 +1414,7 @@ void Adafruit_NeoPixel::show(void) {
   // ---------------------------------------------------------------------
   else{
     // Fall back to DWT
-    #ifdef ARDUINO_FEATHER52
+    #ifdef ARDUINO_NRF52_ADAFRUIT
       // Bluefruit Feather 52 uses freeRTOS
       // Critical Section is used since it does not block SoftDevice execution
       taskENTER_CRITICAL();
@@ -1421,7 +1427,8 @@ void Adafruit_NeoPixel::show(void) {
       __disable_irq();
     #endif
 
-    uint32_t pinMask = 1UL << g_ADigitalPinMap[pin];
+    NRF_GPIO_Type* nrf_port = (NRF_GPIO_Type*) digitalPinToPort(pin);
+    uint32_t pinMask = digitalPinToBitMask(pin);
 
     uint32_t CYCLES_X00     = CYCLES_800;
     uint32_t CYCLES_X00_T1H = CYCLES_800_T1H;
@@ -1454,7 +1461,7 @@ void Adafruit_NeoPixel::show(void) {
           while(DWT->CYCCNT - cyc < CYCLES_X00);
           cyc  = DWT->CYCCNT;
 
-          NRF_GPIO->OUTSET |= pinMask;
+          nrf_port->OUTSET |= pinMask;
 
           if(pix & mask) {
             while(DWT->CYCCNT - cyc < CYCLES_X00_T1H);
@@ -1462,7 +1469,7 @@ void Adafruit_NeoPixel::show(void) {
             while(DWT->CYCCNT - cyc < CYCLES_X00_T0H);
           }
 
-          NRF_GPIO->OUTCLR |= pinMask;
+          nrf_port->OUTCLR |= pinMask;
         }
       }
       while(DWT->CYCCNT - cyc < CYCLES_X00);
@@ -1479,7 +1486,7 @@ void Adafruit_NeoPixel::show(void) {
     }
 
     // Enable interrupts again
-    #ifdef ARDUINO_FEATHER52
+    #ifdef ARDUINO_NRF52_ADAFRUIT
       taskEXIT_CRITICAL();
     #elif defined(NRF52_DISABLE_INT)
       __enable_irq();
@@ -1970,14 +1977,14 @@ void Adafruit_NeoPixel::show(void) {
     }
   }
 
-#else 
+#else
 #error Architecture not supported
 #endif
 
 
 // END ARCHITECTURE SELECT ------------------------------------------------
 
-#ifndef NRF52
+#if !( defined(NRF52) || defined(NRF52_SERIES) )
   interrupts();
 #endif
 
@@ -2066,6 +2073,32 @@ void Adafruit_NeoPixel::setPixelColor(uint16_t n, uint32_t c) {
     p[rOffset] = r;
     p[gOffset] = g;
     p[bOffset] = b;
+  }
+}
+
+// Fills all or a given start+length of strip. Arguments:
+// Packed RGB color (0 if unspecified, effectively a strip clear operation).
+// Index if first pixel (0 if unspecified - beginning of strip).
+// Pixel count (if unspecified, fills to end of strip).
+void Adafruit_NeoPixel::fill(uint32_t c, uint16_t first, uint16_t count) {
+  uint16_t i, end;
+
+  if(first >= numLEDs) {
+    return; // If first LED is past end of strip, nothing to do
+  }
+
+  // Calculate the index ONE AFTER the last pixel to fill
+  if(count == 0) {
+    // Fill to end of strip
+    end = numLEDs;
+  } else {
+    // Ensure that the loop won't go past the last pixel
+    end = first + count;
+    if(end > numLEDs) end = numLEDs;
+  }
+
+  for(i = first; i < end; i++) {
+    this->setPixelColor(i, c);
   }
 }
 

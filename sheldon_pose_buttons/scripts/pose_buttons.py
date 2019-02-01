@@ -151,74 +151,98 @@ class PoseButtons():
     def joint_state_cb(self, msg):
         #rospy.loginfo("joint_state_cb called")
 
+
+        # joint_state messages can have any number of servos, 
+        # so need to check to see which ones are included in each message 
         try:
-            test = msg.name.index(self.head_pan_joint)
-            self.joint_state = msg
-            #rospy.loginfo("POSE BUTTONS: Got servo message!") 
-        except:
-            #rospy.loginfo("POSE BUTTONS: Not a servo message, skipping...") 
-            return
+            self.head_pan = msg.position[
+              msg.name.index(self.head_pan_joint)]
+            #rospy.loginfo( self.head_pan_joint + " = " + str(self.head_pan))
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+            #print msg
 
-       # Get the servo positions
         try:
-            self.head_pan = self.joint_state.position[
-              self.joint_state.name.index(self.head_pan_joint)]
-            self.head_tilt = self.joint_state.position[
-              self.joint_state.name.index(self.head_tilt_joint)]
-            self.head_sidetilt = self.joint_state.position[
-              self.joint_state.name.index(self.head_sidetilt_joint)]
+            self.head_tilt = msg.position[
+              msg.name.index(self.head_tilt_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.head_sidetilt = msg.position[
+              msg.name.index(self.head_sidetilt_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
 
-            self.right_arm_shoulder_rotate = self.joint_state.position[
-              self.joint_state.name.index(self.right_arm_shoulder_rotate_joint)]
-            self.right_arm_shoulder_lift = self.joint_state.position[
-              self.joint_state.name.index(self.right_arm_shoulder_lift_joint)]
-            self.right_arm_elbow_rotate = self.joint_state.position[
-              self.joint_state.name.index(self.right_arm_elbow_rotate_joint)]
-            self.right_arm_elbow_bend = self.joint_state.position[
-              self.joint_state.name.index(self.right_arm_elbow_bend_joint)]
-            self.right_arm_wrist_bend = self.joint_state.position[
-              self.joint_state.name.index(self.right_arm_wrist_bend_joint)]
-            self.right_arm_wrist_rotate = self.joint_state.position[
-              self.joint_state.name.index(self.right_arm_wrist_rotate_joint)]
-            self.right_arm_gripper_finger = self.joint_state.position[
-              self.joint_state.name.index(self.right_arm_gripper_finger_joint)]
-
-
-            self.left_arm_shoulder_rotate = self.joint_state.position[
-              self.joint_state.name.index(self.left_arm_shoulder_rotate_joint)]
-            self.left_arm_shoulder_lift = self.joint_state.position[
-              self.joint_state.name.index(self.left_arm_shoulder_lift_joint)]
-            self.left_arm_elbow_rotate = self.joint_state.position[
-              self.joint_state.name.index(self.left_arm_elbow_rotate_joint)]
-            self.left_arm_elbow_bend = self.joint_state.position[
-              self.joint_state.name.index(self.left_arm_elbow_bend_joint)]
-            self.left_arm_wrist_bend = self.joint_state.position[
-              self.joint_state.name.index(self.left_arm_wrist_bend_joint)]
-            self.left_arm_wrist_rotate = self.joint_state.position[
-              self.joint_state.name.index(self.left_arm_wrist_rotate_joint)]
-            self.left_arm_gripper_finger = self.joint_state.position[
-              self.joint_state.name.index(self.left_arm_gripper_finger_joint)]
-
-        except:
-            # rospy.logerr("POSE BUTTONS: ERROR getting servo values") 
-            return
-
-        debug_servo_values = False
-        if debug_servo_values:
-            rospy.loginfo("HEAD: Pan = %1.4f, Tilt = %1.4f, Sidetilt = %1.4f", 
-                self.head_pan, self.head_tilt, self.head_sidetilt)
-            rospy.loginfo("RIGHT ARM: ShoulderRotate = %f, ShoulderLift = %f, ElbowRotate = %f, ElbowBend = %f, WristRotate = %f, Gripper = %f", 
-                self.right_arm_shoulder_rotate, self.right_arm_shoulder_lift, 
-                self.right_arm_elbow_rotate, self.right_arm_elbow_bend, 
-                self.right_arm_elbow_rotate, self.right_arm_wrist_bend, 
-                self.right_arm_wrist_rotate, self.right_arm_gripper_finger)
-            rospy.loginfo("LEFT ARM: ShoulderRotate = %f, ShoulderLift = %f, ElbowRotate = %f, ElbowBend = %f, WristRotate = %f, Gripper = %f", 
-                self.left_arm_shoulder_rotate, self.left_arm_shoulder_lift, 
-                self.left_arm_elbow_rotate, self.left_arm_elbow_bend, 
-                self.left_arm_elbow_rotate, self.left_arm_wrist_bend, 
-                self.left_arm_wrist_rotate, self.left_arm_gripper_finger)
-
-
+        try:
+            self.right_arm_shoulder_rotate = msg.position[
+              msg.name.index(self.right_arm_shoulder_rotate_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.right_arm_shoulder_lift = msg.position[
+              msg.name.index(self.right_arm_shoulder_lift_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.right_arm_elbow_rotate = msg.position[
+              msg.name.index(self.right_arm_elbow_rotate_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.right_arm_elbow_bend = msg.position[
+              msg.name.index(self.right_arm_elbow_bend_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.right_arm_wrist_bend = msg.position[
+              msg.name.index(self.right_arm_wrist_bend_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.right_arm_wrist_rotate = msg.position[
+              msg.name.index(self.right_arm_wrist_rotate_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.right_arm_gripper_finger = msg.position[
+              msg.name.index(self.right_arm_gripper_finger_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.left_arm_shoulder_rotate = msg.position[
+              msg.name.index(self.left_arm_shoulder_rotate_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.left_arm_shoulder_lift = msg.position[
+              msg.name.index(self.left_arm_shoulder_lift_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.left_arm_elbow_rotate = msg.position[
+              msg.name.index(self.left_arm_elbow_rotate_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.left_arm_elbow_bend = msg.position[
+              msg.name.index(self.left_arm_elbow_bend_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.left_arm_wrist_bend = msg.position[
+              msg.name.index(self.left_arm_wrist_bend_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.left_arm_wrist_rotate = msg.position[
+              msg.name.index(self.left_arm_wrist_rotate_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
+        try:
+            self.left_arm_gripper_finger = msg.position[
+              msg.name.index(self.left_arm_gripper_finger_joint)]
+        except Exception:
+            sys.exc_clear() # clear the exception (python2)
 
     def print_arm_servos_right(self):
 

@@ -4,6 +4,8 @@
     waist_joint_state_publisher.py
     Convert waist position and publish on Publish the dynamixel_controller joint states on the /joint_states topic
     
+    *** NO LONGER USED for Sheldon.  Arduino directly publishes joint_states message! ***
+    
 """
 import rospy
 import logging

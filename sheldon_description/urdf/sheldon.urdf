@@ -143,7 +143,7 @@
   <!-- velocity limit -->
   <!-- knee sits on top of tibia -->
   <!-- velocity limit -->
-  <!-- waist sits on top of femur -->
+  <!-- hip sits on top of femur -->
   <!--  to top of shoulder .5112 .7112 28 inch torso for now -->
   <!-- rotation  -->
   <!-- KLUDGE FOR TESTING!!! -->
@@ -259,7 +259,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="waist_joint" type="revolute">
+  <joint name="hip_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 0  0.28"/>
     <axis xyz="0 1 0"/>
     <limit effort="1.0" lower="-0.175" upper="1.92" velocity="1.571"/>

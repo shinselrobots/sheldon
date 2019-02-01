@@ -26,7 +26,14 @@ left_arm_joints = [
     'left_arm_gripper_finger_joint',
     ]
 
+leg_joints = [
+    'knee_bend_joint',
+    'waist_bend_joint',
+    ]
+
 all_joints = head_joints + right_arm_joints + left_arm_joints
 
+right_arm_kinematic_joints =  leg_joints + right_arm_joints
+left_arm_kinematic_joints =  leg_joints + left_arm_joints
 
 

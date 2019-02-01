@@ -15,8 +15,10 @@
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Point32.h>
 #include <sensor_msgs/Joy.h>
-#include <behavior_common/CommandState.h>
 #include <ros/time.h>
+#include <sensor_msgs/JointState.h>
+#include <sensor_msgs/BatteryState.h>
+#include <behavior_common/CommandState.h>
 
 #include "RobotConstants.h"
 
@@ -83,10 +85,21 @@ String            debugString;
 char              debugStringChar[80];
 float             JoyStickAxis[NUMBER_OF_JOYSTICK_AXIS];        // Array of Axis the Joystick can set
 long              JoyStickButtons[NUMBER_OF_JOYSTICK_BUTTONS];  // Array of Buttons the Joystick can set
+
+
+// Joint State Message
+sensor_msgs::JointState waist_joint_states_msg;
+                  //creating the arrays for the message
+char              *name_array[] = {"knee_joint", "hip_joint"};
+float             position_array[]={0,0};
+float             velocity_array[]={0,0};
+float             effort_array[]={0,0};
+
 ros::NodeHandle   nh;
 
 
-// ROS node subscribers and publishers
+/////////////////////////////////////////////////////////////////////////////////////
+// SUBSCRIBERS
 void waist_calibrate_cmd_callback(const std_msgs::Empty& cmd_msg) {
   nh.loginfo("ARDUINO: Got WAIST COMMAND CALIBRATE message");
   waistCalibrateState = WAIST_CAL_BEGIN;
@@ -111,7 +124,7 @@ void waist_position_cmd_callback(const std_msgs::Float32& cmd_msg) {
 ros::Subscriber<std_msgs::Float32> waistPositionSubscriber("\waist_goal_position", &waist_position_cmd_callback); // does this need & ?
 
 
-// Sabertooth motor control for Waists and Hip
+// Sabertooth motor control for Waist (knee and hip joints mechanically connected)
 Sabertooth ST(128, Serial2); // Address 128 (default), but use Serial2 as the serial port.
 
 // Assign pins for quadrature encoder.
@@ -119,6 +132,8 @@ Sabertooth ST(128, Serial2); // Address 128 (default), but use Serial2 as the se
 Encoder waistEncoder(KNEE_ENCODER_A_PIN, KNEE_ENCODER_B_PIN);
 
 
+/////////////////////////////////////////////////////////////////////////////////////
+// PUBLISHERS
 std_msgs::Float32 compassMsg; // from Devantech CMPS11 Compass
 ros::Publisher pub_compass("/compass", &compassMsg);
 
@@ -128,8 +143,12 @@ ros::Publisher pub_imu_orientation("/imu_orientation", &imuOrientationMsg); // d
 std_msgs::Int16 imuTemperatureMsg;  // from Adafruit BNO055 IMU
 ros::Publisher pub_imu_temperature("/ambient_temperature", &imuTemperatureMsg); // in Celsius
 
-std_msgs::Float32 waistPositionMsg;
-ros::Publisher pub_waist_position("/waist_current_position", &waistPositionMsg);
+// Waist feedback is provided as knee and hip joints for accurate URDF modeling
+//std_msgs::Float32 kneePositionMsg;
+//ros::Publisher pub_knee_position("/knee_current_position", &kneePositionMsg);
+//std_msgs::Float32 hipPositionMsg;
+//ros::Publisher pub_hip_position("/hip_current_position", &hipPositionMsg);
+ros::Publisher pub_waist_joint_states("/joint_states", &waist_joint_states_msg);
 
 sensor_msgs::Joy bt_motor_cmd_msg;
 ros::Publisher pub_bluetooth_motor_cmd("/joy", &bt_motor_cmd_msg);
@@ -137,7 +156,8 @@ ros::Publisher pub_bluetooth_motor_cmd("/joy", &bt_motor_cmd_msg);
 behavior_common::CommandState behavior_cmd_msg;
 ros::Publisher pub_behavior_cmd("/behavior/cmd", &behavior_cmd_msg);
 
-
+/////////////////////////////////////////////////////////////////////////////////////
+// UTILITY FUNCTIONS
 void sendWaistMotorCommand(int newCommand)
 {
   if ( newCommand != lastWaistMotorCommand ) {
@@ -193,7 +213,11 @@ void setup(void)  {
   nh.advertise(pub_compass);
   nh.advertise(pub_imu_orientation);
   nh.advertise(pub_imu_temperature);
-  nh.advertise(pub_waist_position);
+
+  //nh.advertise(pub_knee_position);
+  //nh.advertise(pub_hip_position);
+  nh.advertise(pub_waist_joint_states);
+  
   nh.advertise(pub_bluetooth_motor_cmd);
   nh.advertise(pub_behavior_cmd);
   // while(!nh.connected()) nh.spinOnce();
@@ -252,7 +276,23 @@ void setup(void)  {
     bt_motor_cmd_msg.buttons[i] = 0;
   }
 
-  waistPositionMsg.data = 0.0;
+  // Waist Joints (knee and hip)
+  //kneePositionMsg.data = 0.0;
+  //hipPositionMsg.data = 0.0;
+
+  // Initialize and assign the arrays to the message
+  waist_joint_states_msg.header.frame_id = "base_link";
+  // waist_joint_states_msg.header.stamp = nh.now();
+  waist_joint_states_msg.name = name_array;
+  waist_joint_states_msg.position = position_array;
+  waist_joint_states_msg.velocity = velocity_array;
+  waist_joint_states_msg.effort = effort_array;
+  
+  //set the array length (number of joints)
+  waist_joint_states_msg.name_length = 2;
+  waist_joint_states_msg.position_length = 2;
+  waist_joint_states_msg.velocity_length = 2;
+  waist_joint_states_msg.effort_length = 2;
 
   nh.loginfo("ARDUINO Init Complete");
   // Blink the lights to show the board is booting up
@@ -397,13 +437,21 @@ void loop(void)
   if (WAIST_CAL_COMPLETED == waistCalibrateState) {
     // update encoder values after it has been calibrated
     if (newEncoderValue != currentWaistPosition) {
+
       // publish current position in Radians
-      waistPositionMsg.data = (float)(currentWaistPosition - WAIST_TICKS_HOME) * WAIST_TICKS_TO_RADIANS;
-      if(abs(newEncoderValue-currentWaistPosition) > 2) { // ignore small motions due to vibration
-        debugString = String("ARDUINO: DBG: Encoder Ticks = ") + String(newEncoderValue) + String("  Radians = ") + String(waistPositionMsg.data);
+      // calculation from measurements, see "sheldon_motor_calculations.xlsx"
+      //kneePositionMsg.data = ((float)(newEncoderValue - WAIST_TICKS_HOME) * 0.00770) - 0.0070;
+      //hipPositionMsg.data =  ((float)(newEncoderValue - WAIST_TICKS_HOME) * 0.01740) - 0.0137;
+
+      position_array[0] = ((float)(newEncoderValue - WAIST_TICKS_HOME) * 0.00770) - 0.0070;
+      position_array[1] =  ((float)(newEncoderValue - WAIST_TICKS_HOME) * 0.01740) - 0.0137;   
+
+      //if(abs(newEncoderValue-currentWaistPosition) > 1) { // ignore small motions due to vibration
+        debugString = String("ARDUINO: DBG: Encoder Ticks = ") + String(newEncoderValue - WAIST_TICKS_HOME) + 
+          String(" Knee Rad: ") + String(position_array[0]) + String(" Hip Rad: ") + String(position_array[1]);
         debugString.toCharArray(debugStringChar, DEBUG_STRING_LEN );
         nh.loginfo(debugStringChar);
-      }
+      //}
       currentWaistPosition = newEncoderValue;
     }
   }
@@ -411,7 +459,7 @@ void loop(void)
 
   //////////////////////////////////////////////////////////////
   // Handle Waist Move Command
-  // move to target waist positon if we are not already there
+  // move to target waist position if we are not already there
   if ((WAIST_CAL_COMPLETED == waistCalibrateState) && (waistRosMoveInProgress)) {
     float waistPositionDelta = targetWaistPosition - currentWaistPosition;
     float waistMoveSpeed = waistPositionDelta * 4.0; // TODO TUNE THIS
@@ -629,7 +677,11 @@ void loop(void)
 
     // Publish waist position data.  If not yet initalized, this will be 0.0
     // we publish even if not initialized, so robot model links will initialize
-    pub_waist_position.publish(&waistPositionMsg);
+    //pub_knee_position.publish(&kneePositionMsg);
+    //pub_hip_position.publish(&hipPositionMsg);
+
+    waist_joint_states_msg.header.stamp = nh.now();
+    pub_waist_joint_states.publish(&waist_joint_states_msg);
   
     // Should publish rate be limited to TimeToPublishStatus ?
     // Publish Compass value
@@ -691,9 +743,3 @@ void loop(void)
 
 
 } // End of Looop
-
-
-
-
-
-

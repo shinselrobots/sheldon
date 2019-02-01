@@ -23,13 +23,13 @@
   <xacro:property name="femur_size_y" value="0.340" /> 
   <xacro:property name="femur_size_z" value="0.280" /> 
      
-  <xacro:property name="waist_llimit" value="-0.175" /> 
-  <xacro:property name="waist_ulimit" value="1.92" /> 
-  <xacro:property name="waist_vlimit" value="1.571" /> <!-- velocity limit -->
+  <xacro:property name="hip_llimit" value="-0.175" /> 
+  <xacro:property name="hip_ulimit" value="1.92" /> 
+  <xacro:property name="hip_vlimit" value="1.571" /> <!-- velocity limit -->
 
-  <xacro:property name="waist_offset_x" value="0.0" />
-  <xacro:property name="waist_offset_y" value="0.0" />
-  <xacro:property name="waist_offset_z" value="${femur_size_z + 0.0}" /> <!-- waist sits on top of femur -->
+  <xacro:property name="hip_offset_x" value="0.0" />
+  <xacro:property name="hip_offset_y" value="0.0" />
+  <xacro:property name="hip_offset_z" value="${femur_size_z + 0.0}" /> <!-- hip sits on top of femur -->
 
   <xacro:property name="torso_size_x" value="0.230" />
   <xacro:property name="torso_size_y" value="0.355" /> 
@@ -87,10 +87,10 @@
       </collision>
     </link>
 
-    <joint name="waist_joint" type="revolute">
-      <origin xyz="0 0  ${waist_offset_z}" rpy="0 0 0"/>
+    <joint name="hip_joint" type="revolute">
+      <origin xyz="0 0  ${hip_offset_z}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
-      <limit lower="${waist_llimit}" upper="${waist_ulimit}" velocity="${waist_vlimit}" effort="1.0" />
+      <limit lower="${hip_llimit}" upper="${hip_ulimit}" velocity="${hip_vlimit}" effort="1.0" />
       <parent link="femur_link"/>
       <child link="torso_link"/>
     </joint>

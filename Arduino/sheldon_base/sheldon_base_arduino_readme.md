@@ -9,7 +9,7 @@ see the "BotControl" project to build the Android phone part of the solution.
 
 1. Make sure you configure Arduino as follows:
 
-File-> Preferences -> Sketchbook location: C:\Dev\Arduino
+File-> Preferences -> Sketchbook location: ~/catkin_robot/src/sheldon/Arduino
 
 2.  Set COM Port to port where Arduino is connected
 
