@@ -73,7 +73,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="0.55 0.3556 0.001"/>
+        <box size="0.559 0.366 0.001"/>
       </geometry>
       <material name="Black"/>
     </visual>
@@ -103,7 +103,7 @@
     </link>
     -->
   <joint name="lidar_base_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.15 0 0.17"/>
+    <origin rpy="0 0 0" xyz="0.15 0 0.185"/>
     <parent link="base_link"/>
     <child link="lidar_base_link"/>
   </joint>
@@ -140,8 +140,10 @@
     </inertial>
   </link>
   <!-- distance above ground -->
+  <!-- .294 (measured height) - base_deck_top -->
   <!-- velocity limit -->
   <!-- knee sits on top of tibia -->
+  <!-- .575 (measured height) - .294 (tibia height) -->
   <!-- velocity limit -->
   <!-- hip sits on top of femur -->
   <!--  to top of shoulder .5112 .7112 28 inch torso for now -->
@@ -151,16 +153,16 @@
   <!-- "base_link" is the origin that all other componets are measured from -->
   <link name="base_link">
     <visual>
-      <origin rpy="0 0 0" xyz="-0.025 0 0.076"/>
+      <origin rpy="0 0 0" xyz="-0.025 0 0.088"/>
       <geometry>
         <mesh filename="package://sheldon_description/meshes/sheldon_base.stl" scale="0.1 0.1 0.1"/>
       </geometry>
       <material name="White"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.085"/>
+      <origin rpy="0 0 0" xyz="0 0 0.0925"/>
       <geometry>
-        <box size="0.55 0.3556 0.17"/>
+        <box size="0.559 0.366 0.185"/>
       </geometry>
     </collision>
   </link>
@@ -214,7 +216,7 @@
   </link>
   <!-- Base to lower leg link -->
   <joint name="base_body_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.0 0.0 0.17"/>
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.185"/>
     <parent link="base_link"/>
     <child link="tibia_link"/>
   </joint>
@@ -229,14 +231,14 @@
       <material name="Green"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.055"/>
+      <origin rpy="0 0 0" xyz="0 0 0.0545"/>
       <geometry>
-        <box size="0.0726 0.32 0.11"/>
+        <box size="0.0726 0.322 0.109"/>
       </geometry>
     </collision>
   </link>
   <joint name="knee_joint" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0  0.11"/>
+    <origin rpy="0 0 0" xyz="0 0  0.109"/>
     <axis xyz="0 -1 0"/>
     <limit effort="1.0" lower="-0.175" upper="0.873" velocity="1.571"/>
     <parent link="tibia_link"/>
@@ -253,14 +255,14 @@
       <material name="Blue"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.14"/>
+      <origin rpy="0 0 0" xyz="0 0 0.1405"/>
       <geometry>
-        <box size="0.072 0.34 0.28"/>
+        <box size="0.072 0.34 0.281"/>
       </geometry>
     </collision>
   </link>
   <joint name="hip_joint" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0  0.28"/>
+    <origin rpy="0 0 0" xyz="0 0  0.281"/>
     <axis xyz="0 1 0"/>
     <limit effort="1.0" lower="-0.175" upper="1.92" velocity="1.571"/>
     <parent link="femur_link"/>
@@ -459,7 +461,7 @@
       <material name="LightRed"/>
     </visual>
     <collision>
-      <origin rpy="0 0 -0.15" xyz="0.05 -0.02 0"/>
+      <origin rpy="0 0 0" xyz="0.05 -0.02 0"/>
       <geometry>
         <box size="0.18 0.22 0.24"/>
       </geometry>
@@ -531,7 +533,7 @@
 -->
   <link name="right_arm_torso_link"/>
   <joint name="right_arm_torso_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.0 -0.146 0.385"/>
+    <origin rpy="0 0 0" xyz="0.0 -0.164 0.389"/>
     <parent link="torso_link"/>
     <child link="right_arm_torso_link"/>
   </joint>
@@ -761,24 +763,24 @@
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
     </inertial>
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.04"/>
+      <origin rpy="0 0 0" xyz="0 0 0.0765"/>
       <!-- rpy="-1.57 0 0" -->
       <geometry>
         <!-- TODO: <mesh filename="package://sheldon_description/meshes/sheldon_${side}_lower.stl" scale="0.1 0.1 0.1"/> -->
-        <box size="0.04 0.06 0.08"/>
+        <box size="0.04 0.06 0.153"/>
       </geometry>
       <material name="Yellow"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.04"/>
+      <origin rpy="0 0 0" xyz="0 0 0.0765"/>
       <!-- rpy="-1.57 0 0"   divide a little more then 1/2 for collision-->
       <geometry>
-        <box size="0.04 0.06 0.072"/>
+        <box size="0.04 0.06 0.1377"/>
       </geometry>
     </collision>
   </link>
   <joint name="right_arm_wrist_bend_servo_joint" type="fixed">
-    <origin rpy="0 -1.57 0" xyz="0 0 0.0975"/>
+    <origin rpy="0 -1.57 0" xyz="0 0 0.1705"/>
     <parent link="right_arm_lower_link"/>
     <child link="right_arm_wrist_bend_servo_link"/>
   </joint>
@@ -960,7 +962,7 @@
   </link>
   <!-- Planning link and joint for the gripper -->
   <joint name="right_arm_gripper_joint" type="fixed">
-    <origin rpy="0 1.570795 0" xyz="0 0 0.18"/>
+    <origin rpy="0 1.570795 0" xyz="0 0 0.21"/>
     <axis xyz="0 0 1"/>
     <parent link="right_arm_gripper_body_link"/>
     <child link="right_arm_gripper_link"/>
@@ -976,7 +978,7 @@
   </link>
   <link name="left_arm_torso_link"/>
   <joint name="left_arm_torso_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0.0 0.146 0.385"/>
+    <origin rpy="0 0 0" xyz="0.0 0.164 0.389"/>
     <parent link="torso_link"/>
     <child link="left_arm_torso_link"/>
   </joint>
@@ -1206,24 +1208,24 @@
       <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
     </inertial>
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.04"/>
+      <origin rpy="0 0 0" xyz="0 0 0.0765"/>
       <!-- rpy="-1.57 0 0" -->
       <geometry>
         <!-- TODO: <mesh filename="package://sheldon_description/meshes/sheldon_${side}_lower.stl" scale="0.1 0.1 0.1"/> -->
-        <box size="0.04 0.06 0.08"/>
+        <box size="0.04 0.06 0.153"/>
       </geometry>
       <material name="Yellow"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 0 0.04"/>
+      <origin rpy="0 0 0" xyz="0 0 0.0765"/>
       <!-- rpy="-1.57 0 0"   divide a little more then 1/2 for collision-->
       <geometry>
-        <box size="0.04 0.06 0.072"/>
+        <box size="0.04 0.06 0.1377"/>
       </geometry>
     </collision>
   </link>
   <joint name="left_arm_wrist_bend_servo_joint" type="fixed">
-    <origin rpy="0 -1.57 0" xyz="0 0 0.0975"/>
+    <origin rpy="0 -1.57 0" xyz="0 0 0.1705"/>
     <parent link="left_arm_lower_link"/>
     <child link="left_arm_wrist_bend_servo_link"/>
   </joint>
@@ -1405,7 +1407,7 @@
   </link>
   <!-- Planning link and joint for the gripper -->
   <joint name="left_arm_gripper_joint" type="fixed">
-    <origin rpy="0 1.570795 0" xyz="0 0 0.18"/>
+    <origin rpy="0 1.570795 0" xyz="0 0 0.21"/>
     <axis xyz="0 0 1"/>
     <parent link="left_arm_gripper_body_link"/>
     <child link="left_arm_gripper_link"/>

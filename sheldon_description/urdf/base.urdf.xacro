@@ -10,11 +10,10 @@
        All component positions are calculated relative to base_link  -->
 
   <!-- simplified box collision geometry for base -->
-  <xacro:property name="base_size_x" value="0.550" /> <!-- ~22"base length -->
-  <xacro:property name="base_size_y" value="0.3556" /> <!-- 14" base width -->
-  <xacro:property name="base_size_z" value="0.094" />  <!-- base only, no ankle bone  "0.1524"-->
-  <xacro:property name="base_ground_clearance" value="0.076" />
-  <xacro:property name="base_deck" value="0.170" /> <!-- distance from ground to top of base -->
+  <xacro:property name="base_size_x" value="0.559" /> <!-- 22"base length -->
+  <xacro:property name="base_size_y" value="0.366" /> <!-- base main body width .183mm x 2-->
+  <xacro:property name="base_ground_clearance" value="0.088" />
+  <xacro:property name="base_deck_top" value="0.185" /> <!-- distance from ground to top of base -->
 
   <xacro:property name="wheel_offset_x" value="-0.190" /> <!-- wheels distance back from center -->
   <xacro:property name="wheel_offset_y" value="0.2032" /> <!-- 1/2 base + center of wheel -->
@@ -23,7 +22,7 @@
 
   <!-- location of laser -->
   <xacro:property name="base_laser_x" value="0.150" />
-  <xacro:property name="base_laser_z" value="${base_deck + 0.0}" />
+  <xacro:property name="base_laser_z" value="${base_deck_top + 0.0}" />
   <xacro:property name="laser_height" value="0.040" />
   <xacro:property name="laser_radius" value="0.039" />
 
@@ -68,9 +67,9 @@
       </visual>
 
       <collision>
-        <origin xyz="0 0 ${(base_ground_clearance + base_size_z) / 2}" rpy="0 0 0" />
+        <origin xyz="0 0 ${(base_deck_top) / 2}" rpy="0 0 0" />
         <geometry>
-          <box size="${base_size_x} ${base_size_y} ${base_ground_clearance + base_size_z}" />
+          <box size="${base_size_x} ${base_size_y} ${base_deck_top}" />
         </geometry>
       </collision>
     </link>

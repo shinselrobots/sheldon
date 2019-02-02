@@ -5,11 +5,11 @@
   <!-- Define a number of dimensions using properties -->
   <xacro:property name="tibia_offset_x" value="0.0" />
   <xacro:property name="tibia_offset_y" value="0.0" />
-  <xacro:property name="tibia_offset_z" value="${base_deck}" />  <!-- distance above ground -->
+  <xacro:property name="tibia_offset_z" value="${base_deck_top}" />  <!-- distance above ground -->
 
   <xacro:property name="tibia_size_x" value="0.0726" />
-  <xacro:property name="tibia_size_y" value="0.320" /> <!-- 3.40 collides with gripper -->
-  <xacro:property name="tibia_size_z" value="0.110" /> 
+  <xacro:property name="tibia_size_y" value="0.322" /> <!-- to outside edges of bearing tubes -->
+  <xacro:property name="tibia_size_z" value="0.109" /> <!-- .294 (measured height) - base_deck_top -->
     
   <xacro:property name="knee_llimit" value="-0.175" /> 
   <xacro:property name="knee_ulimit" value="0.873" /> 
@@ -21,7 +21,7 @@
 
   <xacro:property name="femur_size_x" value="0.072" />
   <xacro:property name="femur_size_y" value="0.340" /> 
-  <xacro:property name="femur_size_z" value="0.280" /> 
+  <xacro:property name="femur_size_z" value="0.281" /> <!-- .575 (measured height) - .294 (tibia height) -->
      
   <xacro:property name="hip_llimit" value="-0.175" /> 
   <xacro:property name="hip_ulimit" value="1.92" /> 

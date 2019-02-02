@@ -98,7 +98,7 @@ right_arm_shoulder_lift_joint:
     joint_speed: 4.6
     motor:
         id: 6
-        init: 2074 # changed
+        init: 2065 # changed 2074
         min: 1999
         max: 3445
 
@@ -111,7 +111,7 @@ right_arm_elbow_rotate_joint:
     joint_speed: 6.6
     motor:
         id: 7
-        init: 2047
+        init: 2100  # 2047
         min: 300
         max: 4095
 

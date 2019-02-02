@@ -11,8 +11,8 @@
    <xacro:property name="head_offset_z" value="0.440" />  
    
    <xacro:property name="arm_offset_x" value="0.0" />
-   <xacro:property name="arm_offset_y" value="-0.146" />  <!-- from center of torso -->
-   <xacro:property name="arm_offset_z" value="0.385" />   <!-- from bottom of torso -->
+   <xacro:property name="arm_offset_y" value="-0.164" />  <!-- from center of torso -->
+   <xacro:property name="arm_offset_z" value="0.389" />   <!-- from bottom of torso -->
 
    <xacro:property name="front_astra_camera_offset_x" value="0.100" /> 
    <xacro:property name="front_astra_camera_offset_y" value="0.000" />  

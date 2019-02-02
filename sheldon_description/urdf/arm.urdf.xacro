@@ -11,7 +11,7 @@
   <xacro:property name="lower_arm_size_y" value="0.060" />
 
   <!-- <xacro:property name="lower_arm_size_z" value="0.110" /> -->  <!-- CORRECT VALUE!! -->
-  <xacro:property name="lower_arm_size_z" value="0.080" />  <!-- KLUDGE FOR TESTING!!! -->
+  <xacro:property name="lower_arm_size_z" value="0.153" />  <!-- KLUDGE FOR TESTING!!! -->
 
 
 
@@ -23,7 +23,7 @@
   <xacro:property name="finger_joint_offset_y" value="0.035" /> 
   <xacro:property name="finger_joint_offset_z" value="0.085" /> 
 
-  <xacro:property name="gripper_target_offset_z" value="0.180" /> 
+  <xacro:property name="gripper_target_offset_z" value="0.210" /> 
 
   <xacro:property name="rx28_servo_width" value="0.035" /> 
   <xacro:property name="wrist_servo_offset_x" value="-0.008" /> <!--  -0.008 wrist center is slightly behind forearm center  -->

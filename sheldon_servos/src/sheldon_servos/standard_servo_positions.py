@@ -115,7 +115,7 @@ def right_arm_sleep():
 def right_arm_down():
     print("-----> right_arm_down")
     pub_right_arm_shoulder_rotate.publish(0.0)  
-    pub_right_arm_shoulder_lift.publish(0.1)
+    pub_right_arm_shoulder_lift.publish(0.0)
     pub_right_arm_elbow_rotate.publish(0.0)
     pub_right_arm_elbow_bend.publish(0.0)
     pub_right_arm_wrist_bend.publish(0.0)
@@ -167,7 +167,7 @@ def left_arm_extend():
 def left_arm_down():    
     print("-----> left_arm_down")
     pub_left_arm_shoulder_rotate.publish(0.0)
-    pub_left_arm_shoulder_lift.publish(0.1)
+    pub_left_arm_shoulder_lift.publish(0.0)
     pub_left_arm_elbow_rotate.publish(0.0)
     pub_left_arm_elbow_bend.publish(0.0)
     pub_left_arm_wrist_bend.publish(0.0)
