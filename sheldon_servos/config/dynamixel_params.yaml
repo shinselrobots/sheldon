@@ -14,7 +14,7 @@
 dynamixels: [
 
   'head_sidetilt_joint', 'head_tilt_joint', 'head_pan_joint',
-  # 'chest_camera_joint',
+  'chest_camera_tilt_joint',
 
   'right_arm_shoulder_rotate_joint',  'right_arm_shoulder_lift_joint', 
   'right_arm_elbow_rotate_joint',     'right_arm_elbow_bend_joint',
@@ -30,7 +30,7 @@ dynamixels: [
 controllers: [
 
   'head_sidetilt_joint', 'head_tilt_joint', 'head_pan_joint',
-  #'chest_camera_joint',
+  'chest_camera_tilt_joint',
 
   'right_arm_shoulder_rotate_joint',  'right_arm_shoulder_lift_joint', 
   'right_arm_elbow_rotate_joint',     'right_arm_elbow_bend_joint',
@@ -83,9 +83,19 @@ head_pan_joint:
         min: 921    # look right
         max: 3195   # look left
 
-# TODO chest_camera_joint:
-#    motor:
-#        id: 5
+# Chest Depth Camera
+chest_camera_tilt_joint:
+    controller:
+        package: dynamixel_controllers
+        module: joint_position_controller
+        type: JointPositionController
+    joint_name: chest_camera_tilt_joint
+    joint_speed: 6.6
+    motor:
+        id: 5
+        init: 2047
+        min: 921    # look right
+        max: 3195   # look left
 
 
 # Right Arm

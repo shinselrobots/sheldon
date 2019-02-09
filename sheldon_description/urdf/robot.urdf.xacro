@@ -70,11 +70,6 @@
    </depth_camera>  
 -->
 
-   <!-- Attach Astra camera in the chest  -->
-  <astra_camera name = "astra_camera" parent = "torso" color="Green">
-     <origin xyz="${front_astra_camera_offset_x} ${front_astra_camera_offset_y} ${front_astra_camera_offset_z}" rpy="0 ${front_astra_camera_rotation} 0" /> 
-  </astra_camera>
-
 
 
 <!--

@@ -35,6 +35,14 @@
   <xacro:property name="torso_size_y" value="0.355" /> 
   <xacro:property name="torso_size_z" value="0.457" />  <!--  to top of shoulder .5112 .7112 28 inch torso for now -->
 
+   <xacro:property name="chest_camera_servo_offset_x" value="0.090" /> 
+   <xacro:property name="chest_camera_servo_offset_y" value="-0.098" />  
+   <xacro:property name="chest_camera_servo_offset_z" value="0.380" /> <!-- 350 from bottom of torso? -->
+
+   <xacro:property name="chest_camera_offset_x" value="-0.044" /> 
+   <xacro:property name="chest_camera_offset_y" value="0.0" />  
+   <xacro:property name="chest_camera_offset_z" value="0.08" />
+   <xacro:property name="chest_camera_rotation" value="0.0" /> 
 
   <xacro:macro name="body" params="parent name color">
 
@@ -110,6 +118,28 @@
         </geometry>
       </collision>
     </link>
+    
+
+    <!-- Chest Camera Servo -->
+      <origin xyz="0 0 0" rpy="0 0 3.14"/>
+    <dynamixel_rx28_pan parent="torso_link" name="chest_camera_servo" color="DarkGrey">
+    <origin xyz="${chest_camera_servo_offset_x} ${chest_camera_servo_offset_y} ${chest_camera_servo_offset_z}"
+            rpy="0 -1.57 -1.57" /> 
+    </dynamixel_rx28_pan>
+ 
+     <rx28_side_revolute parent="chest_camera_servo_link" name="chest_camera_tilt" llimit="-0.785" ulimit="0.785" vlimit="5.8" color="${servo_bracket_color}" >
+      <origin xyz="0 0 ${(rx28_servo_width/2)+0.003}" rpy="0 0 0"/>
+    </rx28_side_revolute>
+
+ 
+    <!-- Attach Astra camera  --> 
+  <astra_camera name = "astra_camera" parent = "chest_camera_tilt" color="Green">
+     <origin xyz="${chest_camera_offset_x} ${chest_camera_offset_y} ${chest_camera_offset_z}" 
+     rpy="1.57 0 1.57" /> 
+  </astra_camera>
+
+
+    
      
 
   </xacro:macro>

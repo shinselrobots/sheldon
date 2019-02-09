@@ -7,6 +7,7 @@ import rospy
 #import time
 from std_msgs.msg import Float64
 from sheldon_servos.head_servo_publishers import *
+from sheldon_servos.chest_camera_servo_publishers import *
 from sheldon_servos.right_arm_servo_publishers import *
 from sheldon_servos.left_arm_servo_publishers import *
 from sheldon_servos.waist_publishers import *
@@ -17,6 +18,7 @@ def all_home(): # all in home position
     head_home()
     left_arm_home()
     right_arm_home()
+    chest_camera_home()
 
 def all_sleep(): # all in sleep position
     print("-----> all_sleep")
@@ -38,6 +40,15 @@ def waist_home():
 def waist_full_down():
     print("-----> waist todo full down")
     pub_waist_position.publish(1.0) # MAX is 58 degrees = 1.0122 radians
+
+# CHEST CAMERA
+
+def chest_camera_center():
+    pub_chest_camera_tilt.publish(0.0)
+
+def chest_camera_home():
+    pub_chest_camera_tilt.publish(0.0)
+
 
 # HEAD
 

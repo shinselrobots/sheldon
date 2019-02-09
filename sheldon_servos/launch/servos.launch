@@ -25,6 +25,8 @@
         head_tilt_joint 
         head_pan_joint
 
+        chest_camera_tilt_joint
+
         right_arm_shoulder_rotate_joint
         right_arm_shoulder_lift_joint
         right_arm_elbow_rotate_joint

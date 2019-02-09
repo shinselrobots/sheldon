@@ -10,7 +10,7 @@
 
    <xacro:property name="head_depth_camera_offset_x" value="0.050" /> 
    <xacro:property name="head_depth_camera_offset_y" value="0.000" />  
-   <xacro:property name="head_depth_camera_offset_z" value="0.025" /> <!-- 350 from bottom of torso? -->
+   <xacro:property name="head_depth_camera_offset_z" value="0.080" /> <!-- 1.250m from ground -->
    <xacro:property name="head_depth_camera_tilt" value="0.16" /> <!-- rotation  -->
 
 
@@ -46,7 +46,7 @@
 
     <!-- Side Tilt -->
     <dynamixel_rx28_tilt parent="${name}_tilt_link" name="${name}_sidetilt_servo" color="DarkGrey">
-      <origin xyz="${0.0611-0.013+0.0045 + (0.032/2)} 0 0" rpy="-1.57 0 0"/> 
+      <origin xyz="${0.0611 + 0.0045 + (0.032/2)} 0 0" rpy="-1.57 0 0"/> 
     </dynamixel_rx28_tilt>
 
     <rx28_hinge parent="${name}_sidetilt_servo_link" name="${name}_sidetilt" llimit="-0.35" ulimit="0.35" vlimit="0.524" color="Grey">
