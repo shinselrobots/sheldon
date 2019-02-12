@@ -36,16 +36,21 @@
    <xacro:include filename="$(find sheldon_description)/urdf/hardware/rx28.xacro" />
    <xacro:include filename="$(find sheldon_description)/urdf/hardware/ax12.xacro" />
    <xacro:include filename="$(find sheldon_description)/urdf/sensors/xtion_camera.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/sensors/_d435.urdf.xacro" />
+   <xacro:include filename="$(find sheldon_description)/urdf/sensors/_zr300.urdf.xacro"/>
+   <xacro:include filename="$(find sheldon_description)/urdf/sensors/astra_camera.urdf.xacro" />
 
    <xacro:include filename="$(find sheldon_description)/urdf/materials.urdf.xacro" />
    <xacro:include filename="$(find sheldon_description)/urdf/base.urdf.xacro" />
    <xacro:include filename="$(find sheldon_description)/urdf/body.urdf.xacro" />
    <xacro:include filename="$(find sheldon_description)/urdf/head.urdf.xacro" />
    <xacro:include filename="$(find sheldon_description)/urdf/arm.urdf.xacro" />
-   <xacro:include filename="$(find sheldon_description)/urdf/astra_camera.urdf.xacro" />
+
+    <!--
    <xacro:include filename="$(find sheldon_description)/urdf/realsense_d435_camera.urdf.xacro" />
-   <xacro:include filename="$(find sheldon_description)/urdf/_zr300.urdf.xacro"/>
    <xacro:include filename="$(find sheldon_description)/urdf/depth_camera.urdf.xacro" />
+    -->
+
 
    <!-- Add the base and wheels -->
    <sheldon_base name="base" color="White"/>

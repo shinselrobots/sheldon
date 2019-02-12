@@ -64,9 +64,9 @@
   <include file="$(find sheldon)/launch/include/speech_recognition.launch"/>
   
 
-  <!-- Nuitrack Body Tracker -->
+  <!-- Nuitrack Body Tracker DISABLED   !!! LAUNCH ASTRA BEFORE THIS!
   <include file="$(find sheldon)/launch/include/nuitrack_body_tracker.launch"/>
-  
+  -->
 
   <!-- Face Recognizer Filter (body tracker in, body tracker message with face out)  
    launch in an activated python shell (to get the right OpenCV stuff)  -->

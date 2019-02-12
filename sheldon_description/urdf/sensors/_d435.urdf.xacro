@@ -9,7 +9,7 @@ aluminum peripherial evaluation case.
 -->
 
 <robot name="sensor_d435" xmlns:xacro="http://ros.org/wiki/xacro">
-  <xacro:macro name="sensor_d435" params="parent *origin">
+  <xacro:macro name="sensor_d435" params="name parent *origin">
     <xacro:property name="M_PI" value="3.1415926535897931" />
   
     <!-- The following values are approximate, and the camera node

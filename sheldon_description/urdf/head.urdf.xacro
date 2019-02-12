@@ -79,10 +79,10 @@
 
 
    <!-- Attach d435 camera -->
-  <realsense_d435_camera name = "nuitrack_camera" parent = "head" color="Green">
+  <sensor_d435 name = "head_camera" parent = "head_link">
      <origin xyz="${head_depth_camera_offset_x} ${head_depth_camera_offset_y} ${head_depth_camera_offset_z}" 
              rpy="0 ${head_depth_camera_tilt} 0" /> 
-  </realsense_d435_camera>
+  </sensor_d435>
     
 
    <!-- Attach Astra camera in the head  

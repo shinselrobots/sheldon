@@ -3,7 +3,7 @@
 
 <!--  <xacro:include filename="$(find sheldon_description)/urdf/sensors/hokuyo_urg_laser.urdf.xacro" />
 -->
-  <xacro:include filename="$(find sheldon_description)/urdf/_lplidar.urdf.xacro"/>
+  <xacro:include filename="$(find sheldon_description)/urdf/sensors/_lplidar.urdf.xacro"/>
 
   <!-- Sheldon Base definition. 
        base_link is centered between wheels, at ground level.
@@ -22,7 +22,7 @@
 
   <!-- location of laser -->
   <xacro:property name="base_laser_x" value="0.150" />
-  <xacro:property name="base_laser_z" value="${base_deck_top + 0.0}" />
+  <xacro:property name="base_laser_z" value="${base_deck_top - 0.008}" />
   <xacro:property name="laser_height" value="0.040" />
   <xacro:property name="laser_radius" value="0.039" />
 
@@ -97,28 +97,7 @@
     <child link="base_link" />
   </joint>
 
-    <!-- Base mounted laser -->
-
-    <!-- Base to laser link 
-    <joint name="base_laser_joint" type="fixed">
-      <origin xyz="${base_laser_x} 0 ${base_laser_z}" rpy="0 0 0" />
-      <parent link="base_link"/>
-      <child link="laser_link"/>
-    </joint>
-    -->
-
-    <!-- Laser definition 
-    <link name="laser_link">
-      <visual>
-        <origin xyz="0 0 ${laser_height/2}" rpy="0 0 0" />
-        <geometry>
-          <cylinder length="${laser_height}" radius="${laser_radius}"/>
-        </geometry>
-        <material name="Red" /> 
-      </visual>
-    </link>
-    -->
-
+   <!-- Base mounted laser -->
    <sensor_lplidar parent = "base_link">
       <origin xyz="${base_laser_x} 0 ${base_laser_z}" rpy="0 0 0" />
    </sensor_lplidar>
