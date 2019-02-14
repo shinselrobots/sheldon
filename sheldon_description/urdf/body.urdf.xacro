@@ -70,7 +70,7 @@
       </collision>
     </link>
 
-    <joint name="knee_joint" type="revolute">
+    <joint name="knee_bend_joint" type="revolute">
       <origin xyz="0 0  ${knee_offset_z}" rpy="0 0 0"/>
       <axis xyz="0 -1 0"/>
       <limit lower="${knee_llimit}" upper="${knee_ulimit}" velocity="${knee_vlimit}" effort="1.0" />
@@ -95,7 +95,7 @@
       </collision>
     </link>
 
-    <joint name="hip_joint" type="revolute">
+    <joint name="hip_bend_joint" type="revolute">
       <origin xyz="0 0  ${hip_offset_z}" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
       <limit lower="${hip_llimit}" upper="${hip_ulimit}" velocity="${hip_vlimit}" effort="1.0" />

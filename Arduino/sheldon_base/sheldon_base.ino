@@ -90,7 +90,7 @@ long              JoyStickButtons[NUMBER_OF_JOYSTICK_BUTTONS];  // Array of Butt
 // Joint State Message
 sensor_msgs::JointState waist_joint_states_msg;
                   //creating the arrays for the message
-char              *name_array[] = {"knee_joint", "hip_joint"};
+char              *name_array[] = {"knee_bend_joint", "hip_bend_joint"};
 float             position_array[]={0,0};
 float             velocity_array[]={0,0};
 float             effort_array[]={0,0};
