@@ -31,11 +31,11 @@ chest_camera_joints = [
 ]
 
 leg_joints = [
-    'knee_bend_joint',
-    'waist_bend_joint',
+    'knee_joint',
+    'waist_joint',
     ]
 
-all_joints = head_joints + chest_camera_joints + right_arm_joints + left_arm_joints
+all_joints = head_joints + chest_camera_joints + right_arm_joints + left_arm_joints + leg_joints
 
 right_arm_kinematic_joints =  leg_joints + right_arm_joints
 left_arm_kinematic_joints =  leg_joints + left_arm_joints
