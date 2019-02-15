@@ -90,9 +90,6 @@
           "
         output="screen"/>
 
-   <node name="dynamixel_joint_state_publisher" pkg="sheldon_servos" type="dynamixel_joint_state_publisher.py" output="screen" />
-
-
    <!-- Run a separate controller for each of the grippers. (From the arbitix controller package, as 
    the dynamixel_controller package does not have a gripper controller (needed by Moveit) -->
 
@@ -127,6 +124,15 @@
         <node name="waist_joint_state_publisher" pkg="sheldon_servos"
         type="waist_joint_state_publisher.py" output="screen" />
    -->
+ 
+   <!-- Publish position, velocity, and effort for each servo -->
+   <node name="dynamixel_joint_state_publisher" pkg="sheldon_servos" type="dynamixel_joint_state_publisher.py" output="screen" />
+
+   <!-- Provide consolidation service that provides current status of all joints
+        (dynamixel_joint_state_publisher and knee/hip joints are published randomly
+        this consolidates all the info for joint motion control.  not used for moveit.  -->
+   <node name="joint_states_service" pkg="sheldon_servos" type="joint_states_service.py" output="screen" />
+
    <node name="joy_to_dynamixel" pkg="sheldon_servos" type="joy_to_dynamixel.py" output="screen"/>
 
 </launch>
