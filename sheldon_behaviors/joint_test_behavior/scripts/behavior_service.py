@@ -76,8 +76,8 @@ class BehaviorAction(object):
         client = actionlib.SimpleActionClient("/speech_service", audio_and_speech_common.msg.speechAction)
         client.wait_for_server()
 
-        SetServoTorque(0.3, all_joints)
-        SetServoSpeed(0.5, all_joints)
+        SetServoTorque(0.3, all_servo_joints)
+        SetServoSpeed(0.5, all_servo_joints)
         SetSingleServoSpeed(1.8, 'right_arm_shoulder_rotate_joint')
         SetSingleServoSpeed(1.8, 'left_arm_shoulder_rotate_joint')
  
@@ -103,7 +103,7 @@ class BehaviorAction(object):
         time.sleep(4)
 
         # Move back to ready position
-        SetServoTorque(0.5, all_joints)
+        SetServoTorque(0.5, all_servo_joints)
         waist_home()
         time.sleep(1)
         all_home()

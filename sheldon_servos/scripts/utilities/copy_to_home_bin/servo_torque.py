@@ -6,7 +6,7 @@ import roslib
 roslib.load_manifest('sheldon_servos')
 import rospy, time
 #from dynamixel_controllers.srv import TorqueEnable, SetTorqueLimit, SetSpeed
-from sheldon_servos.servo_joint_list import all_joints, head_joints, right_arm_joints, left_arm_joints
+from sheldon_servos.servo_joint_list import all_servo_joints, head_joints, right_arm_joints, left_arm_joints
 
 #from sheldon_servos.standard_servo_positions import *
 from sheldon_servos.set_servo_speed import *
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     _torque = float(args.torque)
 
     if('all' == args.joints):
-        _joints = all_joints
+        _joints = all_servo_joints
     elif('head' == args.joints):
         _joints = head_joints
     elif('right_arm' == args.joints):

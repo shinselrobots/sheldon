@@ -100,8 +100,8 @@ class BehaviorAction(object):
         # clean everyting up before exiting
 
         # Restore Servo defaults
-        SetServoTorque(0.5, all_joints)
-        SetServoSpeed(0.5, all_joints)
+        SetServoTorque(0.5, all_servo_joints)
+        SetServoSpeed(0.5, all_servo_joints)
 
         # Move head and arms to ready position
         all_home()
@@ -142,8 +142,8 @@ class BehaviorAction(object):
 
         self.sensor_sub = rospy.Subscriber('/arm_hand_sensor_right', UInt16, self.sensor_cb) # hand sensor messages
 
-        SetServoTorque(0.5, all_joints) # NOTE Set extra weak Servos?!
-        SetServoSpeed(0.5, all_joints)
+        SetServoTorque(0.5, all_servo_joints) # NOTE Set extra weak Servos?!
+        SetServoSpeed(0.5, all_servo_joints)
         SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_joint')
         #SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_joint')
 

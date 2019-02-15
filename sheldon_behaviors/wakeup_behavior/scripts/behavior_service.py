@@ -80,20 +80,21 @@ class BehaviorAction(object):
 
         # Move head and arms to ready position
         self.init_leds() # turn on eyes as the head comes up
-        SetServoTorque(0.8, all_joints)
-        SetServoSpeed(0.8, all_joints)
+        rospy.loginfo("%s:  moving head and arms into ready position..." % (self._action_name))
+        SetServoTorque(0.8, all_servo_joints)
+        SetServoSpeed(0.8, all_servo_joints)
         all_home()
 
         #calibrate waist
-        rospy.loginfo('  calibrating waist Position...')
+        rospy.loginfo("%s:  calibrating waist Position..." % (self._action_name))
         self.pub_waist.publish()
 
 
         time.sleep(5.0) # seconds
         self.init_leds() # call again, because sometimes the arduino is not up for the first call
 
-        rospy.loginfo('  Initialization Complete.')
-        rospy.loginfo("Talking...")
+        rospy.loginfo("%s:  Initialization Complete." % (self._action_name))
+        rospy.loginfo("%s:  Talking..." % (self._action_name))
         goal = audio_and_speech_common.msg.speechGoal(text_to_speak="all systems ready")
         client.send_goal(goal)
         result = client.wait_for_result()

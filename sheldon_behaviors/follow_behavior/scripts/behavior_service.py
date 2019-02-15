@@ -27,7 +27,7 @@ import tf
 
 # SHELDON ONLY
 #from dynamixel_controllers.srv import TorqueEnable, SetServoTorqueLimit, SetSpeed
-from sheldon_servos.servo_joint_list import all_joints, head_joints, right_arm_joints
+from sheldon_servos.servo_joint_list import all_servo_joints, head_joints, right_arm_joints
 from sheldon_servos.head_servo_publishers import *
 
 from sheldon_servos.standard_servo_positions import *

@@ -46,7 +46,7 @@ if __name__=='__main__':
 
     total = len(sys.argv)
     #cmdargs = str(sys.argv)
-    #joints = all_joints
+    #joints = all_servo_joints
 
     if total > 1:
         option = sys.argv[1].lower()

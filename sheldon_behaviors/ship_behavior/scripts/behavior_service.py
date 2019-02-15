@@ -66,11 +66,11 @@ class BehaviorAction(object):
         self.mic_system_enable_pub.publish(False)
 
         # Move head and arms to sleep position
-        SetServoTorque(0.8, all_joints)
-        SetServoSpeed(0.5, all_joints)
+        SetServoTorque(0.8, all_servo_joints)
+        SetServoSpeed(0.5, all_servo_joints)
         all_sleep()
         time.sleep(3)
-        SetServoTorque(0.0, all_joints)
+        SetServoTorque(0.0, all_servo_joints)
 
         # Move arms forward, so they point down after waist moves
         #pub_right_arm_shoulder_rotate.publish(0.78)
@@ -82,7 +82,7 @@ class BehaviorAction(object):
         time.sleep(5.0) # seconds
 
         # Turn off servo torque
-        #SetServoTorque(0.0, all_joints)
+        #SetServoTorque(0.0, all_servo_joints)
 
         #time.sleep(5.0) # seconds
         rospy.loginfo('  Sleep Complete.  Running until some other behavior preempts, to suppress Idle behavior...')

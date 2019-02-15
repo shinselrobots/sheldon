@@ -9,7 +9,7 @@ import logging
 from sensor_msgs.msg import JointState
 from sheldon_servos.srv import *
 import threading
-from servo_joint_list import all_joints
+from servo_joint_list import *
 
 #holds the latest states obtained from joint_states messages
 class LatestJointStates:
@@ -18,7 +18,7 @@ class LatestJointStates:
         rospy.init_node('joint_states_listener')
         self.lock = threading.Lock()
 
-    # joint_name index will be used to index into all other lists
+        # joint_name index will be used to index into all other lists
         # because callbacks for joints come in random order
         self.name = sorted(all_joints) 
         self.position = []
@@ -29,12 +29,20 @@ class LatestJointStates:
 
         print "=========================================="
         print self.name
-        print "=========================================="
+        print "initializing defaults"
 
+        for i in range(len(self.name)):
+            print str(i) + " :  [" + self.name[i] + "]"
+            
+            self.position.append(0.0)
+            self.velocity.append(0.0)
+            self.effort.append(0.0)
+
+        print "initializing done, starting service..."
         s = rospy.Service('return_joint_states', ReturnJointStates, self.return_joint_states)
         
 
-    #thread function: listen for joint_states messages
+    # thread function: listen for joint_states messages
     def joint_states_listener(self):
         rospy.Subscriber('joint_states', JointState, self.joint_states_callback)
         rospy.spin()
@@ -44,62 +52,75 @@ class LatestJointStates:
     # values come in random order, so for each item, find it's position in
     # this service's array, and save the values.
     def joint_states_callback(self, msg):
-    
-        return
-        
-        self.lock.acquire()
-        print "=========================================="
-        for i in range(len(msg.name)):
-            print 
-            print str(i) + ": " \
-                + msg.name[i] + " " \
-                + str(msg.position[i])  + " " 
-            
 
-            try:
-                # find the joint name in our list
-                joint_name = msg.name[i]
-                j = self.name[joint_name].index
+        ignored_joints = {'left_arm_gripper_finger_joint2', 'right_arm_gripper_finger_joint2'}          
+        self.lock.acquire()
+
+        #print "=========================================="
+        for i in range(len(msg.name)):
+        
+            if msg.name[i] in ignored_joints:
+                continue
+        
+            #print "Callback: got updates for: "
+            #print str(i) + ": " + msg.name[i] + " " \
+            #    + str(msg.position[i])  + " " 
+
+            # find the joint name in our list
+            joint_name = msg.name[i]
+            #print "requesting index for [" + joint_name + "]"
+            try:            
+                j = self.name.index(joint_name) 
+                #print "got index: [" + str(j) + "]"
 
             except Exception:
                 sys.exc_clear() # clear the exception (python2)
                 rospy.logwarn("ERROR: Unknown Joint reported in /joint_states msg: [" \
                     + joint_name + "]")     
+
+
+            # save values (skip any that are not supplied)
+            #print "saving values for [" + joint_name + "]"
+            self.position[j] = msg.position[i]
+            self.velocity[j] = 0.0
+            self.effort[j] = 0.0
+
                 
             try:
-                # save values (skip any that are not supplied)
-                self.position[j] = msg.position[j]
-                # Dynamixel is not publishing the velocity or effort?  USE TRY/EXCEPT?
-                self.velocity[j] = 0.0
-                self.effort[j] = 0.0
-                
+                # NOTE: velocity and effort are not published when using SIMULATION
+                # so handle the exception here  
                 self.velocity[j] = msg.velocity[i]
                 self.effort[j] = msg.effort[i]
 
             except Exception:
                 sys.exc_clear() # clear the exception (python2)
+                #print "ignoring velocity and effort"
             
 
-            self.lock.release()
-
- 
+        self.lock.release()
 
 
     #returns (found, position, velocity, effort) for the joint joint_name 
     #(found is 1 if found, 0 otherwise)
     def return_joint_state(self, joint_name):
 
-        #no messages yet
-        if self.name == []:
-            rospy.logerr("No robot_state messages received!\n")
-            return (0, 0., 0., 0.)
+        #print "DGB: ===== return_joint_state() called ====== "
 
         #return info for this joint
         self.lock.acquire()
+        #print "DGB: looking for name... "
+        
         if joint_name in self.name:
+            #print "DGB: found name [" + joint_name + "], getting index..." 
+            
             index = self.name.index(joint_name)
+            #print "DGB: got index: " + str(index)
+
+            #print "DGB: getting position..."
             position = self.position[index]
+            #print "DGB: getting velocity..."
             velocity = self.velocity[index]
+            #print "DGB: getting effort..."
             effort = self.effort[index]
 
         #unless it's not found
@@ -114,16 +135,19 @@ class LatestJointStates:
     #server callback: returns arrays of position, velocity, and effort
     #for a list of joints specified by name
     def return_joint_states(self, req):
+        #print "DGB: ===== return_joint_stateS() called ====== "
         joints_found = []
         positions = []
         velocities = []
         efforts = []
         for joint_name in req.name:
+            #print "DGB: getting info for joint" + joint_name
             (found, position, velocity, effort) = self.return_joint_state(joint_name)
             joints_found.append(found)
             positions.append(position)
             velocities.append(velocity)
             efforts.append(effort)
+        #print "DGB: Calling ReturnJointStatesResponse()"
         return ReturnJointStatesResponse(joints_found, positions, velocities, efforts)
 
 

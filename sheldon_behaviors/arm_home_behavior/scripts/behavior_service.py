@@ -50,8 +50,8 @@ class BehaviorAction(object):
         self._as.publish_feedback(self._feedback)
 
         # ====== Behavior Implementation ======  
-        SetServoTorque(0.5, all_joints)
-        SetServoSpeed(0.5, all_joints)
+        SetServoTorque(0.5, all_servo_joints)
+        SetServoSpeed(0.5, all_servo_joints)
  
         # Move arm(s) into home position
         if goal.param1.to_lower() == 'all':

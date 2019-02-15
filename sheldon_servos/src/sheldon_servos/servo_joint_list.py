@@ -35,7 +35,9 @@ leg_joints = [
     'hip_bend_joint',
     ]
 
-all_joints = head_joints + chest_camera_joints + right_arm_joints + left_arm_joints + leg_joints
+all_servo_joints = head_joints + chest_camera_joints + right_arm_joints + left_arm_joints
+
+all_joints = head_joints + chest_camera_joints + right_arm_joints + left_arm_joints + leg_joints # warning - don't use for dynamixel commands!
 
 right_arm_kinematic_joints =  leg_joints + right_arm_joints
 left_arm_kinematic_joints =  leg_joints + left_arm_joints

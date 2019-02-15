@@ -5,7 +5,7 @@ import roslib
 roslib.load_manifest('sheldon_servos')
 import rospy, time
 from dynamixel_controllers.srv import TorqueEnable, SetTorqueLimit, SetSpeed
-from servo_joint_list import all_joints, head_joints, right_arm_joints, left_arm_joints
+from servo_joint_list import all_servo_joints, head_joints, right_arm_joints, left_arm_joints
 
 # speed value in Radians/Second. Max speed: MX106 ~ 5.24 (50RPM), MX64 ~ 6.6, RX28 ~ 8.3 (80RPM)
 # For our purposes, we usually assume max speed of 5.0, so all servos run at predictable speed.
@@ -52,13 +52,13 @@ if __name__=='__main__':
 
     total = len(sys.argv)
     cmdargs = str(sys.argv)
-    joints = all_joints
+    joints = all_servo_joints
 
     if total > 2:
         option = sys.argv[1].lower()
-        if "all_joints" in option:
-            print 'Setting all_joints'
-            joints = all_joints
+        if "all_servo_joints" in option:
+            print 'Setting all_servo_joints'
+            joints = all_servo_joints
         elif "head_joints" in option:
             print 'Setting head_joints'
             joints = head_joints
@@ -69,7 +69,7 @@ if __name__=='__main__':
             print 'Setting left_arm_joints'
             joints = left_arm_joints
         else:
-            print 'USAGE: specify one of: all_joints, head_joints, right_arm_joints, left_arm_joints'
+            print 'USAGE: specify one of: all_servo_joints, head_joints, right_arm_joints, left_arm_joints'
             sys.exit()
 
         speed = float(sys.argv[2])
@@ -81,7 +81,7 @@ if __name__=='__main__':
             rospy.loginfo("Oops! Exception occurred while trying to set speed.") 
 
     else:
-        print 'USAGE: set_servo_speed.py <joint_group> (all_joints, head_joints, right_arm_joints, left_arm_joints)  <speed>  (0.0 - 5.0)'
+        print 'USAGE: set_servo_speed.py <joint_group> (all_servo_joints, head_joints, right_arm_joints, left_arm_joints)  <speed>  (0.0 - 5.0)'
         #sys.exit()
 
 

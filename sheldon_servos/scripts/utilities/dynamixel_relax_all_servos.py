@@ -28,7 +28,7 @@ import roslib
 roslib.load_manifest('sheldon_servos')
 import rospy, time
 from dynamixel_controllers.srv import TorqueEnable, SetTorqueLimit, SetSpeed
-from servo_joint_list import all_joints, head_joints, right_arm_joints
+from servo_joint_list import all_servo_joints, head_joints, right_arm_joints
 
 class Relax():
     def __init__(self):
@@ -43,7 +43,7 @@ class Relax():
 
         print 'starting loop...'
             
-        for controller in sorted(all_joints):            
+        for controller in sorted(all_servo_joints):            
             torque_service = '/' + controller + '/torque_enable'
             print('  waiting for service: ' + torque_service)
 

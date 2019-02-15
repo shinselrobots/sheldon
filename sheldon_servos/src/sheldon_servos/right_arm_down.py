@@ -5,7 +5,7 @@ import roslib
 import rospy, time
 from dynamixel_controllers.srv import TorqueEnable, SetTorqueLimit, SetSpeed
 from servo_joint_list import *
-#all_joints, head_joints, right_arm_joints, left_arm_joints
+#all_servo_joints, head_joints, right_arm_joints, left_arm_joints
 
 from standard_servo_positions import *
 

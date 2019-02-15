@@ -160,8 +160,8 @@ class BehaviorAction(object):
             audio_and_speech_common.msg.speechAction)
         self.speech_client.wait_for_server()
 
-        SetServoTorque(0.5, all_joints)
-        SetServoSpeed(0.5, all_joints)
+        SetServoTorque(0.5, all_servo_joints)
+        SetServoSpeed(0.5, all_servo_joints)
         SetSingleServoSpeed(2.0, 'right_arm_shoulder_rotate_joint')
         SetSingleServoSpeed(2.0, 'left_arm_shoulder_rotate_joint')
 

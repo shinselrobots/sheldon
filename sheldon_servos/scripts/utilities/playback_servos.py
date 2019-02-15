@@ -28,7 +28,7 @@ import pygame
 
 # SHELDON ONLY
 #from dynamixel_controllers.srv import TorqueEnable, SetServoTorqueLimit, SetSpeed
-from sheldon_servos.servo_joint_list import all_joints, head_joints, right_arm_joints
+from sheldon_servos.servo_joint_list import all_servo_joints, head_joints, right_arm_joints
 from sheldon_servos.head_servo_publishers import *
 from sheldon_servos.right_arm_servo_publishers import *
 from sheldon_servos.left_arm_servo_publishers import *
@@ -172,7 +172,7 @@ class PlaybackServoPositions():
     def run(self):
 
         # Initialize Servo settings
-        SetServoTorque(0.5, all_joints)
+        SetServoTorque(0.5, all_servo_joints)
         SetServoSpeed(0.5, head_joints)
         SetServoSpeed(1.0, right_arm_joints)
         SetServoSpeed(1.0, left_arm_joints)

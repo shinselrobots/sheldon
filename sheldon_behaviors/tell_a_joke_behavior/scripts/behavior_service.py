@@ -126,7 +126,7 @@ class BehaviorAction(object):
         result = client.wait_for_result()
 
 
-        #SetServoTorque(0.5, all_joints)
+        #SetServoTorque(0.5, all_servo_joints)
         SetServoSpeed(0.3, head_joints)
         SetServoSpeed(0.2, right_arm_joints)
         SetServoSpeed(0.2, left_arm_joints)

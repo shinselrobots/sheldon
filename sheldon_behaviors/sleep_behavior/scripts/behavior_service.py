@@ -68,7 +68,7 @@ class BehaviorAction(object):
         rospy.loginfo("DAVE DDAVE DAVE DABVE DAVE ")
 
         # Move head and arms to sleep position
-        SetServoTorque(0.8, all_joints)
+        SetServoTorque(0.8, all_servo_joints)
         SetServoSpeed(0.5, head_joints)
         SetServoSpeed(1.0, right_arm_joints)
         SetServoSpeed(1.0, left_arm_joints)
@@ -92,7 +92,7 @@ class BehaviorAction(object):
 
         # Turn off servo torque
         rospy.loginfo("Turning off servo torque and eyes")
-        SetServoTorque(0.0, all_joints)
+        SetServoTorque(0.0, all_servo_joints)
         pub_eye_cmd.publish(0) # 0 = Turn eyes off
         pub_ear_cmd.publish(0) # 0 = Turn ear lights off
         pub_light_mode.publish(0) # 0 = Turn lights off
