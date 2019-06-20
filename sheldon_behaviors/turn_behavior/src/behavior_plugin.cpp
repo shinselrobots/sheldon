@@ -12,12 +12,12 @@
 #include <string>
 
 // fastest speed robot is capable of moving: 
-  const double MAX_SPEED_METERS_PER_SECOND = 3.0; 
-  const double MIN_SPEED_METERS_PER_SECOND = 0.5; // OK?
+  //const double MAX_SPEED_METERS_PER_SECOND = 3.0; 
+  //const double MIN_SPEED_METERS_PER_SECOND = 0.5; // OK?
 // fastest turn robot is capable of:
-  const double MAX_TURN_RADIANS_PER_SECOND = 8.0; 
-  const double MIN_TURN_RADIANS_PER_SECOND = 1.0; 
-  const double STALL_RADIANS_PER_SECOND = 0.8;  // Don't stall during turn
+  //const double MAX_TURN_RADIANS_PER_SECOND = 8.0; // I THINK THIS IS WRONG NOW 
+  const double MIN_TURN_RADIANS_PER_SECOND = 0.03;  // 0.4
+  const double STALL_RADIANS_PER_SECOND = 0.025;  // 0.25 Don't stall during turn
 // (Note: From Wheel_Control to Sabertooth, speeds are 0.0 - 1.0)
 
 namespace behavior_plugin 
@@ -37,7 +37,7 @@ namespace behavior_plugin
     TurnService(std::string service_name) :
       behavior_common::BehaviorActionServiceBase(service_name),
       state_(idle),
-      DEFAULT_SPEED(0.9),
+      DEFAULT_SPEED(0.5),
       rotation_speed_(DEFAULT_SPEED),
       ramp_down_fudge_(0.0),
       turn_progress_(0.0),
@@ -84,7 +84,7 @@ namespace behavior_plugin
 
       if( rotation_speed_ < MIN_TURN_RADIANS_PER_SECOND )
       {
-        ROS_WARN("TURN BEHAVIOR: Warning!  Speed Too Slow. Should be 1.0-8.0 rad/sec");
+        ROS_WARN("TURN BEHAVIOR: Warning!  Speed Too Slow!");
       }
 
       ROS_INFO("TURN BEHAVIOR: Goal turn amount (rad, deg): %f, %f", goal_turn_amount_, goal_turn_amount_degrees);

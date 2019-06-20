@@ -101,6 +101,11 @@ class BehaviorAction(object):
             self._joke_group = "BEST_JOKES"
 
 
+        ## TODO --- FOR DEMO, using STARWARS ONLY!
+        self._joke_group = "STAR_WARS_JOKES"
+        
+        
+
         # ====== Behavior Implementation ======  
         success = True
         r = rospy.Rate(1.0)

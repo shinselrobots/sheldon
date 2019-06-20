@@ -34,12 +34,13 @@ from sheldon_servos.set_servo_torque import *
 # Globals
 
 def move_arm_shake_preliminary():
-    pub_right_arm_shoulder_rotate.publish(1.12)
+    pub_right_arm_shoulder_rotate.publish(0.9)
     pub_right_arm_shoulder_lift.publish(0.05)
     head_home() 
+    pub_head_pan.publish(-0.20)
 
 def move_arm_shake_ready():
-    pub_right_arm_shoulder_rotate.publish(1.12)
+    pub_right_arm_shoulder_rotate.publish(0.9) #1.12
     pub_right_arm_shoulder_lift.publish(0.05)
     pub_right_arm_elbow_rotate.publish(-0.47)
     pub_right_arm_elbow_bend.publish(1.37)
@@ -64,6 +65,8 @@ class BehaviorAction(object):
         self._action_name = name
         self._as = actionlib.SimpleActionServer(self._action_name, behavior_common.msg.behaviorAction, execute_cb=self.execute_cb, auto_start = False)
         self._as.start()
+
+        rospy.loginfo('%s: Initializing Shake Hands behavior service' % (self._action_name))
 
         # enable/disable microphone when robot is moving servos.  
         # (Note system_enable vs. speech_enable vs. user_enable)
@@ -102,8 +105,9 @@ class BehaviorAction(object):
         SetServoTorque(0.5, all_servo_joints)
         SetServoSpeed(0.5, all_servo_joints)
 
-        # Move head and arms to ready position
-        all_home()
+        # Move arms to ready position.  Leave head looking at user until idle head tracking kicks in
+        right_arm_home()
+        left_arm_home()
 
         # allow time for servos to complete moving
         time.sleep(2) 
@@ -135,8 +139,8 @@ class BehaviorAction(object):
         client = actionlib.SimpleActionClient("/speech_service", audio_and_speech_common.msg.speechAction)
         client.wait_for_server()
 
-        SetServoTorque(1.0, all_servo_joints) 
-        SetServoSpeed(0.6, all_servo_joints)
+        SetServoTorque(1.5, all_servo_joints) 
+        SetServoSpeed(0.8, all_servo_joints)
         SetSingleServoSpeed(1.5, 'right_arm_shoulder_rotate_joint')
         #SetSingleServoSpeed(1.5, 'left_arm_shoulder_rotate_joint')
 
@@ -145,7 +149,7 @@ class BehaviorAction(object):
  
         # Move arm into shake position
         move_arm_shake_preliminary()
-        time.sleep(2)
+        time.sleep(1)
         move_arm_shake_ready()
 
         # say hello while arms are moving
@@ -184,17 +188,17 @@ class BehaviorAction(object):
         time.sleep(2)
 
         # Start shaking hands. 
-        for i in range(1, 4):
+        for i in range(1, 5):
 
             move_arm_shake_up() # 1
             if self.InterruptRequested():
                 return
-            time.sleep(1)
+            time.sleep(0.5)
 
             move_arm_shake_down()
             if self.InterruptRequested():
                 return
-            time.sleep(1)
+            time.sleep(0.5)
 
             if not self.hand_detected:
                 # no person detected, they must have let go

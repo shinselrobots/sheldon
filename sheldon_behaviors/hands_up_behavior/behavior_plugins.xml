@@ -1,5 +1,0 @@
-<library path="lib/libhands_up_behavior">
-  <class name="behavior_plugin/HandsUpBehaviorPlugin" type="hands_up_behavior" base_class_type="behavior_common::BehaviorPlugin">
-    <description>Hands Up Behavior plugin</description>
-  </class>
-</library>

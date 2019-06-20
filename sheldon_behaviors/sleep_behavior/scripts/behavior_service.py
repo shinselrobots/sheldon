@@ -65,7 +65,7 @@ class BehaviorAction(object):
         result = client.wait_for_result() # wait for speech to complete
         rospy.loginfo("Speech goal returned result: %d", result)
 
-        rospy.loginfo("DAVE DDAVE DAVE DABVE DAVE ")
+        #rospy.loginfo("DAVE  DAVE ")
 
         # Move head and arms to sleep position
         SetServoTorque(0.8, all_servo_joints)
@@ -87,8 +87,6 @@ class BehaviorAction(object):
         pub_left_arm_elbow_bend.publish(3.13)
 
         time.sleep(1)
-
-
 
         # Turn off servo torque
         rospy.loginfo("Turning off servo torque and eyes")

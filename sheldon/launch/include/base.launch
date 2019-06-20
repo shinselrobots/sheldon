@@ -24,7 +24,7 @@
        to Twist messages. It is received by the priority and speed control node below 
        NOTE: make sure the green "mode" light on the Logitech Joystick is OFF! -->
   <node pkg="sheldon_teleop" type="sheldon_teleop_joy" name="sheldon_teleop_joystick">
-    <param name="scale_angular" value="0.25"/>
+    <param name="scale_angular" value="0.1"/>
     <param name="scale_linear" value="0.5"/>
     <remap from="sheldon_teleop_joystick/cmd_vel" to="move_base/priority2"/>  <!-- Medium Priority -->
   </node>

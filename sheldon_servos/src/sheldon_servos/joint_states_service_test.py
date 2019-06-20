@@ -34,8 +34,9 @@ if __name__ == "__main__":
 
     while(1):
         print '------------------------------'
-        
-        (position, velocity, effort) = call_return_joint_states(all_joints)
+        # selecdt joints to test:  right_arm_kinematic_joints, all_joints, etc.
+        (position, velocity, effort) = \
+            call_return_joint_states(right_arm_kinematic_joints)
         print "position:", pplist(position)
         print "velocity:", pplist(velocity)
         print "effort:", pplist(effort)

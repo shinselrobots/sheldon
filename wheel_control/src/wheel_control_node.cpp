@@ -91,7 +91,7 @@ private:
   
 
   // CONSTANTS
-  const bool ROBOT_HAS_COMPASS  = false;// DAVESDAVES TODO!
+  const bool ROBOT_HAS_COMPASS  = false;// DAVES DAVES TODO!
   const bool ROBOT_HAS_IMU  = false; // DAVES TODO!
 
   const double SPEED_CONTROL_THRESHOLD = 0.25; // do speed/turn control if robot *CURRENTLY MOVING*  

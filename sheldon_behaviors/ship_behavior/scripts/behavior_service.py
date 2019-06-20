@@ -13,6 +13,8 @@ import behavior_common.msg
 import time
 import random
 from std_msgs.msg import Float64
+from std_msgs.msg import UInt16
+from std_msgs.msg import UInt32
 from std_msgs.msg import Bool
 from std_msgs.msg import Empty
 
@@ -53,6 +55,10 @@ class BehaviorAction(object):
         success = True
         r = rospy.Rate(1.0)
 
+        pub_eye_cmd = rospy.Publisher('/head/eye_cmd', UInt16, queue_size=10)        
+        pub_light_mode = rospy.Publisher('/arm_led_mode', UInt16, queue_size=10)        
+        pub_ear_cmd = rospy.Publisher('/head/ear_cmd', UInt16, queue_size=10)        
+
         rospy.loginfo("Waiting for speech server (press ctrl-c to cancel at anytime)")
         client = actionlib.SimpleActionClient("/speech_service", audio_and_speech_common.msg.speechAction)
         client.wait_for_server()
@@ -65,16 +71,36 @@ class BehaviorAction(object):
         # mute the microphone
         self.mic_system_enable_pub.publish(False)
 
-        # Move head and arms to sleep position
+       # Move head and arms to sleep position
         SetServoTorque(0.8, all_servo_joints)
-        SetServoSpeed(0.5, all_servo_joints)
-        all_sleep()
-        time.sleep(3)
-        SetServoTorque(0.0, all_servo_joints)
+        SetServoSpeed(0.5, head_joints)
+        SetServoSpeed(1.0, right_arm_joints)
+        SetServoSpeed(1.0, left_arm_joints)
+
+        # Move elbows at fast speed to lock
+        SetSingleServoSpeed(2.0, "right_arm_elbow_bend_joint")
+        SetSingleServoSpeed(2.0, "left_arm_elbow_bend_joint")
+        time.sleep(0.5)
+
+        all_sleep()    # Move all servos to sleep position 1
+        time.sleep(2)
+
+        # lock arms
+        pub_right_arm_elbow_bend.publish(3.00)
+        pub_left_arm_elbow_bend.publish(3.13)
+        time.sleep(1)
 
         # Move arms forward, so they point down after waist moves
         #pub_right_arm_shoulder_rotate.publish(0.78)
         #pub_left_arm_shoulder_rotate.publish(0.78)
+
+        # Turn off servo torque
+        rospy.loginfo("Turning off servo torque and eyes")
+        SetServoTorque(0.0, all_servo_joints)
+        pub_eye_cmd.publish(0) # 0 = Turn eyes off
+        pub_ear_cmd.publish(0) # 0 = Turn ear lights off
+        pub_light_mode.publish(0) # 0 = Turn lights off
+
 
         # Move Waist into position
         time.sleep(3)
@@ -85,7 +111,7 @@ class BehaviorAction(object):
         #SetServoTorque(0.0, all_servo_joints)
 
         #time.sleep(5.0) # seconds
-        rospy.loginfo('  Sleep Complete.  Running until some other behavior preempts, to suppress Idle behavior...')
+        rospy.loginfo('  Ship Complete.  Running until some other behavior preempts, to suppress Idle behavior...')
 
         #rospy.loginfo('%s: Running behavior' % (self._action_name))
         self._feedback.running = True
