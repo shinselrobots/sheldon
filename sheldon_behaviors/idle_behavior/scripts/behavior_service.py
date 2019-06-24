@@ -202,8 +202,8 @@ class BehaviorAction(object):
 
             # found someone to track
             person_info = msg.detected_list[person_to_track_index]
-            if person_info.face_found == True:
-                rospy.loginfo("%s: Face Found.  Name = " + person_info.name, self._action_name)
+            # DEBUG if person_info.face_found == True:
+            #    rospy.loginfo("%s: Face Found.  Name = " + person_info.name, self._action_name)
 
             if person_info.name != "":
                 # We recognized this person!

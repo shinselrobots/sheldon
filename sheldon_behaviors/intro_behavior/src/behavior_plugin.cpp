@@ -58,7 +58,7 @@ namespace behavior_plugin
           head_sidetilt_.publish(pos);
           pos.data = DEFAULT_TILT_ANGLE;  
           head_tilt_.publish(pos);
-          speech_.speakAndWaitForCompletion("I have been under construction for about a year or so");
+          speech_.speakAndWaitForCompletion("I have been under construction for about two years");
 
           pos.data = -0.3;
           head_pan_.publish(pos);
@@ -98,7 +98,7 @@ namespace behavior_plugin
           head_sidetilt_.publish(pos);
           pos.data = DEFAULT_TILT_ANGLE;  
           head_tilt_.publish(pos);
-          speech_.speakAndWaitForCompletion("the only thing I dont like is darth vaider, he scares me'/>");
+          speech_.speakAndWaitForCompletion("I dont have full AI capabilities yet, but I am gaining new capabilities all the time  />");
 
 
  		  BehaviorComplete();

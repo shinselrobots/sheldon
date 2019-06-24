@@ -73,11 +73,18 @@ class BehaviorAction(object):
         rospy.loginfo('%s: Initializing Joke behavior service' % (self._action_name))
         self._joke_group = "BEST_JOKES";
 
+    def cleanup():
+        SetServoSpeed(0.35, head_joints)
+        SetServoSpeed(0.5, right_arm_joints)
+        SetServoSpeed(0.5, left_arm_joints)
+        all_home()
+
     def sleepCheckInterrupt(self, sleep_time): # sleep time in seconds
         randSleep = random.randint(10, (sleep_time * 10)) 
         for i in range(1, randSleep): 
             if self._as.is_preempt_requested():
                 rospy.loginfo('%s: Behavior preempted' % self._action_name)
+                self.cleanup()
                 self._as.set_preempted()
                 return True
             else:
@@ -122,7 +129,7 @@ class BehaviorAction(object):
         rospy.loginfo("telling jokes...")
 
         if self._joke_group == "STAR_WARS_JOKES":
-            talkString = "I just saw the new star wars movie"
+            talkString = "I really like star wars"
         else:
             talkString = "You want to hear some jokes?"
 
@@ -172,12 +179,13 @@ class BehaviorAction(object):
             all_home()
             say_joke(client, goal, "did you like those jokes?")
             time.sleep(1)
+            self.cleanup()
 
 
         elif self._joke_group == "STAR_WARS_JOKES":
-            say_joke(client, goal, "I am friends with the robot L 3")
+            say_joke(client, goal, "I am friends with the robot R 2 D 2")
             time.sleep(1)
-            say_joke(client, goal, "She told me some jokes, lets see if you like them")
+            say_joke(client, goal, "He told me some jokes, lets see if you like them")
             if self.sleepCheckInterrupt(4):
                 return
 
@@ -193,22 +201,33 @@ class BehaviorAction(object):
             if self.sleepCheckInterrupt(3):
                 return
 
+            #say_joke(client, goal, "why did the movies come out with episodes 4 5 and 6 before 1 2 and 3?")
+            #time.sleep(2)
+            #say_joke(client, goal, "Because, in charge of scheduling, yoda was")
+            
+            #if self.sleepCheckInterrupt(5):
+            #    return
+
+
+            say_joke(client, goal, "Do you know why see three pee oh is embarrassed?")
+            #time.sleep(1)
+            say_joke(client, goal, "Because he has hard ware and he has soft ware, but does not have under ware")
+            if self.sleepCheckInterrupt(4):
+                return
+
+
             say_joke(client, goal, "what do you say when Luke Sky walker is eating with his hands?")
             time.sleep(2)
             say_joke(client, goal, "Use the forks Luke!")
-            if self.sleepCheckInterrupt(3):
-                return
-
-            say_joke(client, goal, "why did the movies come out with episodes 4 5 and 6 before 1 2 and 3?")
-            time.sleep(2)
-            say_joke(client, goal, "Because, in charge of scheduling, yoda was")
             if self.sleepCheckInterrupt(5):
                 return
+
 
             # Move head and arms back to ready position
             all_home()
             say_joke(client, goal, "did you like my star wars jokes?")
-            time.sleep(2)
+            time.sleep(1)
+            self.cleanup()
 
         else: # "BEST_JOKES" are the default
             say_joke(client, goal, "If at first you dont succeed")
@@ -240,10 +259,11 @@ class BehaviorAction(object):
             all_home()
             say_joke(client, goal, "did you like my jokes?")
             time.sleep(1)
-
+            self.cleanup()
 
  
         # Finish Behavior
+        rospy.loginfo('%s: Behavior exiting' % self._action_name)
         if self._as.is_preempt_requested():
             rospy.loginfo('%s: Behavior preempted' % self._action_name)
             self._as.set_preempted()

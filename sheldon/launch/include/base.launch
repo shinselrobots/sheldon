@@ -44,7 +44,7 @@
     <param name="front_zone_cliff_adder" value="0.4"/>
     <param name="avoid_turn_amount" value="0.2"/> 
   </node>
--->
+  -->
  
   <!-- (Motor Driver) Sabertooth node.  Input_topic remapped to get commands from the
    sheldon_motor_control node (speed control) instead of directly from the system -->

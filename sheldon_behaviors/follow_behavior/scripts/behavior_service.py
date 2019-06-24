@@ -123,14 +123,16 @@ class BehaviorAction(object):
         rospy.loginfo("%s: MoveRobot: Angle = %f,  Distance = %f", 
             self._action_name, tracking_angle, tracking_distance)
 
-        TURN_MULTIPLIER = 3.0
-        FORWARD_ACCELERATION_MULTIPLIER = 0.15
+        # NOTE: CHANGED TO NEW SPEED SETTINGS; -1.0 --> 1.0 are MAX motor speed!
+        TURN_MULTIPLIER = 0.15
+        FORWARD_ACCELERATION_MULTIPLIER = 0.05 #0.15
         TURN_DEADBAND = 0.01
         FOWARD_DEADBAND = 1.4
         BACKWARD_DEADBAND = 1.1
-        BACKWARD_ACCELERATION_MULTIPLIER = 0.1
-        MIN_SPEED = 0.2
-        MAX_TURN = 0.3
+        BACKWARD_ACCELERATION_MULTIPLIER = 0.01 #0.1
+        MIN_SPEED = 0.05 #0.05
+        MAX_SPEED = 1.0 # .2
+        MAX_TURN = 0.5 #.08
         speed = 0.0
         turn = 0.0
  
@@ -146,6 +148,9 @@ class BehaviorAction(object):
             speed = FORWARD_ACCELERATION_MULTIPLIER * (tracking_distance * tracking_distance);
             if speed < MIN_SPEED:
                 speed = MIN_SPEED
+            elif speed > MAX_SPEED:
+                speed = MAX_SPEED
+                
             rospy.loginfo("%s: MoveRobot: forward speed = %f", self._action_name, speed)
 
         elif (tracking_distance < BACKWARD_DEADBAND) and tracking_distance > 0:
@@ -153,6 +158,10 @@ class BehaviorAction(object):
               (tracking_distance * tracking_distance));
             if speed > -MIN_SPEED:
                 speed = -MIN_SPEED
+            elif speed < -MAX_SPEED:
+                speed = -MAX_SPEED
+                turn = 0.0 # Just backup straight if too close.  Too squirly when backing up...
+                
             rospy.loginfo("%s: MoveRobot: backup speed = %f", self._action_name, speed)
 
         # Publish Move Command
@@ -339,7 +348,7 @@ class BehaviorAction(object):
         tilt_angle = current_tilt + (delta_angle_y * 0.75)
         #rospy.loginfo("%s: Body Tracker: Servo Command:  Pan = %f,  Tilt = %f", 
         #    self._action_name, pan_angle, tilt_angle)
-        person_tracking_angle = pan_angle
+        person_tracking_angle = current_pan  + (delta_angle_x * 0.90) + 0.20 # FUDGE FACTOR, compensate for camera offset?
 
         # command servos to move to target, if not in deadband
         pan_on_target = True

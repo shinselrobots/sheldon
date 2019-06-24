@@ -1,0 +1,5 @@
+<library path="lib/libarms_up_behavior">
+  <class name="behavior_plugin/ArmsUpBehaviorPlugin" type="arms_up_behavior" base_class_type="behavior_common::BehaviorPlugin">
+    <description>Arms Up Behavior plugin</description>
+  </class>
+</library>

@@ -16,7 +16,7 @@
   //const double MIN_SPEED_METERS_PER_SECOND = 0.5; // OK?
 // fastest turn robot is capable of:
   //const double MAX_TURN_RADIANS_PER_SECOND = 8.0; // I THINK THIS IS WRONG NOW 
-  const double MIN_TURN_RADIANS_PER_SECOND = 0.03;  // 0.4
+  const double MIN_TURN_RADIANS_PER_SECOND = 0.04;  // 0.4
   const double STALL_RADIANS_PER_SECOND = 0.025;  // 0.25 Don't stall during turn
 // (Note: From Wheel_Control to Sabertooth, speeds are 0.0 - 1.0)
 
@@ -37,7 +37,7 @@ namespace behavior_plugin
     TurnService(std::string service_name) :
       behavior_common::BehaviorActionServiceBase(service_name),
       state_(idle),
-      DEFAULT_SPEED(0.5),
+      DEFAULT_SPEED(0.15),
       rotation_speed_(DEFAULT_SPEED),
       ramp_down_fudge_(0.0),
       turn_progress_(0.0),
